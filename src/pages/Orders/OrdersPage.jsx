@@ -87,6 +87,18 @@ export default function OrdersPage() {
           </div>
         </div>
       </div>
+
+      <div className="min-w-full">
+        <table className="w-full table-fixed border-collapse">
+          <colgroup>
+            {/* checkbox */}
+            <col className="w-10" />
+            {subscriptionRows.map((row) => (
+              <col id={row} />
+            ))}
+          </colgroup>
+        </table>
+      </div>
     </div>
   );
 }
