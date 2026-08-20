@@ -1,5 +1,8 @@
 import { useState } from "react";
 import StatisticCard from "../../components/orders/StatisticCard";
+import Button from '../../components/ui/Button'
+import { Search, Plus } from 'lucide-react'
+import TableTab from "../../components/orders/TableTab";
 
 export default function OrdersPage() {
   const subscriptionStatistics = [
@@ -26,7 +29,7 @@ export default function OrdersPage() {
   );
 
   return (
-    <div className="relative -left-8 w-[calc(100%+4rem)] h-full">
+    <div className="relative -left-8 w-[calc(100%+4rem)] h-full text-gray-500">
       <div className="w-full flex border-y border-gray-500">
         <div className="min-w-0 flex-1 flex flex-col justify-center px-10 py-4 bg-brand-purple text-white">
           <p>MANAGEMENT</p>
@@ -44,6 +47,31 @@ export default function OrdersPage() {
             />
           </div>
         ))}
+      </div>
+
+      <div className="flex items-center justify-between px-10 py-8">
+        <div className="flex border rounded-[5px] border-gray-500 text-sm">
+          <TableTab isActive={true} name={"Subscriptions"} />
+          <TableTab name={"One-Time Purchases"} />
+          <TableTab name={"Customs"} />
+        </div>
+
+        {/* search bar */}
+        <div>
+          <div className="flex items-center gap-2">
+            <div className="relative flex-1">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search"
+                className="w-full bg-slate-50 border border-slate-200 rounded-[5px] pl-9 pr-4 py-2 text-sm text-slate-800 focus:outline-none focus:border-brand-purple"
+              />
+            </div>
+            <Button variant="orange" size="md" className="rounded-[5px]">
+              <Plus className="w-4 h-4 mr-1" /> Add
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
