@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import MainLayout from './components/layout/MainLayout'
 import HomePage from './pages/Home/HomePage'
 import PlaceholderPage from './pages/PlaceholderPage'
+import OrdersPage from './pages/Orders/OrdersPage'
 
 export default function App() {
   return (
@@ -19,7 +20,7 @@ export default function App() {
           <Route path="products/subscriptions" element={<PlaceholderPage title="Products — Subscriptions" />} />
           <Route path="products/templates" element={<PlaceholderPage title="Products — Templates" />} />
           <Route path="products/assets" element={<PlaceholderPage title="Products — Assets" />} />
-          <Route path="orders" element={<PlaceholderPage title="Orders" />} />
+          <Route path="orders" element={<OrdersPage />} />
           <Route path="transactions" element={<PlaceholderPage title="Transactions" />} />
           <Route path="reports" element={<PlaceholderPage title="Reports" />} />
           <Route path="*" element={<PlaceholderPage title="404 — Page Not Found" />} />
