@@ -6,7 +6,6 @@ import PlaceholderPage from './pages/PlaceholderPage'
 import Assets from './pages/Products/Assets/Assets'
 import Subscriptions from './pages/Products/Subscriptions'
 import OrdersPage from './pages/Orders/OrdersPage'
-import LawFirmsPage from './pages/LawFirms/LawFirmsPage'
 
 export default function App() {
   return (
@@ -15,7 +14,7 @@ export default function App() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="lawfirms" element={<LawFirmsPage />} />
+          <Route path="lawfirms" element={<PlaceholderPage title="Lawfirms" />} />
           <Route path="websites" element={<PlaceholderPage title="Websites" />} />
           {/* Main Products Landing Page */}
           <Route path="products" element={<PlaceholderPage title="Products Landing Page" />} />
