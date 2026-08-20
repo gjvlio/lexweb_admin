@@ -159,29 +159,29 @@ export default function Dashboard() {
         </p>
       </div>
 
-      {/* 2. Top 4 KPI Stat Cards Banner — Extended Height (20% taller padding & cards) */}
-      <div className="-mx-6 bg-lexmeet-gradient px-6 py-9 rounded-none shadow-md">
+      {/* 2. Top 4 KPI Stat Cards Banner — Generous Card Padding & Zero Overflow */}
+      <div className="-mx-6 bg-lexmeet-gradient px-6 py-5 rounded-none shadow-md">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           
           {/* Card 1: TOTAL LAWYERS (Clickable -> /lawfirms) */}
           <Link
             to="/lawfirms"
-            className="bg-white rounded-2xl p-6 lg:p-7 min-h-[140px] shadow-xs border border-slate-100 hover:shadow-md hover:border-slate-200 transition-all flex items-center gap-4 group"
+            className="bg-white rounded-2xl px-5 py-4.5 min-h-[110px] shadow-xs border border-slate-100 hover:shadow-md hover:border-slate-200 transition-all flex items-center gap-3.5 w-full overflow-hidden group"
           >
-            <IconTotalLawyers className="w-9 h-9 shrink-0 text-[#5E1B89]" />
-            <div className="flex flex-col justify-center min-w-0">
-              <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-[#5E1B89] truncate">
+            <IconTotalLawyers className="w-7 h-7 shrink-0 text-[#5E1B89]" />
+            <div className="flex flex-col justify-center min-w-0 flex-1">
+              <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-[#5E1B89] truncate block">
                 TOTAL LAWYERS
               </span>
-              <div className="flex items-center gap-2 my-1 flex-wrap">
-                <span className="font-sans font-extrabold text-2xl lg:text-3xl text-slate-900 tracking-tight">
+              <div className="flex items-center gap-2 my-0.5 flex-wrap">
+                <span className="font-sans font-extrabold text-2xl xl:text-3xl text-slate-900 tracking-tight">
                   1,426
                 </span>
                 <span className="inline-flex items-center gap-1 text-emerald-600 text-[11px] font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 shrink-0">
                   <IconGrowingChart className="w-3 h-3" /> +12.4%
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-sans truncate">
+              <p className="text-xs text-slate-400 font-sans truncate block">
                 Across 184 law firms
               </p>
             </div>
@@ -190,22 +190,22 @@ export default function Dashboard() {
           {/* Card 2: TOTAL SUBSCRIPTION INCOME (Clickable -> /products/subscriptions) */}
           <Link
             to="/products/subscriptions"
-            className="bg-white rounded-2xl p-6 lg:p-7 min-h-[140px] shadow-xs border border-slate-100 hover:shadow-md hover:border-slate-200 transition-all flex items-center gap-4 group"
+            className="bg-white rounded-2xl px-5 py-4.5 min-h-[110px] shadow-xs border border-slate-100 hover:shadow-md hover:border-slate-200 transition-all flex items-center gap-3.5 w-full overflow-hidden group"
           >
-            <IconTotalSubscription className="w-9 h-9 shrink-0 text-[#5E1B89]" />
-            <div className="flex flex-col justify-center min-w-0">
-              <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-[#5E1B89] truncate">
+            <IconTotalSubscription className="w-7 h-7 shrink-0 text-[#5E1B89]" />
+            <div className="flex flex-col justify-center min-w-0 flex-1">
+              <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-[#5E1B89] truncate block">
                 TOTAL SUBSCRIPTION INCOME
               </span>
-              <div className="flex items-center gap-2 my-1 flex-wrap">
-                <span className="font-sans font-extrabold text-2xl lg:text-3xl text-slate-900 tracking-tight">
+              <div className="flex items-center gap-2 my-0.5 flex-wrap">
+                <span className="font-sans font-extrabold text-2xl xl:text-3xl text-slate-900 tracking-tight">
                   ₱922,700
                 </span>
                 <span className="inline-flex items-center gap-1 text-emerald-600 text-[11px] font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 shrink-0">
                   <IconGrowingChart className="w-3 h-3" /> +8.2%
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-sans truncate">
+              <p className="text-xs text-slate-400 font-sans truncate block">
                 Total Income: <span className="font-semibold text-slate-600">₱7.8M</span>
               </p>
             </div>
@@ -214,22 +214,22 @@ export default function Dashboard() {
           {/* Card 3: TOTAL SALES (Clickable -> /transactions) */}
           <Link
             to="/transactions"
-            className="bg-white rounded-2xl p-6 lg:p-7 min-h-[140px] shadow-xs border border-slate-100 hover:shadow-md hover:border-slate-200 transition-all flex items-center gap-4 group"
+            className="bg-white rounded-2xl px-5 py-4.5 min-h-[110px] shadow-xs border border-slate-100 hover:shadow-md hover:border-slate-200 transition-all flex items-center gap-3.5 w-full overflow-hidden group"
           >
-            <IconTotalSales className="w-9 h-9 shrink-0 text-[#5E1B89]" />
-            <div className="flex flex-col justify-center min-w-0">
-              <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-[#5E1B89] truncate">
+            <IconTotalSales className="w-7 h-7 shrink-0 text-[#5E1B89]" />
+            <div className="flex flex-col justify-center min-w-0 flex-1">
+              <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-[#5E1B89] truncate block">
                 TOTAL SALES
               </span>
-              <div className="flex items-center gap-2 my-1 flex-wrap">
-                <span className="font-sans font-extrabold text-2xl lg:text-3xl text-slate-900 tracking-tight">
+              <div className="flex items-center gap-2 my-0.5 flex-wrap">
+                <span className="font-sans font-extrabold text-2xl xl:text-3xl text-slate-900 tracking-tight">
                   ₱250,700
                 </span>
                 <span className="inline-flex items-center gap-1 text-emerald-600 text-[11px] font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 shrink-0">
                   <IconGrowingChart className="w-3 h-3" /> +10% com.
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-sans truncate">
+              <p className="text-xs text-slate-400 font-sans truncate block">
                 ₱25,700 net commission
               </p>
             </div>
@@ -238,22 +238,22 @@ export default function Dashboard() {
           {/* Card 4: ACTIVE WEBSITES (Clickable -> /websites) */}
           <Link
             to="/websites"
-            className="bg-white rounded-2xl p-6 lg:p-7 min-h-[140px] shadow-xs border border-slate-100 hover:shadow-md hover:border-slate-200 transition-all flex items-center gap-4 group"
+            className="bg-white rounded-2xl px-5 py-4.5 min-h-[110px] shadow-xs border border-slate-100 hover:shadow-md hover:border-slate-200 transition-all flex items-center gap-3.5 w-full overflow-hidden group"
           >
-            <IconActiveWebsites className="w-9 h-9 shrink-0 text-[#5E1B89]" />
-            <div className="flex flex-col justify-center min-w-0">
-              <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-[#5E1B89] truncate">
+            <IconActiveWebsites className="w-7 h-7 shrink-0 text-[#5E1B89]" />
+            <div className="flex flex-col justify-center min-w-0 flex-1">
+              <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-[#5E1B89] truncate block">
                 ACTIVE WEBSITES
               </span>
-              <div className="flex items-center gap-2 my-1 flex-wrap">
-                <span className="font-sans font-extrabold text-2xl lg:text-3xl text-slate-900 tracking-tight">
+              <div className="flex items-center gap-2 my-0.5 flex-wrap">
+                <span className="font-sans font-extrabold text-2xl xl:text-3xl text-slate-900 tracking-tight">
                   184
                 </span>
                 <span className="bg-emerald-100 text-emerald-700 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0">
                   96.7% ACTIVE
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-sans truncate">
+              <p className="text-xs text-slate-400 font-sans truncate block">
                 7 Pending Approvals
               </p>
             </div>
