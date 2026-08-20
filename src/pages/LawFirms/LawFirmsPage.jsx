@@ -394,13 +394,11 @@ function ContentCard({ children, className = "" }) {
   );
 }
 
-function TableSection({ title, columns, rows, renderCell, maxHeight = "max-h-36" }) {
+function TableSection({ title, columns, rows, renderCell, maxHeight = "max-h-36", actions }) {
   return (
     <section className="flex w-full flex-col gap-2">
       {title && (
-        <h3 className="text-sm font-semibold sm:text-base" style={{ color: tokens.purple, fontFamily }}>
-          {title}
-        </h3>
+        <SectionHeading title={title} actions={actions} />
       )}
 
       <div className="w-full overflow-hidden rounded-[5px] border bg-white" style={{ borderColor: tokens.borderStrong, fontFamily }}>
@@ -484,24 +482,19 @@ function LawFirmDetailsPanel({ onLiveView, onEditSection, onDeleteSection, onVie
           </section>
         </div>
 
-        <section className="flex flex-col gap-2">
-          <SectionHeading
-            title="Values We Live By"
-            actions={<ActionButtons onView={() => onEditSection?.("values", "view")} onEdit={() => onEditSection?.("values", "edit")} onDelete={() => onDeleteSection?.("values")} />}
-          />
-          <TableSection
-            title={null}
-            maxHeight="max-h-56"
-            columns={[
-              { key: "id", label: "#", width: "w-8 flex-none" },
-              { key: "name", label: "Title", width: "w-1/4" },
-              { key: "description", label: "Description", width: "flex-1", muted: true },
-              { key: "action", label: "Icon/Image", width: "w-20 flex-none", align: "right" },
-            ]}
-            rows={websiteContent.values}
-            renderCell={(row, col) => (col.key === "action" ? <ViewButton onClick={() => onViewPracticeArea?.(row)} /> : row[col.key])}
-          />
-        </section>
+        <TableSection
+          title="Values We Live By"
+          actions={<ActionButtons onView={() => onEditSection?.("values", "view")} onEdit={() => onEditSection?.("values", "edit")} onDelete={() => onDeleteSection?.("values")} />}
+          maxHeight="max-h-56"
+          columns={[
+            { key: "id", label: "#", width: "w-8 flex-none" },
+            { key: "name", label: "Title", width: "w-1/4" },
+            { key: "description", label: "Description", width: "flex-1", muted: true },
+            { key: "action", label: "Icon/Image", width: "w-20 flex-none", align: "right" },
+          ]}
+          rows={websiteContent.values}
+          renderCell={(row, col) => (col.key === "action" ? <ViewButton onClick={() => onViewPracticeArea?.(row)} /> : row[col.key])}
+        />
 
         <section className="flex flex-col gap-2">
           <SectionHeading
@@ -513,26 +506,22 @@ function LawFirmDetailsPanel({ onLiveView, onEditSection, onDeleteSection, onVie
 
         <hr style={{ borderColor: tokens.borderStrong }} />
 
-        <section className="flex flex-col gap-2">
-          <SectionHeading
-            title="Practice Area"
-            actions={<ActionButtons onView={() => onEditSection?.("practiceArea", "view")} onEdit={() => onEditSection?.("practiceArea", "edit")} onDelete={() => onDeleteSection?.("practiceArea")} />}
-          />
-          <TableSection
-            title={null}
-            columns={[
-              { key: "id", label: "#", width: "w-8 flex-none" },
-              { key: "name", label: "Name", width: "w-1/4" },
-              { key: "description", label: "Description", width: "flex-1", muted: true },
-              { key: "action", label: "Icon/Image", width: "w-20 flex-none", align: "right" },
-            ]}
-            rows={websiteContent.practiceAreas}
-            renderCell={(row, col) => (col.key === "action" ? <ViewButton onClick={() => onViewPracticeArea?.(row)} /> : row[col.key])}
-          />
-        </section>
+        <TableSection
+          title="Practice Area"
+          actions={<ActionButtons onView={() => onEditSection?.("practiceArea", "view")} onEdit={() => onEditSection?.("practiceArea", "edit")} onDelete={() => onDeleteSection?.("practiceArea")} />}
+          columns={[
+            { key: "id", label: "#", width: "w-8 flex-none" },
+            { key: "name", label: "Name", width: "w-1/4" },
+            { key: "description", label: "Description", width: "flex-1", muted: true },
+            { key: "action", label: "Icon/Image", width: "w-20 flex-none", align: "right" },
+          ]}
+          rows={websiteContent.practiceAreas}
+          renderCell={(row, col) => (col.key === "action" ? <ViewButton onClick={() => onViewPracticeArea?.(row)} /> : row[col.key])}
+        />
 
         <TableSection
           title="Cases Handled"
+          actions={<ActionButtons onView={() => onEditSection?.("cases", "view")} onEdit={() => onEditSection?.("cases", "edit")} onDelete={() => onDeleteSection?.("cases")} />}
           columns={[
             { key: "id", label: "#", width: "w-8 flex-none" },
             { key: "case", label: "Case", width: "flex-1" },
@@ -542,6 +531,7 @@ function LawFirmDetailsPanel({ onLiveView, onEditSection, onDeleteSection, onVie
 
         <TableSection
           title="Location of Practice"
+          actions={<ActionButtons onView={() => onEditSection?.("locations", "view")} onEdit={() => onEditSection?.("locations", "edit")} onDelete={() => onDeleteSection?.("locations")} />}
           columns={[
             { key: "id", label: "#", width: "w-8 flex-none" },
             { key: "location", label: "Location", width: "flex-1" },
@@ -551,6 +541,7 @@ function LawFirmDetailsPanel({ onLiveView, onEditSection, onDeleteSection, onVie
 
         <TableSection
           title="Awards and Citations"
+          actions={<ActionButtons onView={() => onEditSection?.("awards", "view")} onEdit={() => onEditSection?.("awards", "edit")} onDelete={() => onDeleteSection?.("awards")} />}
           columns={[
             { key: "id", label: "#", width: "w-8 flex-none" },
             { key: "category", label: "Category", width: "w-1/4" },
