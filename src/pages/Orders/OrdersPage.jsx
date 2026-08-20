@@ -3,6 +3,7 @@ import StatisticCard from "../../components/orders/StatisticCard";
 import Button from "../../components/ui/Button";
 import { Search, Plus } from "lucide-react";
 import TableTab from "../../components/orders/TableTab";
+import { subscriptionRows } from "./OrdersData";
 
 export default function OrdersPage() {
   const subscriptionStatistics = [
@@ -93,10 +94,22 @@ export default function OrdersPage() {
           <colgroup>
             {/* checkbox */}
             <col className="w-10" />
+
             {subscriptionRows.map((row) => (
-              <col id={row} />
+              <col key={row} />
             ))}
           </colgroup>
+
+          <thead>
+            <tr className="border-b border-gray-500">
+              <th><input type="checkbox" /></th>
+              {subscriptionRows.map((row) => (
+                <th key={row} className="px-4 py-3 text-left text-sm font-bold text-gray-500">
+                  {row}
+                </th>
+              ))}
+            </tr>
+          </thead>
         </table>
       </div>
     </div>

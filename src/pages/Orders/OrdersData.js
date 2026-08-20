@@ -1,8 +1,8 @@
-const subscriptionRows = [
+export const subscriptionRows = [
     "ID", "Law Firm", "Plan", "Start Date", "Renewal Date", "Billing Cycle", "Price", "Status", "Action"
 ]
 
-const subscriptionOrders = [
+export const subscriptionOrders = [
     {
         "id": 100,
         "lawFirm": "Bautista Law Office",
