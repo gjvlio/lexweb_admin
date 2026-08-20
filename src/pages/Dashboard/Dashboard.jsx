@@ -1,564 +1,809 @@
-import { useMemo, useState } from "react";
-import { Search, ChevronRight, Settings2 } from "lucide-react";
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import {
+  IconTotalLawyers,
+  IconTotalSubscription,
+  IconTotalSales,
+  IconActiveWebsites,
+  IconGrowingChart,
+} from '../../components/ui/Icons'
 
-/**
- * Design tokens pulled directly from the Figma export.
- * Kept in one place so every section (cards, table, website panel)
- * stays visually consistent.
- */
-const tokens = {
-  purple: "#5E1B89",
-  purpleSoft: "#9D71BC",
-  orange: "#F4512C",
-  headerBg: "#F5F5F5",
-  border: "#BABABA",
-  borderStrong: "#A6A5A5",
-  textBody: "#5C5359",
-  textDesc: "#464646",
-  ink: "#201E1D",
-  muted: "#7D7979",
-  pageBg: "#F8FFFE",
-};
-
-const fontFamily = "Lato, sans-serif";
-
-/* ------------------------------------------------------------------ */
-/* Breadcrumb + page title                                             */
-/* ------------------------------------------------------------------ */
-
-function Breadcrumb({ items }) {
-  return (
-    <div className="flex flex-wrap items-center gap-1 text-[10px]" style={{ color: tokens.orange, fontFamily: "Gotham, sans-serif" }}>
-      {items.map((item, i) => (
-        <span key={item} className="flex items-center gap-1">
-          {i > 0 && <ChevronRight size={10} />}
-          <span>{item}</span>
-        </span>
-      ))}
-    </div>
-  );
+// Dynamic Multi-Timeframe Mock Data with Clean Max Limits
+const datasets = {
+  Year: {
+    max: 3000000,
+    ticks: ['₱3,000K', '₱2,250K', '₱1,500K', '₱750K', '₱0K'],
+    data: [
+      { label: 'Jan', sales: 1850000, sub: 850000, com: 270000 },
+      { label: 'Feb', sales: 2200000, sub: 890000, com: 309000 },
+      { label: 'Mar', sales: 2520000, sub: 922700, com: 344270 },
+      { label: 'Apr', sales: 2150000, sub: 950000, com: 310000 },
+      { label: 'May', sales: 2300000, sub: 980000, com: 328000 },
+      { label: 'Jun', sales: 2050000, sub: 1020000, com: 307000 },
+      { label: 'Jul', sales: 2280000, sub: 1060000, com: 334000 },
+      { label: 'Aug', sales: 1980000, sub: 1090000, com: 307000 },
+      { label: 'Sep', sales: 2350000, sub: 1140000, com: 349000 },
+      { label: 'Oct', sales: 2420000, sub: 1180000, com: 360000 },
+      { label: 'Nov', sales: 2600000, sub: 1220000, com: 382000 },
+      { label: 'Dec', sales: 2480000, sub: 1250000, com: 373000 },
+    ],
+  },
+  Month: {
+    max: 1000000,
+    ticks: ['₱1,000K', '₱750K', '₱500K', '₱250K', '₱0K'],
+    data: [
+      { label: 'Week 1', sales: 580000, sub: 280000, com: 86000 },
+      { label: 'Week 2', sales: 640000, sub: 295000, com: 93500 },
+      { label: 'Week 3', sales: 710000, sub: 310000, com: 102000 },
+      { label: 'Week 4', sales: 670000, sub: 305000, com: 97500 },
+    ],
+  },
+  Week: {
+    max: 200000,
+    ticks: ['₱200K', '₱150K', '₱100K', '₱50K', '₱0K'],
+    data: [
+      { label: 'Mon', sales: 95000, sub: 42000, com: 13700 },
+      { label: 'Tue', sales: 120000, sub: 45000, com: 16500 },
+      { label: 'Wed', sales: 145000, sub: 48000, com: 19300 },
+      { label: 'Thu', sales: 130000, sub: 46000, com: 17600 },
+      { label: 'Fri', sales: 165000, sub: 52000, com: 21700 },
+      { label: 'Sat', sales: 110000, sub: 40000, com: 15000 },
+      { label: 'Sun', sales: 85000, sub: 38000, com: 12300 },
+    ],
+  },
+  Today: {
+    max: 80000,
+    ticks: ['₱80K', '₱60K', '₱40K', '₱20K', '₱0K'],
+    data: [
+      { label: '9 AM', sales: 12000, sub: 5000, com: 1700 },
+      { label: '11 AM', sales: 28000, sub: 11000, com: 3900 },
+      { label: '1 PM', sales: 45000, sub: 18000, com: 6300 },
+      { label: '3 PM', sales: 52000, sub: 21000, com: 7300 },
+      { label: '5 PM', sales: 61000, sub: 24000, com: 8500 },
+      { label: '7 PM', sales: 48000, sub: 19000, com: 6700 },
+      { label: '9 PM', sales: 34000, sub: 14000, com: 4800 },
+      { label: '11 PM', sales: 18000, sub: 8000, com: 2600 },
+    ],
+  },
 }
 
-/* ------------------------------------------------------------------ */
-/* Lawyer / firm info card                                             */
-/* ------------------------------------------------------------------ */
+export default function Dashboard() {
+  // Default filter toggled to 'Year'
+  const [graphFilter, setGraphFilter] = useState('Year')
+  const [hoveredDonutSegment, setHoveredDonutSegment] = useState(null)
 
-function InfoField({ label, value, className = "" }) {
-  return (
-    <div className={`flex min-w-0 flex-col gap-1 ${className}`}>
-      <span className="text-[10px]" style={{ color: tokens.orange }}>
-        {label}
-      </span>
-      <span className="truncate text-xs" style={{ color: tokens.textBody }}>
-        {value}
-      </span>
-    </div>
-  );
-}
+  // Softened Hover Spotlight state for graph series (sales, sub, com)
+  const [hoveredLegendSeries, setHoveredLegendSeries] = useState(null)
 
-function FirmInfoCard({ firm }) {
-  return (
-    <div className="w-full rounded-[5px] bg-white shadow-[0_4px_4px_rgba(0,0,0,0.25)]">
-      <div className="flex flex-wrap gap-x-8 gap-y-3 p-4">
-        <InfoField label="ID:" value={firm.id} className="w-16" />
-        <InfoField label="Name:" value={firm.name} className="min-w-[160px] flex-1" />
-        <InfoField label="Acronym:" value={firm.acronym} className="w-20" />
-      </div>
+  // Free cursor-following tooltip & crosshair state for graph
+  const [graphTooltip, setGraphTooltip] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+    svgX: 0,
+    title: '',
+    subtitle: '',
+  })
 
-      <div className="px-4 pb-3">
-        <InfoField label="Address:" value={firm.address} />
-      </div>
+  // Active donut defaults to Premium Plan (Pro)
+  const activeDonut = hoveredDonutSegment || 'premium'
 
-      <hr style={{ borderColor: tokens.purple, borderWidth: "3px" }} />
+  // Get active timeframe dataset & config
+  const activeConfig = datasets[graphFilter] || datasets.Year
+  const activeData = activeConfig.data
+  const maxVal = activeConfig.max
 
-      <div className="flex flex-wrap gap-x-8 gap-y-3 p-4">
-        <InfoField label="Owner/Representative:" value={firm.owner} className="min-w-[160px] flex-1" />
-        <InfoField label="Email:" value={firm.email} className="min-w-[140px] flex-1" />
-        <InfoField label="Contact #:" value={firm.contact} className="w-32" />
-      </div>
-    </div>
-  );
-}
+  // SVG dimensions: viewBox="0 0 1000 260"
+  const startX = 85
+  const endX = 985
 
-/* ------------------------------------------------------------------ */
-/* Tabs + lawyer table                                                 */
-/* ------------------------------------------------------------------ */
+  const getY = (val) => 200 - (val / maxVal) * 180
+  const getX = (idx) => {
+    const count = activeData.length
+    if (count <= 1) return startX
+    return startX + (idx / (count - 1)) * (endX - startX)
+  }
 
-const TABS = ["Lawyers", "Assets", "Ratings"];
+  // Points strings matching EXACT same getX(i) and getY(v)
+  const salesPoints = activeData.map((d, i) => `${getX(i)},${getY(d.sales)}`).join(' ')
+  const subPoints = activeData.map((d, i) => `${getX(i)},${getY(d.sub)}`).join(' ')
+  const comPoints = activeData.map((d, i) => `${getX(i)},${getY(d.com)}`).join(' ')
 
-function TabBar({ active, onChange }) {
-  return (
-    <div className="flex w-full max-w-xs overflow-hidden rounded-[5px] border shadow-[0_4px_4px_rgba(0,0,0,0.25)]" style={{ borderColor: "#898989" }}>
-      {TABS.map((tab) => {
-        const isActive = tab === active;
-        return (
-          <button
-            key={tab}
-            type="button"
-            onClick={() => onChange(tab)}
-            className="flex-1 border-r py-2 text-sm font-bold last:border-r-0"
-            style={{
-              backgroundColor: isActive ? tokens.purple : "#FFFFFF",
-              color: isActive ? tokens.pageBg : "#898989",
-              borderColor: "#898989",
-              fontWeight: isActive ? 700 : 400,
-            }}
-          >
-            {tab}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
+  // Donut callout pill positioning right beside the hovered arc
+  const getDonutPillClass = () => {
+    if (hoveredDonutSegment === 'free') return 'bottom-2 -left-10'
+    if (hoveredDonutSegment === 'advanced') return 'top-2 -left-10'
+    return 'top-2 -right-10' // Premium Plan (Pro)
+  }
 
-function LawyerRowActions({ onSettings }) {
-  return (
-    <button
-      type="button"
-      onClick={onSettings}
-      className="rounded p-1.5 hover:bg-black/5"
-      style={{ color: tokens.orange }}
-      aria-label="Row settings"
-    >
-      <Settings2 size={16} />
-    </button>
-  );
-}
+  const handlePointHover = (e, label, timeframeLabel, val, ptSvgX) => {
+    const container = e.currentTarget.closest('.graph-container')
+    if (container) {
+      const rect = container.getBoundingClientRect()
+      setGraphTooltip({
+        visible: true,
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+        svgX: ptSvgX,
+        title: `${timeframeLabel}: ₱${val.toLocaleString()}`,
+        subtitle: label,
+      })
+    }
+  }
 
-function LawyersTable({ lawyers, query, onQueryChange, onRowSettings }) {
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return lawyers;
-    return lawyers.filter((l) =>
-      [l.id, l.name, l.role, l.email, l.contact].join(" ").toLowerCase().includes(q)
-    );
-  }, [lawyers, query]);
+  const handlePointMove = (e) => {
+    const container = e.currentTarget.closest('.graph-container')
+    if (container) {
+      const rect = container.getBoundingClientRect()
+      setGraphTooltip((prev) => ({
+        ...prev,
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      }))
+    }
+  }
+
+  const handlePointLeave = () => {
+    setGraphTooltip((prev) => ({ ...prev, visible: false }))
+  }
 
   return (
-    <div className="flex w-full flex-col overflow-hidden rounded-[5px] shadow-[0_4px_4px_rgba(0,0,0,0.25)]" style={{ backgroundColor: tokens.purple }}>
-      {/* Search bar */}
-      <div className="p-4 pb-3">
-        <div className="flex max-w-xs items-center gap-2 rounded-[5px] border bg-white px-3 py-2" style={{ borderColor: tokens.purple }}>
-          <Search size={14} style={{ color: tokens.orange }} />
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => onQueryChange(e.target.value)}
-            placeholder="Search Lawyers"
-            className="w-full border-none bg-transparent text-xs outline-none placeholder:text-[#8C8088]"
-            style={{ fontFamily: "Gotham, sans-serif" }}
-          />
-        </div>
-      </div>
-
-      {/* Table card */}
-      <div className="mx-4 mb-4 flex-1 overflow-hidden rounded-[5px] bg-white">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[560px] border-collapse text-left">
-            <thead>
-              <tr className="border-b" style={{ borderColor: tokens.border }}>
-                {["#", "ID", "Name", "Role", "Email", "Contact #", "Action"].map((h) => (
-                  <th
-                    key={h}
-                    className="px-3 py-3 text-xs font-bold whitespace-nowrap"
-                    style={{ color: tokens.textBody }}
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((lawyer, i) => (
-                <tr
-                  key={lawyer.id}
-                  className="border-b last:border-b-0"
-                  style={{ borderColor: tokens.border }}
-                >
-                  <td className="px-3 py-3 text-xs" style={{ color: tokens.textBody }}>{i + 1}</td>
-                  <td className="px-3 py-3 text-xs" style={{ color: tokens.textBody }}>{lawyer.id}</td>
-                  <td className="px-3 py-3 text-xs" style={{ color: tokens.textBody }}>{lawyer.name}</td>
-                  <td className="px-3 py-3 text-xs" style={{ color: tokens.textBody }}>{lawyer.role}</td>
-                  <td className="px-3 py-3 text-xs underline" style={{ color: tokens.textBody }}>{lawyer.email}</td>
-                  <td className="px-3 py-3 text-xs whitespace-nowrap" style={{ color: tokens.textBody }}>{lawyer.contact}</td>
-                  <td className="px-3 py-3">
-                    <LawyerRowActions onSettings={() => onRowSettings?.(lawyer)} />
-                  </td>
-                </tr>
-              ))}
-
-              {filtered.length === 0 && (
-                <tr>
-                  <td colSpan={7} className="px-3 py-6 text-center text-xs" style={{ color: tokens.textDesc }}>
-                    No lawyers match "{query}".
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Assets / Ratings placeholder panels for the other two tabs          */
-/* ------------------------------------------------------------------ */
-
-function EmptyTabPanel({ label }) {
-  return (
-    <div
-      className="flex w-full flex-1 items-center justify-center rounded-[5px] p-10 text-center text-sm text-white/80 shadow-[0_4px_4px_rgba(0,0,0,0.25)]"
-      style={{ backgroundColor: tokens.purple, minHeight: 200 }}
-    >
-      {label} will show up here.
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Left column: everything about the firm + its lawyers                */
-/* ------------------------------------------------------------------ */
-
-const demoFirm = {
-  id: "123",
-  name: "Bautista Lawfirm Office",
-  acronym: "BLO",
-  address: "123 Street 456 Baranggay 789 City, Philippines",
-  owner: "Eddielyn Joy Bautista",
-  email: "sampleemail@gmail.com",
-  contact: "09501055888",
-};
-
-const demoLawyers = [
-  { id: "123", name: "Eddielyn Joy Bautista", role: "Owner", email: "ejsample@gmail.com", contact: "09507833641" },
-  { id: "45", name: "Joy Bautista", role: "Partner", email: "ejsample@gmail.com", contact: "09507833641" },
-  { id: "46", name: "Marco Reyes", role: "Associate", email: "mreyes@gmail.com", contact: "09171234567" },
-  { id: "47", name: "Liza Fernandez", role: "Associate", email: "lfernandez@gmail.com", contact: "09189876543" },
-];
-
-function LawFirmDetailColumn() {
-  const [activeTab, setActiveTab] = useState("Lawyers");
-  const [query, setQuery] = useState("");
-
-  return (
-    <div className="flex w-full flex-col gap-4 lg:max-w-xl">
-      <div className="flex flex-col gap-1">
-        <Breadcrumb items={["Lawfirms", "Bautista Lawfirm Office"]} />
-        <h1
-          className="text-2xl font-normal sm:text-[32px] sm:leading-[42px]"
-          style={{ color: tokens.purple, fontFamily: "'Roboto Slab', serif" }}
-        >
-          Bautista Law Firm Office
+    <div className="space-y-7 font-sans pb-12 w-full">
+      {/* 1. Page Title & Subtitle */}
+      <div>
+        <h1 className="text-4xl font-heading font-bold text-[#5E1B89] tracking-tight">
+          Dashboard
         </h1>
+        <p className="text-slate-700 text-sm font-sans font-medium mt-1.5">
+          The bird's eye view of your account
+        </p>
       </div>
 
-      <FirmInfoCard firm={demoFirm} />
+      {/* 2. Top 4 KPI Stat Cards Banner — Generous Card Padding & Zero Overflow */}
+      <div className="-mx-6 bg-lexmeet-gradient px-6 py-5 rounded-none shadow-md">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
-      <TabBar active={activeTab} onChange={setActiveTab} />
+          {/* Card 1: TOTAL LAWYERS (Clickable -> /lawfirms) */}
+          <Link
+            to="/lawfirms"
+            className="bg-white rounded-2xl px-5 py-4.5 min-h-[110px] shadow-xs border border-slate-100 hover:shadow-md hover:border-slate-200 transition-all flex items-center gap-3.5 w-full overflow-hidden group"
+          >
+            <IconTotalLawyers className="w-7 h-7 shrink-0 text-[#5E1B89]" />
+            <div className="flex flex-col justify-center min-w-0 flex-1">
+              <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-[#5E1B89] truncate block">
+                TOTAL LAWYERS
+              </span>
+              <div className="flex items-center gap-2 my-0.5 flex-wrap">
+                <span className="font-sans font-extrabold text-2xl xl:text-3xl text-slate-900 tracking-tight">
+                  1,426
+                </span>
+                <span className="inline-flex items-center gap-1 text-emerald-600 text-[11px] font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 shrink-0">
+                  <IconGrowingChart className="w-3 h-3" /> +12.4%
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 font-sans truncate block">
+                Across 184 law firms
+              </p>
+            </div>
+          </Link>
 
-      {activeTab === "Lawyers" && (
-        <LawyersTable
-          lawyers={demoLawyers}
-          query={query}
-          onQueryChange={setQuery}
-          onRowSettings={(lawyer) => console.log("settings for", lawyer)}
-        />
-      )}
-      {activeTab === "Assets" && <EmptyTabPanel label="Assets" />}
-      {activeTab === "Ratings" && <EmptyTabPanel label="Ratings" />}
-    </div>
-  );
-}
+          {/* Card 2: TOTAL SUBSCRIPTION INCOME (Clickable -> /products/subscriptions) */}
+          <Link
+            to="/products/subscriptions"
+            className="bg-white rounded-2xl px-5 py-4.5 min-h-[110px] shadow-xs border border-slate-100 hover:shadow-md hover:border-slate-200 transition-all flex items-center gap-3.5 w-full overflow-hidden group"
+          >
+            <IconTotalSubscription className="w-7 h-7 shrink-0 text-[#5E1B89]" />
+            <div className="flex flex-col justify-center min-w-0 flex-1">
+              <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-[#5E1B89] truncate block">
+                TOTAL SUBSCRIPTION INCOME
+              </span>
+              <div className="flex items-center gap-2 my-0.5 flex-wrap">
+                <span className="font-sans font-extrabold text-2xl xl:text-3xl text-slate-900 tracking-tight">
+                  ₱922,700
+                </span>
+                <span className="inline-flex items-center gap-1 text-emerald-600 text-[11px] font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 shrink-0">
+                  <IconGrowingChart className="w-3 h-3" /> +8.2%
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 font-sans truncate block">
+                Total Income: <span className="font-semibold text-slate-600">₱7.8M</span>
+              </p>
+            </div>
+          </Link>
 
-/* ------------------------------------------------------------------ */
-/* Right column: the law firm website panel (from your existing build) */
-/* ------------------------------------------------------------------ */
+          {/* Card 3: TOTAL SALES (Clickable -> /transactions) */}
+          <Link
+            to="/transactions"
+            className="bg-white rounded-2xl px-5 py-4.5 min-h-[110px] shadow-xs border border-slate-100 hover:shadow-md hover:border-slate-200 transition-all flex items-center gap-3.5 w-full overflow-hidden group"
+          >
+            <IconTotalSales className="w-7 h-7 shrink-0 text-[#5E1B89]" />
+            <div className="flex flex-col justify-center min-w-0 flex-1">
+              <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-[#5E1B89] truncate block">
+                TOTAL SALES
+              </span>
+              <div className="flex items-center gap-2 my-0.5 flex-wrap">
+                <span className="font-sans font-extrabold text-2xl xl:text-3xl text-slate-900 tracking-tight">
+                  ₱250,700
+                </span>
+                <span className="inline-flex items-center gap-1 text-emerald-600 text-[11px] font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 shrink-0">
+                  <IconGrowingChart className="w-3 h-3" /> +10% com.
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 font-sans truncate block">
+                ₱25,700 net commission
+              </p>
+            </div>
+          </Link>
 
-function ViewButton({ onClick, label = "View" }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="shrink-0 rounded-[5px] bg-[#F4512C] px-3 py-1 text-[11px] font-normal leading-[14px] text-white transition-opacity hover:opacity-90 active:opacity-80"
-    >
-      {label}
-    </button>
-  );
-}
+          {/* Card 4: ACTIVE WEBSITES (Clickable -> /websites) */}
+          <Link
+            to="/websites"
+            className="bg-white rounded-2xl px-5 py-4.5 min-h-[110px] shadow-xs border border-slate-100 hover:shadow-md hover:border-slate-200 transition-all flex items-center gap-3.5 w-full overflow-hidden group"
+          >
+            <IconActiveWebsites className="w-7 h-7 shrink-0 text-[#5E1B89]" />
+            <div className="flex flex-col justify-center min-w-0 flex-1">
+              <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-[#5E1B89] truncate block">
+                ACTIVE WEBSITES
+              </span>
+              <div className="flex items-center gap-2 my-0.5 flex-wrap">
+                <span className="font-sans font-extrabold text-2xl xl:text-3xl text-slate-900 tracking-tight">
+                  184
+                </span>
+                <span className="bg-emerald-100 text-emerald-700 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0">
+                  96.7% ACTIVE
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 font-sans truncate block">
+                7 Pending Approvals
+              </p>
+            </div>
+          </Link>
 
-function ActionButtons({ onView, onEdit, onDelete }) {
-  const base =
-    "rounded-[5px] px-3 py-1 text-[11px] font-normal leading-[14px] text-white transition-opacity hover:opacity-90 active:opacity-80";
-  return (
-    <div className="flex shrink-0 items-center gap-1.5">
-      <button type="button" onClick={onView} className={base} style={{ backgroundColor: tokens.purpleSoft }}>
-        View
-      </button>
-      <button type="button" onClick={onEdit} className={base} style={{ backgroundColor: tokens.purpleSoft }}>
-        Edit
-      </button>
-      <button type="button" onClick={onDelete} className={base} style={{ backgroundColor: tokens.orange }}>
-        Delete
-      </button>
-    </div>
-  );
-}
-
-function SectionHeading({ title, actions }) {
-  return (
-    <div className="flex w-full flex-wrap items-center justify-between gap-2">
-      <h3 className="text-base font-normal sm:text-lg" style={{ color: tokens.purple, fontFamily }}>
-        {title}
-      </h3>
-      {actions}
-    </div>
-  );
-}
-
-function ContentCard({ children, className = "" }) {
-  return (
-    <div
-      className={`w-full rounded-[5px] border p-3 sm:p-4 ${className}`}
-      style={{ backgroundColor: tokens.headerBg, borderColor: tokens.borderStrong }}
-    >
-      <p className="text-xs leading-[14px] sm:text-[13px]" style={{ color: tokens.textDesc }}>
-        {children}
-      </p>
-    </div>
-  );
-}
-
-function TableSection({ title, columns, rows, renderCell, maxHeight = "max-h-36" }) {
-  return (
-    <section className="flex w-full flex-col gap-2">
-      <h3 className="text-sm font-semibold sm:text-base" style={{ color: tokens.purple, fontFamily }}>
-        {title}
-      </h3>
-
-      <div className="w-full overflow-hidden rounded-[5px] border bg-white" style={{ borderColor: tokens.borderStrong, fontFamily }}>
-        <div className="flex w-full items-center gap-3 px-4 py-2" style={{ backgroundColor: tokens.headerBg }}>
-          {columns.map((col) => (
-            <span
-              key={col.key}
-              className={`text-[11px] font-bold sm:text-xs ${col.width ?? "flex-1"} ${col.align === "right" ? "text-right" : "text-left"}`}
-              style={{ color: tokens.textBody }}
-            >
-              {col.label}
-            </span>
-          ))}
         </div>
+      </div>
 
-        <div className={`${maxHeight} divide-y overflow-y-auto`} style={{ borderColor: tokens.border }}>
-          {rows.map((row) => (
-            <div key={row.id} className="flex w-full items-center gap-3 px-4 py-2.5" style={{ borderColor: tokens.border }}>
-              {columns.map((col) => (
-                <div
-                  key={col.key}
-                  className={`text-[11px] sm:text-xs ${col.width ?? "flex-1"} ${col.align === "right" ? "flex justify-end" : ""}`}
-                  style={{ color: col.muted ? tokens.textDesc : tokens.textBody }}
-                >
-                  {renderCell ? renderCell(row, col) : row[col.key]}
+      {/* 3. Analytics Section: Overall Graph & Distribution Chart */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
+
+        {/* Overall Graph (2 Cols) */}
+        <div className="lg:col-span-2 bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden flex flex-col justify-between">
+          {/* Gradient Eyebrow Bar */}
+          <div className="h-[5px] w-full bg-lexmeet-gradient" />
+
+          <div className="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h2 className="font-heading font-bold text-2xl text-[#5E1B89]">
+                    Overall Graph
+                  </h2>
+                  <p className="font-sans text-[11px] font-semibold uppercase text-slate-400 tracking-wider mt-0.5">
+                    FINANCIAL PROGRESS ACROSS ALL TRANSACTIONS
+                  </p>
                 </div>
-              ))}
+
+                {/* Time Filter Pills — Default Toggled to 'Year' */}
+                <div className="bg-slate-100/90 p-1 rounded-xl flex items-center gap-1 text-xs font-semibold text-slate-500">
+                  {['Today', 'Week', 'Month', 'Year'].map((item) => (
+                    <button
+                      key={item}
+                      onClick={() => setGraphFilter(item)}
+                      className={`px-3.5 py-1 rounded-lg transition-all ${graphFilter === item
+                          ? 'bg-[#5E1B89] text-white font-bold shadow-xs'
+                          : 'hover:text-slate-900'
+                        }`}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Edge-to-Edge Full Width Responsive SVG Graph Area */}
+              <div className="mt-6 relative h-72 w-full graph-container">
+                <svg className="w-full h-full overflow-visible" viewBox="0 0 1000 260" preserveAspectRatio="none">
+                  {/* Y-Axis Grid Lines spanning X=85 to X=985 */}
+                  {[20, 65, 110, 155, 200].map((y, idx) => (
+                    <line
+                      key={idx}
+                      x1="85"
+                      y1={y}
+                      x2="985"
+                      y2={y}
+                      stroke="#E2E8F0"
+                      strokeDasharray="4 4"
+                      strokeWidth="1.5"
+                    />
+                  ))}
+
+                  {/* Vertical Guideline Crosshair tracking hover point */}
+                  {graphTooltip.visible && (
+                    <line
+                      x1={graphTooltip.svgX}
+                      y1="20"
+                      x2={graphTooltip.svgX}
+                      y2="200"
+                      stroke="#5E1B89"
+                      strokeDasharray="4 4"
+                      strokeWidth="1.5"
+                      className="opacity-50"
+                    />
+                  )}
+
+                  {/* Y-Axis Text Labels with Large Legible Font (text-xs font-semibold) */}
+                  {activeConfig.ticks.map((tickLabel, idx) => (
+                    <text
+                      key={idx}
+                      x="10"
+                      y={24 + idx * 45}
+                      className="text-xs font-semibold fill-slate-500 font-sans"
+                    >
+                      {tickLabel}
+                    </text>
+                  ))}
+
+                  {/* Line 1: Marketplace Sales Volume (Orange #F4512C) */}
+                  <polyline
+                    fill="none"
+                    stroke="#F4512C"
+                    strokeWidth="3"
+                    points={salesPoints}
+                    strokeOpacity={hoveredLegendSeries === null || hoveredLegendSeries === 'sales' ? 1 : 0.15}
+                    className="transition-all duration-300"
+                  />
+                  {activeData.map((d, i) => (
+                    <circle
+                      key={`sales-${i}`}
+                      cx={getX(i)}
+                      cy={getY(d.sales)}
+                      r="5.5"
+                      fill="#F4512C"
+                      fillOpacity={hoveredLegendSeries === null || hoveredLegendSeries === 'sales' ? 1 : 0.15}
+                      className="hover:r-8 transition-all cursor-pointer"
+                      onMouseEnter={(e) => handlePointHover(e, 'Marketplace Sales Volume', d.label, d.sales, getX(i))}
+                      onMouseMove={handlePointMove}
+                      onMouseLeave={handlePointLeave}
+                    />
+                  ))}
+
+                  {/* Line 2: Subscription Income (Purple #5E1B89) */}
+                  <polyline
+                    fill="none"
+                    stroke="#5E1B89"
+                    strokeWidth="3"
+                    points={subPoints}
+                    strokeOpacity={hoveredLegendSeries === null || hoveredLegendSeries === 'sub' ? 1 : 0.15}
+                    className="transition-all duration-300"
+                  />
+                  {activeData.map((d, i) => (
+                    <circle
+                      key={`sub-${i}`}
+                      cx={getX(i)}
+                      cy={getY(d.sub)}
+                      r="5.5"
+                      fill="#5E1B89"
+                      fillOpacity={hoveredLegendSeries === null || hoveredLegendSeries === 'sub' ? 1 : 0.15}
+                      className="hover:r-8 transition-all cursor-pointer"
+                      onMouseEnter={(e) => handlePointHover(e, 'Subscription Income', d.label, d.sub, getX(i))}
+                      onMouseMove={handlePointMove}
+                      onMouseLeave={handlePointLeave}
+                    />
+                  ))}
+
+                  {/* Line 3: Net Platform Commission (Light Orange #FF7F4D) */}
+                  <polyline
+                    fill="none"
+                    stroke="#FF7F4D"
+                    strokeWidth="3"
+                    strokeDasharray="5 5"
+                    points={comPoints}
+                    strokeOpacity={hoveredLegendSeries === null || hoveredLegendSeries === 'com' ? 1 : 0.15}
+                    className="transition-all duration-300"
+                  />
+                  {activeData.map((d, i) => (
+                    <circle
+                      key={`com-${i}`}
+                      cx={getX(i)}
+                      cy={getY(d.com)}
+                      r="5.5"
+                      fill="#FF7F4D"
+                      fillOpacity={hoveredLegendSeries === null || hoveredLegendSeries === 'com' ? 1 : 0.15}
+                      className="hover:r-8 transition-all cursor-pointer"
+                      onMouseEnter={(e) => handlePointHover(e, 'Net Platform Commission (10%)', d.label, d.com, getX(i))}
+                      onMouseMove={handlePointMove}
+                      onMouseLeave={handlePointLeave}
+                    />
+                  ))}
+
+                  {/* X-Axis Timeframe Labels Perfectly Aligned Below Points (text-xs font-bold) */}
+                  {activeData.map((d, idx) => (
+                    <text
+                      key={d.label}
+                      x={getX(idx)}
+                      y="245"
+                      textAnchor="middle"
+                      className="text-xs font-bold fill-slate-600 font-sans"
+                    >
+                      {d.label}
+                    </text>
+                  ))}
+                </svg>
+
+                {/* Free Floating Cursor-Following Tooltip with Fade Animation */}
+                {graphTooltip.visible && (
+                  <div
+                    className="absolute bg-slate-900 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow-xl pointer-events-none -translate-x-1/2 -translate-y-full transition-all duration-75 ease-out z-30 animate-fade-in"
+                    style={{ left: `${graphTooltip.x}px`, top: `${graphTooltip.y - 10}px` }}
+                  >
+                    <div className="text-white font-bold">{graphTooltip.title}</div>
+                    <div className="text-[10px] text-slate-300 font-normal mt-0.5">{graphTooltip.subtitle}</div>
+                  </div>
+                )}
+              </div>
             </div>
-          ))}
-          {rows.length === 0 && (
-            <div className="px-4 py-4 text-center text-[11px]" style={{ color: tokens.textDesc }}>
-              Nothing here yet.
+
+            {/* Softened Hover Spotlight Legend */}
+            <div className="flex flex-wrap items-center justify-center gap-6 pt-5 border-t border-slate-100 text-xs font-semibold text-slate-700 mt-2">
+              <div
+                onMouseEnter={() => setHoveredLegendSeries('sales')}
+                onMouseLeave={() => setHoveredLegendSeries(null)}
+                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${hoveredLegendSeries === 'sales'
+                    ? 'bg-orange-50 border-orange-200 text-slate-900 shadow-2xs font-bold scale-105'
+                    : hoveredLegendSeries !== null
+                      ? 'opacity-35 border-transparent'
+                      : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
+                  }`}
+              >
+                <span className="w-3.5 h-3.5 rounded-full bg-[#F4512C]" />
+                <span>Marketplace Sales Volume</span>
+              </div>
+
+              <div
+                onMouseEnter={() => setHoveredLegendSeries('sub')}
+                onMouseLeave={() => setHoveredLegendSeries(null)}
+                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${hoveredLegendSeries === 'sub'
+                    ? 'bg-purple-50 border-purple-200 text-slate-900 shadow-2xs font-bold scale-105'
+                    : hoveredLegendSeries !== null
+                      ? 'opacity-35 border-transparent'
+                      : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
+                  }`}
+              >
+                <span className="w-3.5 h-3.5 rounded-full bg-[#5E1B89]" />
+                <span>Subscription Income (Plans)</span>
+              </div>
+
+              <div
+                onMouseEnter={() => setHoveredLegendSeries('com')}
+                onMouseLeave={() => setHoveredLegendSeries(null)}
+                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${hoveredLegendSeries === 'com'
+                    ? 'bg-orange-50 border-orange-200 text-slate-900 shadow-2xs font-bold scale-105'
+                    : hoveredLegendSeries !== null
+                      ? 'opacity-35 border-transparent'
+                      : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
+                  }`}
+              >
+                <span className="w-3.5 h-3.5 rounded-full bg-[#FF7F4D]" />
+                <span>Net Platform Commission (10%)</span>
+              </div>
             </div>
-          )}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-const aboutUsCopy =
-  'LexMeet is a legal tech company and its name was derived from two words "Lex" and "Meet". "Lex" in Latin means law or related to legal matters while "Meet" is a verb which means to see and speak to (someone) for the first time: to be introduced to or become acquainted with (someone); to come together in order to talk; to go to a place to be with someone else; to come together formally; to have a meeting; to come together for a discussion.';
-
-const missionCopy =
-  "Our mission is to bridge the gap between clients and lawyers by giving them the facility and technology to meet and solve their problems. We want to make legal services more";
-
-const visionCopy =
-  "Our vision is to see people seeking legal services without leaving the comforts of their home through technology. Our aim is to make legal";
-
-const ourPromiseCopy =
-  "With this philosophy, LexMeet was born. That is why we are urging lawyers and clients to LexMeet! Legal advice just a click away!";
-
-const valuesData = [
-  { id: 1, name: "We Innovate Legal Solutions", description: "We are always looking for other ways to make legal services convenient, affordable and secure for all stakeholders..." },
-  { id: 2, name: "We Seek Justice Together", description: "Although we are a legal tech company, we are not robots. We empathize with people seeking justice, deprived of legal..." },
-  { id: 3, name: "We Provide Dignified Services", description: "Property Disputes, We put premium to integrity and dignity. We believe that in any endeavor, most especially in legal services..." },
-];
-
-const practiceAreaData = [
-  { id: 1, name: "Personal & Family Law", description: "Marriage & Annulment, Child custody, Estate Planning" },
-  { id: 2, name: "Labor Law", description: "Employment Contracts, Workplace Disputes, Wrongful Termination" },
-  { id: 3, name: "Civil Law", description: "Property Disputes, Contract Disputes, Personal Injury" },
-];
-
-const casesHandledData = [
-  { id: 1, case: "Abatement of Nuisance" },
-  { id: 2, case: "Sample" },
-  { id: 3, case: "Sample here too" },
-];
-
-const locationData = [
-  { id: 1, location: "Nationwide" },
-  { id: 2, location: "Luzon Wide" },
-  { id: 3, location: "Visayas Wide" },
-];
-
-const awardsData = [
-  { id: 1, category: "Special Awards", title: "Best Law Firm in 2020 Women's Rights Cases Category", year: "2020" },
-  { id: 2, category: "Citations", title: "University of Santo Tomas, Certificate of Recognition for Best Internship Law Firm", year: "2021" },
-];
-
-function LawFirmDetailsPanel({ onLiveView, onEditSection, onDeleteSection, onViewPracticeArea }) {
-  const [practiceAreas] = useState(practiceAreaData);
-  const [cases] = useState(casesHandledData);
-  const [locations] = useState(locationData);
-  const [awards] = useState(awardsData);
-  const [values] = useState(valuesData);
-  const noop = () => {};
-
-  return (
-    <div className="flex h-full w-full flex-col overflow-hidden rounded-[5px] bg-white shadow-[0_4px_4px_rgba(0,0,0,0.25)]" style={{ fontFamily }}>
-      <div className="flex shrink-0 items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4" style={{ backgroundColor: tokens.purple }}>
-        <h2 className="text-xl font-normal text-[#F8FFFE] sm:text-2xl">Law Firm Website</h2>
-        <button
-          type="button"
-          onClick={onLiveView ?? noop}
-          className="shrink-0 rounded-[5px] bg-[#F4512C] px-3 py-1.5 text-[10px] font-normal tracking-wide text-[#F8FFFE] transition-opacity hover:opacity-90"
-        >
-          LIVE VIEW
-        </button>
-      </div>
-
-      <div className="flex flex-1 flex-col gap-6 overflow-y-auto p-4 sm:gap-8 sm:p-6">
-        <section className="flex flex-col gap-2">
-          <SectionHeading
-            title="About Us"
-            actions={<ActionButtons onView={() => onEditSection?.("about", "view")} onEdit={() => onEditSection?.("about", "edit")} onDelete={() => onDeleteSection?.("about")} />}
-          />
-          <ContentCard>{aboutUsCopy}</ContentCard>
-        </section>
-
-        <div className="flex flex-col gap-6 sm:flex-row sm:gap-4">
-          <section className="flex flex-1 flex-col gap-2">
-            <SectionHeading
-              title="Mission"
-              actions={<ActionButtons onView={() => onEditSection?.("mission", "view")} onEdit={() => onEditSection?.("mission", "edit")} onDelete={() => onDeleteSection?.("mission")} />}
-            />
-            <ContentCard className="h-full">{missionCopy}</ContentCard>
-          </section>
-
-          <section className="flex flex-1 flex-col gap-2">
-            <SectionHeading
-              title="Vision"
-              actions={<ActionButtons onView={() => onEditSection?.("vision", "view")} onEdit={() => onEditSection?.("vision", "edit")} onDelete={() => onDeleteSection?.("vision")} />}
-            />
-            <ContentCard className="h-full">{visionCopy}</ContentCard>
-          </section>
+          </div>
         </div>
 
-        <section className="flex flex-col gap-2">
-          <SectionHeading
-            title="Values We Live By"
-            actions={<ActionButtons onView={() => onEditSection?.("values", "view")} onEdit={() => onEditSection?.("values", "edit")} onDelete={() => onDeleteSection?.("values")} />}
-          />
-          <TableSection
-            title={null}
-            maxHeight="max-h-56"
-            columns={[
-              { key: "id", label: "#", width: "w-8 flex-none" },
-              { key: "name", label: "Title", width: "w-1/4" },
-              { key: "description", label: "Description", width: "flex-1", muted: true },
-              { key: "action", label: "Icon/Image", width: "w-20 flex-none", align: "right" },
-            ]}
-            rows={values}
-            renderCell={(row, col) => (col.key === "action" ? <ViewButton onClick={() => onViewPracticeArea?.(row)} /> : row[col.key])}
-          />
-        </section>
+        {/* Distribution Chart (1 Col) */}
+        <div className="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden flex flex-col justify-between">
+          {/* Gradient Eyebrow Bar */}
+          <div className="h-[5px] w-full bg-lexmeet-gradient" />
 
-        <section className="flex flex-col gap-2">
-          <SectionHeading
-            title="Our Promise"
-            actions={<ActionButtons onView={() => onEditSection?.("promise", "view")} onEdit={() => onEditSection?.("promise", "edit")} onDelete={() => onDeleteSection?.("promise")} />}
-          />
-          <ContentCard>{ourPromiseCopy}</ContentCard>
-        </section>
+          <div className="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h2 className="font-heading font-bold text-2xl text-[#5E1B89]">
+                Distribution Chart
+              </h2>
+              <p className="font-sans text-[11px] font-semibold uppercase text-slate-400 tracking-wider mt-0.5">
+                SUBSCRIPTION PLANS
+              </p>
 
-        <hr style={{ borderColor: tokens.borderStrong }} />
+              {/* Donut Chart with Pill Hidden at Default & Smooth Fade on Hover */}
+              <div
+                className="mt-6 flex flex-col items-center justify-center py-4"
+                onMouseLeave={() => setHoveredDonutSegment(null)}
+              >
+                <div className="relative flex items-center justify-center">
+                  <svg className="w-52 h-52 overflow-visible cursor-pointer" viewBox="0 0 160 160">
+                    {/* Free Plan Arc (Orange #F4512C) */}
+                    <circle
+                      cx="80"
+                      cy="80"
+                      r="60"
+                      fill="none"
+                      stroke="#F4512C"
+                      strokeWidth="28"
+                      strokeDasharray="210 377"
+                      strokeDashoffset="0"
+                      className="hover:opacity-85 transition-opacity"
+                      onMouseEnter={() => setHoveredDonutSegment('free')}
+                    />
+                    {/* Premium Plan Pro Arc (Dark Purple #5E1B89) */}
+                    <circle
+                      cx="80"
+                      cy="80"
+                      r="60"
+                      fill="none"
+                      stroke="#5E1B89"
+                      strokeWidth="28"
+                      strokeDasharray="100 377"
+                      strokeDashoffset="-210"
+                      className="hover:opacity-85 transition-opacity"
+                      onMouseEnter={() => setHoveredDonutSegment('premium')}
+                    />
+                    {/* Advanced Plan Enterprise Arc (Soft Purple #9D71BC) */}
+                    <circle
+                      cx="80"
+                      cy="80"
+                      r="60"
+                      fill="none"
+                      stroke="#9D71BC"
+                      strokeWidth="28"
+                      strokeDasharray="67 377"
+                      strokeDashoffset="-310"
+                      className="hover:opacity-85 transition-opacity"
+                      onMouseEnter={() => setHoveredDonutSegment('advanced')}
+                    />
+                  </svg>
 
-        <section className="flex flex-col gap-2">
-          <SectionHeading
-            title="Practice Area"
-            actions={<ActionButtons onView={() => onEditSection?.("practiceArea", "view")} onEdit={() => onEditSection?.("practiceArea", "edit")} onDelete={() => onDeleteSection?.("practiceArea")} />}
-          />
-          <TableSection
-            title={null}
-            columns={[
-              { key: "id", label: "#", width: "w-8 flex-none" },
-              { key: "name", label: "Name", width: "w-1/4" },
-              { key: "description", label: "Description", width: "flex-1", muted: true },
-              { key: "action", label: "Icon/Image", width: "w-20 flex-none", align: "right" },
-            ]}
-            rows={practiceAreas}
-            renderCell={(row, col) => (col.key === "action" ? <ViewButton onClick={() => onViewPracticeArea?.(row)} /> : row[col.key])}
-          />
-        </section>
+                  {/* Tooltip Callout Box Hidden at Default & Smooth Fade Animation on Hover */}
+                  {hoveredDonutSegment && (
+                    <div
+                      className={`absolute bg-white border-2 border-[#5E1B89] px-3.5 py-1.5 rounded-xl shadow-md text-center pointer-events-none transition-all duration-200 ease-out z-10 animate-fade-in ${getDonutPillClass()}`}
+                    >
+                      <span className="block text-[9px] font-extrabold uppercase tracking-wider text-slate-500">
+                        {hoveredDonutSegment === 'free'
+                          ? 'FREE PLAN'
+                          : hoveredDonutSegment === 'advanced'
+                            ? 'ADVANCED PLAN (ENTERPRISE)'
+                            : 'PREMIUM PLAN (PRO)'}
+                      </span>
+                      <span className="block text-xs font-extrabold text-slate-900">
+                        {hoveredDonutSegment === 'free'
+                          ? '820 (53%)'
+                          : hoveredDonutSegment === 'advanced'
+                            ? '310 (20%)'
+                            : '420 (27%)'}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
 
-        <TableSection
-          title="Cases Handled"
-          columns={[
-            { key: "id", label: "#", width: "w-8 flex-none" },
-            { key: "case", label: "Case", width: "flex-1" },
-          ]}
-          rows={cases}
-        />
+            {/* Donut Legend */}
+            <div className="space-y-2 pt-4 border-t border-slate-100 text-xs font-medium text-slate-600">
+              <div
+                className={`flex items-center gap-2.5 cursor-pointer transition-all ${hoveredDonutSegment === 'free' ? 'font-bold text-slate-900' : 'hover:text-slate-900'
+                  }`}
+                onMouseEnter={() => setHoveredDonutSegment('free')}
+                onMouseLeave={() => setHoveredDonutSegment(null)}
+              >
+                <span className="w-3 h-3 rounded-full bg-[#F4512C]" />
+                <span>Free Plan</span>
+              </div>
+              <div
+                className={`flex items-center gap-2.5 cursor-pointer transition-all ${hoveredDonutSegment === 'premium' ? 'font-bold text-slate-900' : 'hover:text-slate-900'
+                  }`}
+                onMouseEnter={() => setHoveredDonutSegment('premium')}
+                onMouseLeave={() => setHoveredDonutSegment(null)}
+              >
+                <span className="w-3 h-3 rounded-full bg-[#FF7F4D]" />
+                <span>Premium Plan (Pro)</span>
+              </div>
+              <div
+                className={`flex items-center gap-2.5 cursor-pointer transition-all ${hoveredDonutSegment === 'advanced' ? 'font-bold text-slate-900' : 'hover:text-slate-900'
+                  }`}
+                onMouseEnter={() => setHoveredDonutSegment('advanced')}
+                onMouseLeave={() => setHoveredDonutSegment(null)}
+              >
+                <span className="w-3 h-3 rounded-full bg-[#5E1B89]" />
+                <span>Advanced Plan (Enterprise)</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <TableSection
-          title="Location of Practice"
-          columns={[
-            { key: "id", label: "#", width: "w-8 flex-none" },
-            { key: "location", label: "Location", width: "flex-1" },
-          ]}
-          rows={locations}
-        />
+      </div>
 
-        <TableSection
-          title="Awards and Citations"
-          columns={[
-            { key: "id", label: "#", width: "w-8 flex-none" },
-            { key: "category", label: "Category", width: "w-1/4" },
-            { key: "title", label: "Title", width: "flex-1", muted: true },
-            { key: "year", label: "Year", width: "w-14 flex-none", align: "right" },
-          ]}
-          rows={awards}
-        />
+      {/* 4. Bottom 3 Management Cards Row */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+
+        {/* Card 1: Most Active Website (Manage -> /websites) */}
+        <div className="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden flex flex-col justify-between">
+          {/* Gradient Eyebrow Bar */}
+          <div className="h-[5px] w-full bg-lexmeet-gradient" />
+
+          <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="font-heading font-bold text-lg text-[#5E1B89]">
+                Most Active Website
+              </h3>
+              <Link
+                to="/websites"
+                className="bg-[#F4512C] text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-[#FF7F4D] transition-colors shadow-xs"
+              >
+                Manage
+              </Link>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#5E1B89] text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">
+                VA
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-900 text-sm leading-snug">
+                  Valderrama & Associates
+                </h4>
+                <p className="text-xs text-slate-400 font-sans">
+                  Atty. Marlon Valderrama • valderramalaw.ph
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                  MONTHLY VISITS
+                </span>
+                <span className="text-sm font-extrabold text-[#F4512C] mt-0.5 block">
+                  42,500 visits
+                </span>
+              </div>
+              <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                  ACTIVE CLIENTS
+                </span>
+                <span className="text-sm font-extrabold text-[#5E1B89] mt-0.5 block">
+                  380 clients
+                </span>
+              </div>
+            </div>
+
+            <div className="bg-slate-50/80 p-3 rounded-xl border border-slate-200/60 text-xs space-y-0.5">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                TOP BOOKING CLIENTS
+              </span>
+              <div className="font-bold text-slate-900">Client: Juan De La Cruz</div>
+              <div className="text-slate-500 text-[11px]">
+                12 Consultations Booked • ₱60,000 Volume
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Top Grossing Law Firm (Manage -> /lawfirms) */}
+        <div className="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden flex flex-col justify-between">
+          {/* Gradient Eyebrow Bar */}
+          <div className="h-[5px] w-full bg-lexmeet-gradient" />
+
+          <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="font-heading font-bold text-lg text-[#5E1B89]">
+                Top Grossing Law Firm
+              </h3>
+              <Link
+                to="/lawfirms"
+                className="bg-[#F4512C] text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-[#FF7F4D] transition-colors shadow-xs"
+              >
+                Manage
+              </Link>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#F4512C] text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">
+                CP
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-900 text-sm leading-snug">
+                  Cruz & Partners Law Firm
+                </h4>
+                <p className="text-xs text-slate-400 font-sans">
+                  Atty. Teressa Cruz • cruzlaw.com
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                  TOTAL SALES PROCESSED
+                </span>
+                <span className="text-sm font-extrabold text-[#F4512C] mt-0.5 block">
+                  ₱485,000
+                </span>
+              </div>
+              <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                  NET PLATFORM COMMISSION
+                </span>
+                <span className="text-sm font-extrabold text-[#5E1B89] mt-0.5 block">
+                  ₱48,500 (10%)
+                </span>
+              </div>
+            </div>
+
+            <div className="bg-slate-50/80 p-3 rounded-xl border border-slate-200/60 text-xs space-y-0.5">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                ACTIVE SUBSCRIPTION TIER
+              </span>
+              <div className="font-bold text-slate-900">Advanced Plan (Enterprise Lex)</div>
+              <div className="text-slate-500 text-[11px]">
+                98 Consultations Completed • 100% Payout Verified
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Onboarding & Health (Manage -> /reports) */}
+        <div className="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden flex flex-col justify-between">
+          {/* Gradient Eyebrow Bar */}
+          <div className="h-[5px] w-full bg-lexmeet-gradient" />
+
+          <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="font-heading font-bold text-lg text-[#5E1B89]">
+                Onboarding & Health
+              </h3>
+              <Link
+                to="/reports"
+                className="bg-[#F4512C] text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-[#FF7F4D] transition-colors shadow-xs"
+              >
+                Manage
+              </Link>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#5E1B89] text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">
+                LC
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-900 text-sm leading-snug">
+                  Fastest Growing Tenant
+                </h4>
+                <p className="text-xs text-slate-400 font-sans">
+                  LexConsult Corporate • lexconsult.ph
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                  PENDING SIGNUPS
+                </span>
+                <span className="text-sm font-extrabold text-[#F4512C] mt-0.5 block">
+                  7 Pending
+                </span>
+              </div>
+              <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                  GLOBAL NODE UPTIME
+                </span>
+                <span className="text-sm font-extrabold text-[#5E1B89] mt-0.5 block">
+                  99.98%
+                </span>
+              </div>
+            </div>
+
+            <div className="bg-slate-50/80 p-3 rounded-xl border border-slate-200/60 text-xs space-y-0.5">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                SYSTEM ALERT STATUS
+              </span>
+              <div className="font-bold text-slate-900">2 Custom Domains Awaiting DNS</div>
+              <div className="text-slate-500 text-[11px]">
+                Bandwidth cap warning sent to 1 tenant
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Page content composition (drop this inside your existing            */
-/* nav/header layout — no NavBar/SidebarNav here anymore)              */
-/* ------------------------------------------------------------------ */
-
-export default function LawFirmDetailsPage() {
-  return (
-    <div className="min-w-0 flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8" style={{ backgroundColor: tokens.pageBg }}>
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-6">
-        <LawFirmDetailColumn />
-        <div className="w-full lg:flex-1">
-          <LawFirmDetailsPanel onLiveView={() => console.log("live view")} />
-        </div>
-      </div>
-    </div>
-  );
+  )
 }
