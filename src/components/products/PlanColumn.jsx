@@ -20,7 +20,7 @@ export default function PlanColumn({ plan, colWidth = '180px' }) {
       style={{ minWidth: colWidth }}
     >
       {/* ── Plan Name ─────────────────────────────── */}
-      <div className="px-5 pt-0 pb-0">
+      <div className="px-5 pt-5 pb-0">
         <p className="text-[10px] font-semibold font-sans uppercase tracking-widest text-slate-500 mb-1.5">
           Plan Name
         </p>
