@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import CopywritesTab from './CopywritesTab'
+import PhotosTab from './PhotosTab'
+import LogosTab from './LogosTab'
 
 const ASSET_TABS = ['Logos', 'Copywrites', 'Photos']
 
 export default function Assets() {
-  const [activeTab, setActiveTab] = useState('Copywrites')
+  const [activeTab, setActiveTab] = useState('Logos')
 
   // Rendered inside each tab's own toolbar so the tab owns its filter controls
   const tabsSlot = (
@@ -20,11 +22,10 @@ export default function Assets() {
             role="tab"
             aria-selected={isActive}
             onClick={() => setActiveTab(tab)}
-            className={`rounded-lg px-6 py-2 text-base transition-colors ${
-              isActive
+            className={`rounded-lg px-6 py-2 text-base transition-colors ${isActive
                 ? 'bg-brand-orange font-bold text-white shadow-sm'
                 : 'font-semibold text-slate-900 hover:text-brand-orange'
-            }`}
+              }`}
           >
             {tab}
           </button>
@@ -47,8 +48,12 @@ export default function Assets() {
         Assets
       </h1>
 
-      {activeTab === 'Copywrites' ? (
+      {activeTab === 'Logos' ? (
+        <LogosTab tabsSlot={tabsSlot} />
+      ) : activeTab === 'Copywrites' ? (
         <CopywritesTab tabsSlot={tabsSlot} />
+      ) : activeTab === 'Photos' ? (
+        <PhotosTab tabsSlot={tabsSlot} />
       ) : (
         <div className="space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-300 pb-4">
