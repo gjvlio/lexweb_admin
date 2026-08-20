@@ -49,7 +49,7 @@ export default function OrdersPage() {
         ))}
       </div>
 
-      <div className="flex items-center justify-between px-10 py-8">
+      <div className="flex items-center justify-between px-10 py-8 border-b border-gray-500">
         <div className="flex border rounded-[5px] border-gray-500 text-sm">
           <TableTab isActive={true} name={"Subscriptions"} />
           <TableTab name={"One-Time Purchases"} />
