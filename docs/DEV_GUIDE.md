@@ -19,7 +19,7 @@ Follow these steps to set up and run the development environment:
 git clone <repository-url>
 cd lexweb-admin
 
-# 2. Install project dependencies
+# 2. Install project dependencies (automatically configures git pre-push hook)
 npm install
 
 # 3. Start the local development server (with HMR)
@@ -33,14 +33,67 @@ npm run build
 
 ---
 
-## 2. GitHub Collaboration & PR Workflow
+## 2. GitHub Collaboration & Branch Protection
 
 Because multiple members and development groups work on this repository simultaneously, all contributors must strictly adhere to the following workflow:
 
 > [!CAUTION]
 > ### 🛑 STRICT RULE: PROTECTED MAIN BRANCH & AUTOMATED VERCEL DEPLOYMENT
 > **NO ONE IS ALLOWED TO PUSH DIRECTLY TO THE `main` BRANCH.**  
-> Direct pushes to `main` are strictly prohibited because the `main` branch is connected directly to **Vercel** for live production deployment. Any push to `main` immediately triggers an automatic build and auto-updates the live production site on Vercel. All code changes must first be thoroughly reviewed, tested, and merged through a Pull Request (PR).
+> Direct pushes to `main` are strictly prohibited because `main` is connected directly to **Vercel** for live production deployment. Any push to `main` immediately triggers an automatic build and updates the live site. All code changes must first be reviewed, tested, and merged through a Pull Request (PR).
+
+---
+
+### How to Configure Branch Protection on GitHub (Step-by-Step)
+
+To enforce this protection on the GitHub repository:
+
+1. Open your repository on GitHub: [`https://github.com/gjvlio/lexweb-admin`](https://github.com/gjvlio/lexweb-admin)
+2. Go to **Settings** (top navigation tab).
+3. In the left menu under **Code and automation**, click **Branches**.
+4. Click **Add branch protection rule** (or edit rule for `main`).
+5. In **Branch name pattern**, enter: `main`.
+6. Enable the following settings:
+   - ✅ **Require a pull request before merging**
+   - ✅ **Require approvals** (Set to `1` so focal main developers review all PRs)
+   - ✅ **Do not allow bypassing the above settings** (applies rule to all admins & developers)
+7. Click **Create** or **Save changes**.
+
+---
+
+### Automated Pre-Push Script Setup (`.githooks/pre-push`)
+
+This repository includes a tracked `.githooks/pre-push` script. When any team member runs `npm install`, Git is automatically configured (`git config core.hooksPath .githooks`) to activate this hook on their machine.
+
+If a developer attempts `git push origin main`, Git intercepts the command and displays the following message:
+
+```bash
+#!/bin/sh
+# .githooks/pre-push — Prevents direct pushing to main branch
+
+protected_branch="main"
+current_branch=$(git symbolic-ref HEAD 2>/dev/null | sed -e 's,.*/,,')
+
+if [ "$current_branch" = "$protected_branch" ]; then
+    echo ""
+    echo "========================================================================"
+    echo "🛑 DIRECT PUSH TO MAIN BRANCH IS PROHIBITED!"
+    echo "========================================================================"
+    echo "The 'main' branch is connected directly to Vercel for live production."
+    echo ""
+    echo "Please follow these steps instead:"
+    echo "  1. Create a feature branch:  git checkout -b [page name]/[feature]"
+    echo "  2. Push your feature branch: git push origin [page name]/[feature]"
+    echo "  3. Open a Pull Request (PR) on GitHub for your Main Dev to review."
+    echo "========================================================================"
+    echo ""
+    exit 1
+fi
+
+exit 0
+```
+
+---
 
 ### Focal Person / Main Developer Role
 - Each group has a designated **Main Developer (Focal Person)**.
@@ -135,6 +188,8 @@ type(scope): concise description of changes
 
 ```text
 lexweb-admin/
+├── .githooks/
+│   └── pre-push              # Tracked pre-push hook script (auto-configured via npm install)
 ├── docs/
 │   ├── DEV_GUIDE.md          # Developer guide & Git PR workflow (this file)
 │   └── PROGRESS.md           # Scaffolding checklist
@@ -153,6 +208,6 @@ lexweb-admin/
 │   ├── index.css             # Tailwind base directives & typography imports
 │   └── main.jsx              # DOM entry point
 ├── index.html                # LexWeb Admin title & tab icon configuration
-├── package.json              # Project dependencies & scripts
+├── package.json              # Project dependencies & prepare script
 └── tailwind.config.js        # LexMeet brand color & font tokens
 ```
