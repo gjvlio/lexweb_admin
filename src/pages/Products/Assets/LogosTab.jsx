@@ -4,6 +4,7 @@ import { LOGO_CATEGORIES, LOGO_STATUSES, PREMADE_LOGOS, CUSTOM_LOGOS } from './d
 import StatusSelect from './components/StatusSelect'
 import LogoCard from './components/LogoCard'
 import AddPremadeLogoModal from './modals/AddPremadeLogoModal'
+import AddCustomLogoRequestModal from './modals/AddCustomLogoRequestModal'
 import LogoDetailsModal from './modals/LogoDetailsModal'
 import CustomLogoRequestDetailsModal from './modals/CustomLogoRequestDetailsModal'
 import Pagination from './components/Pagination'
@@ -22,11 +23,50 @@ export default function LogosTab({ tabsSlot }) {
   
   const [selectedCustom, setSelectedCustom] = useState(null)
   const [customModalOpen, setCustomModalOpen] = useState(false)
+  const [addCustomModalOpen, setAddCustomModalOpen] = useState(false)
+
+  const [premade, setPremade] = useState(PREMADE_LOGOS)
+  const [custom, setCustom] = useState(CUSTOM_LOGOS)
 
   // Handlers for Add modal
   const handleAddSubmit = (newLogo) => {
-    console.log('Add logo:', newLogo)
+    const created = {
+      ...newLogo,
+      id: `logo-pre-${Date.now()}`,
+      kind: 'premade',
+      title: newLogo.title || 'Untitled Logo',
+      price: Number(newLogo.price) || 0,
+      category: newLogo.category || 'Others',
+      date: 'Aug 20, 2026',
+      availedBy: 0,
+      status: 'Draft',
+    }
+    setPremade((prev) => [created, ...prev])
+    setKind('premade')
+    setPage(1)
     setAddModalOpen(false)
+  }
+
+  const handleAddCustomSubmit = (values) => {
+    const created = {
+      ...values,
+      id: `logo-cus-${Date.now()}`,
+      kind: 'custom',
+      previewText: 'Awaiting output',
+      title: `${values.kindOfIconObject || 'Logo'} request`,
+      shortDescription:
+        values.description || `Custom ${values.kindOfIconObject?.toLowerCase() || 'logo'} ordered by ${values.orderedBy}.`,
+      category: 'Others',
+      price: Number(values.priceAtPurchase) || 0,
+      priceAtPurchase: Number(values.priceAtPurchase) || 0,
+      date: values.orderDate || 'Aug 20, 2026',
+      availedBy: 1,
+      status: 'Draft',
+    }
+    setCustom((prev) => [created, ...prev])
+    setKind('custom')
+    setPage(1)
+    setAddCustomModalOpen(false)
   }
 
   // Handlers for Pre-made Details modal
@@ -35,11 +75,11 @@ export default function LogosTab({ tabsSlot }) {
     setPremadeModalOpen(true)
   }
   const handleUpdatePremade = (updated) => {
-    console.log('Update premade:', updated)
+    setPremade((prev) => prev.map((entry) => (entry.id === updated.id ? updated : entry)))
     setPremadeModalOpen(false)
   }
   const handleDeletePremade = (deleted) => {
-    console.log('Delete premade:', deleted)
+    setPremade((prev) => prev.filter((entry) => entry.id !== deleted.id))
     setPremadeModalOpen(false)
   }
 
@@ -49,11 +89,11 @@ export default function LogosTab({ tabsSlot }) {
     setCustomModalOpen(true)
   }
   const handleDeleteCustom = (deleted) => {
-    console.log('Delete custom request:', deleted)
+    setCustom((prev) => prev.filter((entry) => entry.id !== deleted.id))
     setCustomModalOpen(false)
   }
 
-  const items = kind === 'premade' ? PREMADE_LOGOS : CUSTOM_LOGOS
+  const items = kind === 'premade' ? premade : custom
 
   // Filtering
   const filtered = useMemo(() => {
@@ -118,7 +158,7 @@ export default function LogosTab({ tabsSlot }) {
 
           <button
             type="button"
-            onClick={() => setAddModalOpen(true)}
+            onClick={() => kind === 'custom' ? setAddCustomModalOpen(true) : setAddModalOpen(true)}
             className="rounded-lg bg-brand-orange px-5 py-2 text-sm font-bold text-white transition-colors hover:bg-brand-orange-light focus:outline-none focus:ring-2 focus:ring-brand-orange focus:ring-offset-2"
           >
             + Add
@@ -211,6 +251,11 @@ export default function LogosTab({ tabsSlot }) {
         open={addModalOpen}
         onClose={() => setAddModalOpen(false)}
         onSubmit={handleAddSubmit}
+      />
+      <AddCustomLogoRequestModal
+        open={addCustomModalOpen}
+        onClose={() => setAddCustomModalOpen(false)}
+        onSubmit={handleAddCustomSubmit}
       />
       
       <LogoDetailsModal
