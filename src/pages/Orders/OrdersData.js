@@ -1,5 +1,5 @@
 export const subscriptionRows = [
-    "ID", "Law Firm", "Plan", "Start Date", "Renewal Date", "Billing Cycle", "Price", "Status", "Action"
+    "ID", "Law Firm", "Plan", "Start Date", "Renewal Date", "Billing Cycle", "Price", "Status",
 ]
 
 export const subscriptionOrders = [

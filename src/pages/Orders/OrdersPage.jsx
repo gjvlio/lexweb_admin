@@ -3,7 +3,8 @@ import StatisticCard from "../../components/orders/StatisticCard";
 import Button from "../../components/ui/Button";
 import { Search, Plus } from "lucide-react";
 import TableTab from "../../components/orders/TableTab";
-import { subscriptionRows } from "./OrdersData";
+import { subscriptionOrders, subscriptionRows } from "./OrdersData";
+import TableRow from "../../components/orders/TableRow";
 
 export default function OrdersPage() {
   const subscriptionStatistics = [
@@ -98,18 +99,34 @@ export default function OrdersPage() {
             {subscriptionRows.map((row) => (
               <col key={row} />
             ))}
+
+            {/* Action */}
+            <col className="h-full" />
           </colgroup>
 
           <thead>
-            <tr className="border-b border-gray-500">
-              <th><input type="checkbox" /></th>
+            <tr className="border-b border-gray-500 align-middle">
+              <th>
+                <input type="checkbox" className="accent-brand-purple" />
+              </th>
               {subscriptionRows.map((row) => (
-                <th key={row} className="px-4 py-3 text-left text-sm font-bold text-gray-500">
+                <th
+                  key={row}
+                  className="px-4 py-3 text-left text-sm font-bold text-gray-500"
+                >
                   {row}
                 </th>
               ))}
+
+              <th>Action</th>
             </tr>
           </thead>
+
+          <tbody className="border-b border-gray-500">
+            {subscriptionOrders.map((order) => (
+              <TableRow row={order} />
+            ))}
+          </tbody>
         </table>
       </div>
     </div>
