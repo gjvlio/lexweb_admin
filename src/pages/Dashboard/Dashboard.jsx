@@ -162,7 +162,7 @@ export default function Dashboard() {
       {/* 2. Top 4 KPI Stat Cards Banner — Generous Card Padding & Zero Overflow */}
       <div className="-mx-6 bg-lexmeet-gradient px-6 py-5 rounded-none shadow-md">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          
+
           {/* Card 1: TOTAL LAWYERS (Clickable -> /lawfirms) */}
           <Link
             to="/lawfirms"
@@ -264,12 +264,12 @@ export default function Dashboard() {
 
       {/* 3. Analytics Section: Overall Graph & Distribution Chart */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
-        
+
         {/* Overall Graph (2 Cols) */}
         <div className="lg:col-span-2 bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden flex flex-col justify-between">
           {/* Gradient Eyebrow Bar */}
           <div className="h-[5px] w-full bg-lexmeet-gradient" />
-          
+
           <div className="p-6 flex-1 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between flex-wrap gap-4">
@@ -288,11 +288,10 @@ export default function Dashboard() {
                     <button
                       key={item}
                       onClick={() => setGraphFilter(item)}
-                      className={`px-3.5 py-1 rounded-lg transition-all ${
-                        graphFilter === item
+                      className={`px-3.5 py-1 rounded-lg transition-all ${graphFilter === item
                           ? 'bg-[#5E1B89] text-white font-bold shadow-xs'
                           : 'hover:text-slate-900'
-                      }`}
+                        }`}
                     >
                       {item}
                     </button>
@@ -448,13 +447,12 @@ export default function Dashboard() {
               <div
                 onMouseEnter={() => setHoveredLegendSeries('sales')}
                 onMouseLeave={() => setHoveredLegendSeries(null)}
-                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${
-                  hoveredLegendSeries === 'sales'
+                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${hoveredLegendSeries === 'sales'
                     ? 'bg-orange-50 border-orange-200 text-slate-900 shadow-2xs font-bold scale-105'
                     : hoveredLegendSeries !== null
-                    ? 'opacity-35 border-transparent'
-                    : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
-                }`}
+                      ? 'opacity-35 border-transparent'
+                      : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
+                  }`}
               >
                 <span className="w-3.5 h-3.5 rounded-full bg-[#F4512C]" />
                 <span>Marketplace Sales Volume</span>
@@ -463,13 +461,12 @@ export default function Dashboard() {
               <div
                 onMouseEnter={() => setHoveredLegendSeries('sub')}
                 onMouseLeave={() => setHoveredLegendSeries(null)}
-                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${
-                  hoveredLegendSeries === 'sub'
+                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${hoveredLegendSeries === 'sub'
                     ? 'bg-purple-50 border-purple-200 text-slate-900 shadow-2xs font-bold scale-105'
                     : hoveredLegendSeries !== null
-                    ? 'opacity-35 border-transparent'
-                    : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
-                }`}
+                      ? 'opacity-35 border-transparent'
+                      : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
+                  }`}
               >
                 <span className="w-3.5 h-3.5 rounded-full bg-[#5E1B89]" />
                 <span>Subscription Income (Plans)</span>
@@ -478,13 +475,12 @@ export default function Dashboard() {
               <div
                 onMouseEnter={() => setHoveredLegendSeries('com')}
                 onMouseLeave={() => setHoveredLegendSeries(null)}
-                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${
-                  hoveredLegendSeries === 'com'
+                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${hoveredLegendSeries === 'com'
                     ? 'bg-orange-50 border-orange-200 text-slate-900 shadow-2xs font-bold scale-105'
                     : hoveredLegendSeries !== null
-                    ? 'opacity-35 border-transparent'
-                    : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
-                }`}
+                      ? 'opacity-35 border-transparent'
+                      : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
+                  }`}
               >
                 <span className="w-3.5 h-3.5 rounded-full bg-[#FF7F4D]" />
                 <span>Net Platform Commission (10%)</span>
@@ -504,7 +500,7 @@ export default function Dashboard() {
                 Distribution Chart
               </h2>
               <p className="font-sans text-[11px] font-semibold uppercase text-slate-400 tracking-wider mt-0.5">
-                SUBSCRIPTOPN PLANS
+                SUBSCRIPTION PLANS
               </p>
 
               {/* Donut Chart with Pill Hidden at Default & Smooth Fade on Hover */}
@@ -564,15 +560,15 @@ export default function Dashboard() {
                         {hoveredDonutSegment === 'free'
                           ? 'FREE PLAN'
                           : hoveredDonutSegment === 'advanced'
-                          ? 'ADVANCED PLAN (ENTERPRISE)'
-                          : 'PREMIUM PLAN (PRO)'}
+                            ? 'ADVANCED PLAN (ENTERPRISE)'
+                            : 'PREMIUM PLAN (PRO)'}
                       </span>
                       <span className="block text-xs font-extrabold text-slate-900">
                         {hoveredDonutSegment === 'free'
                           ? '820 (53%)'
                           : hoveredDonutSegment === 'advanced'
-                          ? '310 (20%)'
-                          : '420 (27%)'}
+                            ? '310 (20%)'
+                            : '420 (27%)'}
                       </span>
                     </div>
                   )}
@@ -583,9 +579,8 @@ export default function Dashboard() {
             {/* Donut Legend */}
             <div className="space-y-2 pt-4 border-t border-slate-100 text-xs font-medium text-slate-600">
               <div
-                className={`flex items-center gap-2.5 cursor-pointer transition-all ${
-                  hoveredDonutSegment === 'free' ? 'font-bold text-slate-900' : 'hover:text-slate-900'
-                }`}
+                className={`flex items-center gap-2.5 cursor-pointer transition-all ${hoveredDonutSegment === 'free' ? 'font-bold text-slate-900' : 'hover:text-slate-900'
+                  }`}
                 onMouseEnter={() => setHoveredDonutSegment('free')}
                 onMouseLeave={() => setHoveredDonutSegment(null)}
               >
@@ -593,9 +588,8 @@ export default function Dashboard() {
                 <span>Free Plan</span>
               </div>
               <div
-                className={`flex items-center gap-2.5 cursor-pointer transition-all ${
-                  hoveredDonutSegment === 'premium' ? 'font-bold text-slate-900' : 'hover:text-slate-900'
-                }`}
+                className={`flex items-center gap-2.5 cursor-pointer transition-all ${hoveredDonutSegment === 'premium' ? 'font-bold text-slate-900' : 'hover:text-slate-900'
+                  }`}
                 onMouseEnter={() => setHoveredDonutSegment('premium')}
                 onMouseLeave={() => setHoveredDonutSegment(null)}
               >
@@ -603,9 +597,8 @@ export default function Dashboard() {
                 <span>Premium Plan (Pro)</span>
               </div>
               <div
-                className={`flex items-center gap-2.5 cursor-pointer transition-all ${
-                  hoveredDonutSegment === 'advanced' ? 'font-bold text-slate-900' : 'hover:text-slate-900'
-                }`}
+                className={`flex items-center gap-2.5 cursor-pointer transition-all ${hoveredDonutSegment === 'advanced' ? 'font-bold text-slate-900' : 'hover:text-slate-900'
+                  }`}
                 onMouseEnter={() => setHoveredDonutSegment('advanced')}
                 onMouseLeave={() => setHoveredDonutSegment(null)}
               >
@@ -620,7 +613,7 @@ export default function Dashboard() {
 
       {/* 4. Bottom 3 Management Cards Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-        
+
         {/* Card 1: Most Active Website (Manage -> /websites) */}
         <div className="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden flex flex-col justify-between">
           {/* Gradient Eyebrow Bar */}
