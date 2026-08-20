@@ -1,7 +1,7 @@
 import { useState } from "react";
 import StatisticCard from "../../components/orders/StatisticCard";
-import Button from '../../components/ui/Button'
-import { Search, Plus } from 'lucide-react'
+import Button from "../../components/ui/Button";
+import { Search, Plus } from "lucide-react";
 import TableTab from "../../components/orders/TableTab";
 
 export default function OrdersPage() {
@@ -28,6 +28,8 @@ export default function OrdersPage() {
     subscriptionStatistics,
   );
 
+  const [activeTab, setActiveTab] = useState("subscriptions");
+
   return (
     <div className="relative -left-8 w-[calc(100%+4rem)] h-full text-gray-500">
       <div className="w-full flex border-y border-gray-500">
@@ -51,9 +53,21 @@ export default function OrdersPage() {
 
       <div className="flex items-center justify-between px-10 py-8 border-b border-gray-500">
         <div className="flex border rounded-[5px] border-gray-500 text-sm">
-          <TableTab isActive={true} name={"Subscriptions"} />
-          <TableTab name={"One-Time Purchases"} />
-          <TableTab name={"Customs"} />
+          <TableTab
+            name={"Subscriptions"}
+            isActive={activeTab === "subscriptions"}
+            onClick={() => setActiveTab("subscriptions")}
+          />
+          <TableTab
+            name={"One-Time Purchases"}
+            isActive={activeTab === "one-time purchases"}
+            onClick={() => setActiveTab("one-time purchases")}
+          />
+          <TableTab
+            name={"Customs"}
+            isActive={activeTab === "customs"}
+            onClick={() => setActiveTab("customs")}
+          />
         </div>
 
         {/* search bar */}
