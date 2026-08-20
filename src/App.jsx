@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import MainLayout from './components/layout/MainLayout'
 import Dashboard from './pages/Dashboard/Dashboard'
 import PlaceholderPage from './pages/PlaceholderPage'
+import Subscriptions from './pages/Products/Subscriptions'
 
 export default function App() {
   return (
@@ -16,7 +17,7 @@ export default function App() {
           {/* Main Products Landing Page */}
           <Route path="products" element={<PlaceholderPage title="Products Landing Page" />} />
           {/* Products Subpages */}
-          <Route path="products/subscriptions" element={<PlaceholderPage title="Products — Subscriptions" />} />
+          <Route path="products/subscriptions" element={<Subscriptions />} />
           <Route path="products/templates" element={<PlaceholderPage title="Products — Templates" />} />
           <Route path="products/assets" element={<PlaceholderPage title="Products — Assets" />} />
           <Route path="orders" element={<PlaceholderPage title="Orders" />} />
