@@ -24,7 +24,7 @@ export default function Navbar({ isCollapsed, onToggleCollapse, className = '' }
 
   const mainNav = [
     { label: 'Dashboard', path: '/', icon: IconDashboard },
-    { label: 'Lawfirms', path: '/lawfirms', icon: IconLawfirms },
+    { label: 'Law Firms', path: '/lawfirms', icon: IconLawfirms },
     { label: 'Websites', path: '/websites', icon: IconWebsites },
   ]
 
@@ -42,9 +42,8 @@ export default function Navbar({ isCollapsed, onToggleCollapse, className = '' }
 
   return (
     <aside
-      className={`bg-white border-r border-slate-200/80 flex flex-col justify-between shrink-0 transition-all duration-200 h-full min-h-screen sticky top-0 z-40 ${
-        isCollapsed ? 'w-20' : 'w-[230px]'
-      } ${className}`}
+      className={`bg-white border-r border-slate-200/80 flex flex-col justify-between shrink-0 transition-all duration-200 h-full min-h-screen sticky top-0 z-40 ${isCollapsed ? 'w-20' : 'w-[230px]'
+        } ${className}`}
     >
       <div>
         {/* Menu Header with Toggle (68px height matching Header) */}
@@ -70,10 +69,9 @@ export default function Navbar({ isCollapsed, onToggleCollapse, className = '' }
                 to={item.path}
                 end={item.path === '/'}
                 className={({ isActive }) =>
-                  `flex items-center gap-3.5 px-3 py-2.5 rounded-xl transition-all duration-150 ${
-                    isActive
-                      ? 'bg-brand-purple/10 text-brand-purple border border-brand-purple/20 font-bold'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 font-normal'
+                  `flex items-center gap-3.5 px-3 py-2.5 rounded-xl transition-all duration-150 ${isActive
+                    ? 'bg-brand-purple/10 text-brand-purple border border-brand-purple/20 font-bold'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 font-normal'
                   } ${isCollapsed ? 'justify-center px-0' : ''}`
                 }
               >
@@ -92,10 +90,9 @@ export default function Navbar({ isCollapsed, onToggleCollapse, className = '' }
                 to="/products"
                 onClick={() => setIsProductsOpen(true)}
                 className={({ isActive }) =>
-                  `flex-1 flex items-center gap-3.5 px-3 py-2.5 rounded-xl transition-all duration-150 ${
-                    isActive || isProductsParentActive
-                      ? 'bg-brand-purple/10 text-brand-purple border border-brand-purple/20 font-bold'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 font-normal'
+                  `flex-1 flex items-center gap-3.5 px-3 py-2.5 rounded-xl transition-all duration-150 ${isActive || isProductsParentActive
+                    ? 'bg-brand-purple/10 text-brand-purple border border-brand-purple/20 font-bold'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 font-normal'
                   } ${isCollapsed ? 'justify-center px-0' : ''}`
                 }
               >
@@ -133,10 +130,9 @@ export default function Navbar({ isCollapsed, onToggleCollapse, className = '' }
                     key={sub.path}
                     to={sub.path}
                     className={({ isActive }) =>
-                      `block px-3 py-2 rounded-lg font-sans text-[14px] transition-all ${
-                        isActive
-                          ? 'text-brand-orange bg-brand-orange/10 font-bold'
-                          : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100 font-normal'
+                      `block px-3 py-2 rounded-lg font-sans text-[14px] transition-all ${isActive
+                        ? 'text-brand-orange bg-brand-orange/10 font-bold'
+                        : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100 font-normal'
                       }`
                     }
                   >
@@ -155,10 +151,9 @@ export default function Navbar({ isCollapsed, onToggleCollapse, className = '' }
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center gap-3.5 px-3 py-2.5 rounded-xl transition-all duration-150 ${
-                    isActive
-                      ? 'bg-brand-purple/10 text-brand-purple border border-brand-purple/20 font-bold'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 font-normal'
+                  `flex items-center gap-3.5 px-3 py-2.5 rounded-xl transition-all duration-150 ${isActive
+                    ? 'bg-brand-purple/10 text-brand-purple border border-brand-purple/20 font-bold'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 font-normal'
                   } ${isCollapsed ? 'justify-center px-0' : ''}`
                 }
               >
