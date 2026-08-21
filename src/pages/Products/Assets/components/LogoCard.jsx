@@ -2,18 +2,10 @@ import React, { useState } from 'react'
 import { Users } from 'lucide-react'
 
 export default function LogoCard({ item, onEdit, onDelete }) {
-  const [isHovered, setIsHovered] = useState(false)
   const imageUrl = item.kind === 'premade' ? item.imageUrl : item.orderOutputUrl
 
-  // When hovering on a custom logo, the design shows a bounding box with dimensions
-  const showDimensions = isHovered && item.width && item.height
-
   return (
-    <div 
-      className="flex flex-col overflow-hidden rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200/70 transition-shadow hover:shadow-md"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div className="flex flex-col overflow-hidden rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200/70 transition-shadow hover:shadow-md">
       {/* Logo preview - perfectly square padding container */}
       <div className="relative mb-3 flex aspect-square w-full items-center justify-center p-6 pb-2">
         <div className="relative flex aspect-square h-full w-full items-center justify-center overflow-hidden rounded-2xl">
@@ -22,19 +14,6 @@ export default function LogoCard({ item, onEdit, onDelete }) {
             alt={item.title}
             className="h-full w-full object-cover"
           />
-          
-          {/* Bounding box dimension overlay (from the custom logo screenshot) */}
-          {showDimensions && (
-            <div className="absolute inset-0 border-2 border-dashed border-[#0095FF]">
-              <div className="absolute -bottom-2 -left-2 h-4 w-4 border-2 border-[#0095FF] bg-white" />
-              <div className="absolute -left-2 -top-2 h-4 w-4 border-2 border-[#0095FF] bg-white" />
-              <div className="absolute -right-2 -top-2 h-4 w-4 border-2 border-[#0095FF] bg-white" />
-              <div className="absolute -bottom-2 -right-2 h-4 w-4 border-2 border-[#0095FF] bg-white" />
-              <div className="absolute bottom-0 left-1/2 flex -translate-x-1/2 translate-y-1/2 items-center justify-center rounded-sm bg-[#0095FF] px-2 py-0.5 text-xs font-bold text-white shadow-sm">
-                {item.width} &times; {item.height}
-              </div>
-            </div>
-          )}
         </div>
       </div>
 

@@ -3,6 +3,7 @@ import { ChevronDown, Search } from 'lucide-react'
 import PhotoCard from './components/PhotoCard'
 import Pagination from './components/Pagination'
 import AddPremadePhotoModal from './modals/AddPremadePhotoModal'
+import AddCustomPhotoRequestModal from './modals/AddCustomPhotoRequestModal'
 import PhotoDetailsModal from './modals/PhotoDetailsModal'
 import CustomPhotoRequestDetailsModal from './modals/CustomPhotoRequestDetailsModal'
 import {
@@ -33,8 +34,7 @@ export default function PhotosTab({ tabsSlot }) {
   const [premade, setPremade] = useState(PREMADE_PHOTOS)
   const [custom, setCustom] = useState(CUSTOM_PHOTOS)
 
-  // Only one modal is ever open: 'add' | 'details' | 'custom'
-  // Note: Design doesn't show an "Add Custom Request" modal for Photos, but we can stick to what's defined.
+  // Only one modal is ever open: 'add' | 'add-custom' | 'details' | 'custom'
   const [activeModal, setActiveModal] = useState(null)
   const [selected, setSelected] = useState(null)
 
@@ -106,6 +106,29 @@ export default function PhotosTab({ tabsSlot }) {
     closeModal()
   }
 
+  const handleAddCustom = (values) => {
+    const created = {
+      ...values,
+      id: `photo-cus-${Date.now()}`,
+      kind: 'custom',
+      previewText: 'Awaiting output',
+      title: `${values.photoType || 'Photo'} request`,
+      shortDescription:
+        values.description || `Custom ${values.photoType?.toLowerCase() || 'photo'} ordered by ${values.orderedBy}.`,
+      category: 'Others',
+      price: Number(values.priceAtPurchase) || 0,
+      priceAtPurchase: Number(values.priceAtPurchase) || 0,
+      date: values.orderDate ? formatCardDate(values.orderDate) : formatCardDate(),
+      availedBy: 1,
+      status: 'Draft',
+    }
+
+    setCustom((prev) => [created, ...prev])
+    setSource('custom')
+    setPage(1)
+    closeModal()
+  }
+
   const handleUpdate = (updated) => {
     setPremade((prev) => prev.map((entry) => (entry.id === updated.id ? updated : entry)))
     closeModal()
@@ -148,7 +171,7 @@ export default function PhotosTab({ tabsSlot }) {
 
           <button
             type="button"
-            onClick={() => setActiveModal('add')}
+            onClick={() => setActiveModal(source === 'custom' ? 'add-custom' : 'add')}
             className="rounded-lg bg-brand-orange px-5 py-2 text-sm font-bold text-white transition-colors hover:bg-brand-orange-light focus:outline-none focus:ring-2 focus:ring-brand-orange focus:ring-offset-2"
           >
             + Add
@@ -230,6 +253,11 @@ export default function PhotosTab({ tabsSlot }) {
         open={activeModal === 'add'}
         onClose={closeModal}
         onSubmit={handleAdd}
+      />
+      <AddCustomPhotoRequestModal
+        open={activeModal === 'add-custom'}
+        onClose={closeModal}
+        onSubmit={handleAddCustom}
       />
       <PhotoDetailsModal
         open={activeModal === 'details'}
