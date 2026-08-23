@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
-import { Search, ChevronRight, Settings2 } from "lucide-react";
+import { Search, ChevronRight } from "lucide-react";
 import { tokens, demoFirm, demoLawyers, demoAssets, demoRatings, websiteContent } from "./LawFirmsData";
 import settingsIcon from "../../assets/lawfirms/settings.png";
+import LawyerProfileModal from "../../components/lawfirms/LawyerProfileModal";
 
 const fontFamily = "Lato, sans-serif";
 const PANEL_HEIGHT = "lg:h-[calc(100dvh-7.5rem)]";
@@ -77,7 +78,19 @@ function TabBar({ active, onChange }) {
   );
 }
 
-function LawyersTable({ lawyers, query, onQueryChange, onRowSettings, onSearchSettings }) {
+function ViewButton({ onClick, label = "VIEW" }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="shrink-0 rounded-[5px] bg-[#F4512C] px-3 py-1 text-[10px] uppercase font-normal leading-[14px] text-white transition-opacity hover:opacity-90 active:opacity-80 cursor-pointer"
+    >
+      {label}
+    </button>
+  );
+}
+
+function LawyersTable({ lawyers, query, onQueryChange, onRowClick, onSearchSettings }) {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return lawyers;
@@ -125,17 +138,19 @@ function LawyersTable({ lawyers, query, onQueryChange, onRowSettings, onSearchSe
             </thead>
             <tbody>
               {filtered.map((lawyer, i) => (
-                <tr key={lawyer.id} className="border-b last:border-b-0" style={{ borderColor: tokens.border }}>
+                <tr
+                  key={lawyer.id}
+                  className="border-b last:border-b-0 hover:bg-slate-50 transition-colors"
+                  style={{ borderColor: tokens.border }}
+                >
                   <td className="px-3 py-3 text-xs" style={{ color: tokens.textBody }}>{i + 1}</td>
                   <td className="px-3 py-3 text-xs" style={{ color: tokens.textBody }}>{lawyer.id}</td>
-                  <td className="px-3 py-3 text-xs" style={{ color: tokens.textBody }}>{lawyer.name}</td>
+                  <td className="px-3 py-3 text-xs font-medium" style={{ color: tokens.textBody }}>{lawyer.name}</td>
                   <td className="px-3 py-3 text-xs" style={{ color: tokens.textBody }}>{lawyer.role}</td>
                   <td className="px-3 py-3 text-xs underline" style={{ color: tokens.textBody }}>{lawyer.email}</td>
                   <td className="px-3 py-3 text-xs whitespace-nowrap" style={{ color: tokens.textBody }}>{lawyer.contact}</td>
                   <td className="px-3 py-3">
-                    <button type="button" onClick={() => onRowSettings?.(lawyer)} className="rounded p-1.5 hover:bg-black/5" style={{ color: tokens.orange }}>
-                      <Settings2 size={16} />
-                    </button>
+                    <ViewButton onClick={() => onRowClick?.(lawyer)} />
                   </td>
                 </tr>
               ))}
@@ -203,14 +218,7 @@ function AssetsTable({ assets, query, onQueryChange, onViewAsset, onSearchSettin
                   <td className="px-3 py-3 text-xs" style={{ color: tokens.textBody }}>{item.category}</td>
                   <td className="px-3 py-3 text-xs" style={{ color: tokens.textBody }}>{item.altText}</td>
                   <td className="px-3 py-3">
-                    <button
-                      type="button"
-                      onClick={() => onViewAsset?.(item)}
-                      className="rounded-[5px] px-3 py-1 text-[10px] uppercase text-white transition-opacity hover:opacity-90"
-                      style={{ backgroundColor: tokens.orange }}
-                    >
-                      VIEW
-                    </button>
+                    <ViewButton onClick={() => onViewAsset?.(item)} />
                   </td>
                 </tr>
               ))}
@@ -297,7 +305,7 @@ function RatingsTable({ ratings, query, onQueryChange, onSearchSettings }) {
   );
 }
 
-function LawFirmDetailColumn({ className = "" }) {
+function LawFirmDetailColumn({ className = "", onSelectLawyer }) {
   const [activeTab, setActiveTab] = useState("Lawyers");
   const [query, setQuery] = useState("");
 
@@ -315,7 +323,7 @@ function LawFirmDetailColumn({ className = "" }) {
           lawyers={demoLawyers}
           query={query}
           onQueryChange={setQuery}
-          onRowSettings={(lawyer) => console.log("settings for", lawyer)}
+          onRowClick={onSelectLawyer}
           onSearchSettings={() => handleSearchSettings("Lawyers")}
         />
       )}
@@ -337,18 +345,6 @@ function LawFirmDetailColumn({ className = "" }) {
         />
       )}
     </div>
-  );
-}
-
-function ViewButton({ onClick, label = "View" }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="shrink-0 rounded-[5px] bg-[#F4512C] px-3 py-1 text-[11px] font-normal leading-[14px] text-white transition-opacity hover:opacity-90 active:opacity-80"
-    >
-      {label}
-    </button>
   );
 }
 
@@ -449,7 +445,7 @@ function LawFirmDetailsPanel({ onLiveView, onEditSection, onDeleteSection, onVie
         <button
           type="button"
           onClick={onLiveView ?? noop}
-          className="shrink-0 rounded-[5px] bg-[#F4512C] px-3 py-1.5 text-[10px] font-normal tracking-wide text-[#F8FFFE] transition-opacity hover:opacity-90"
+          className="shrink-0 rounded-[5px] bg-[#F4512C] px-3 py-1.5 text-[10px] font-normal tracking-wide text-[#F8FFFE] transition-opacity hover:opacity-90 cursor-pointer"
         >
           LIVE VIEW
         </button>
@@ -556,6 +552,14 @@ function LawFirmDetailsPanel({ onLiveView, onEditSection, onDeleteSection, onVie
 }
 
 export default function LawFirmsPage() {
+  const [selectedLawyer, setSelectedLawyer] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenLawyerModal = (lawyer) => {
+    setSelectedLawyer(lawyer);
+    setIsModalOpen(true);
+  };
+
   return (
     <div className={`min-w-0 flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 ${customScrollbar}`} style={{ backgroundColor: tokens.pageBg }}>
       <div className="mb-4 flex flex-col gap-1">
@@ -569,12 +573,22 @@ export default function LawFirmsPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
-        <LawFirmDetailColumn className={`h-[600px] ${PANEL_HEIGHT}`} />
+        <LawFirmDetailColumn 
+          className={`h-[600px] ${PANEL_HEIGHT}`} 
+          onSelectLawyer={handleOpenLawyerModal}
+        />
 
         <div className={`h-[600px] w-full lg:sticky lg:top-6 ${PANEL_HEIGHT}`}>
           <LawFirmDetailsPanel onLiveView={() => console.log("live view")} />
         </div>
       </div>
+
+      {/* Interactive Modal */}
+      <LawyerProfileModal
+        isOpen={isModalOpen}
+        lawyer={selectedLawyer}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
-}
+} 
