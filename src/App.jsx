@@ -23,7 +23,6 @@ export default function App() {
           <Route path="products/subscriptions" element={<Subscriptions />} />
           <Route path="products/templates" element={<PlaceholderPage title="Products — Templates" />} />
           <Route path="products/assets" element={<Assets />} />
-          <Route path="orders" element={<PlaceholderPage title="Orders" />} />
           <Route path="products/assets" element={<PlaceholderPage title="Products — Assets" />} />
           <Route path="orders" element={<OrdersPage />} />
           <Route path="transactions" element={<PlaceholderPage title="Transactions" />} />

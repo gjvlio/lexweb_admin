@@ -3,34 +3,119 @@ import StatisticCard from "../../components/orders/StatisticCard";
 import Button from "../../components/ui/Button";
 import { Search, Plus } from "lucide-react";
 import TableTab from "../../components/orders/TableTab";
-import { subscriptionOrders, subscriptionRows } from "./OrdersData";
+import {
+  customKeys,
+  customOrders,
+  customRows,
+  oneTimeKeys,
+  oneTimeOrders,
+  oneTimeRows,
+  subscriptionKeys,
+  subscriptionOrders,
+  subscriptionRows,
+} from "./OrdersData";
 import TableRow from "../../components/orders/TableRow";
+import usePagination from "../../hooks/usePagination";
 
 export default function OrdersPage() {
-  const subscriptionStatistics = [
-    {
-      name: "total subscriptions",
-      statistic: 727,
-    },
-    {
-      name: "free plans",
-      statistic: 500,
-    },
-    {
-      name: "premium plans",
-      statistic: 227,
-    },
-    {
-      name: "custom plans",
-      statistic: 0,
-    },
-  ];
-
-  const [activeStatistics, setActiveStatistics] = useState(
-    subscriptionStatistics,
-  );
-
   const [activeTab, setActiveTab] = useState("subscriptions");
+
+  const tableConfig = {
+    subscriptions: {
+      keys: subscriptionKeys,
+      rows: subscriptionRows,
+      orders: subscriptionOrders,
+    },
+
+    "one-time purchases": {
+      keys: oneTimeKeys,
+      rows: oneTimeRows,
+      orders: oneTimeOrders,
+    },
+
+    customs: {
+      keys: customKeys,
+      rows: customRows,
+      orders: customOrders,
+    },
+  };
+
+  const activeTable = tableConfig[activeTab];
+
+  function calculateStatistics(orders, tab) {
+    if (tab === "subscriptions") {
+      return [
+        {
+          name: "total subscriptions",
+          statistic: orders.length,
+        },
+        {
+          name: "free plans",
+          statistic: orders.filter((order) => order.plan === "Free").length,
+        },
+        {
+          name: "premium plans",
+          statistic: orders.filter((order) => order.plan === "Premium").length,
+        },
+        {
+          name: "custom plans",
+          statistic: orders.filter((order) => order.plan === "Custom").length,
+        },
+      ];
+    }
+
+    return [
+      {
+        name: "total purchases",
+        statistic: orders.length,
+      },
+      {
+        name: "logos",
+        statistic: orders.filter((order) => order.productType === "Logo")
+          .length,
+      },
+      {
+        name: "copywrites",
+        statistic: orders.filter((order) => order.productType === "Copywrite")
+          .length,
+      },
+      {
+        name: "photos",
+        statistic: orders.filter((order) => order.productType === "Photo")
+          .length,
+      },
+      {
+        name: "templates",
+        statistic: orders.filter((order) => order.productType === "Template")
+          .length,
+      },
+    ];
+  }
+
+  const activeStatistics = calculateStatistics(activeTable.orders, activeTab);
+
+  const handleTabClick = (tabName) => {
+    setActiveTab(tabName);
+    resetPage();
+  };
+
+  const {
+    currentPage,
+    totalPages,
+    startIndex,
+    endIndex,
+    goToPage,
+    nextPage,
+    prevPage,
+    resetPage,
+    hasNextPage,
+    hasPrevPage,
+  } = usePagination({
+    totalItems: activeTable.orders.length,
+    itemsPerPage: 8,
+  });
+
+  const paginatedOrders = activeTable.orders.slice(startIndex, endIndex);
 
   return (
     <div className="relative -left-8 w-[calc(100%+4rem)] h-full text-gray-500">
@@ -58,17 +143,17 @@ export default function OrdersPage() {
           <TableTab
             name={"Subscriptions"}
             isActive={activeTab === "subscriptions"}
-            onClick={() => setActiveTab("subscriptions")}
+            onClick={() => handleTabClick("subscriptions")}
           />
           <TableTab
             name={"One-Time Purchases"}
             isActive={activeTab === "one-time purchases"}
-            onClick={() => setActiveTab("one-time purchases")}
+            onClick={() => handleTabClick("one-time purchases")}
           />
           <TableTab
             name={"Customs"}
             isActive={activeTab === "customs"}
-            onClick={() => setActiveTab("customs")}
+            onClick={() => handleTabClick("customs")}
           />
         </div>
 
@@ -96,7 +181,7 @@ export default function OrdersPage() {
             {/* checkbox */}
             <col className="w-10" />
 
-            {subscriptionRows.map((row) => (
+            {activeTable.rows.map((row) => (
               <col key={row} />
             ))}
 
@@ -106,10 +191,10 @@ export default function OrdersPage() {
 
           <thead>
             <tr className="border-b border-gray-500 align-middle">
-              <th>
+              <th className="px-4 py-3">
                 <input type="checkbox" className="accent-brand-purple" />
               </th>
-              {subscriptionRows.map((row) => (
+              {activeTable.rows.map((row) => (
                 <th
                   key={row}
                   className="px-4 py-3 text-left text-sm font-bold text-gray-500"
@@ -123,11 +208,54 @@ export default function OrdersPage() {
           </thead>
 
           <tbody className="border-b border-gray-500">
-            {subscriptionOrders.map((order) => (
-              <TableRow row={order} />
+            {paginatedOrders.map((order, index) => (
+              <TableRow key={index} row={order} column={activeTable.keys} />
             ))}
           </tbody>
         </table>
+
+        <div className="flex items-center justify-between px-10 py-4">
+          <p className="text-sm text-gray-500">
+            Page {currentPage} of {totalPages}
+          </p>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={prevPage}
+              disabled={!hasPrevPage}
+              className="px-3 py-2 border rounded"
+            >
+              Previous
+            </button>
+
+            {Array.from({ length: totalPages }, (_, index) => {
+              const page = index + 1;
+
+              return (
+                <button
+                  key={page}
+                  type="button"
+                  onClick={() => goToPage(page)}
+                  className={`px-3 py-2 border rounded ${
+                    currentPage === page ? "bg-brand-purple text-white" : ""
+                  }`}
+                >
+                  {page}
+                </button>
+              );
+            })}
+
+            <button
+              type="button"
+              onClick={nextPage}
+              disabled={!hasNextPage}
+              className="px-3 py-2 border rounded"
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
