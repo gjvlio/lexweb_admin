@@ -17,56 +17,84 @@ import {
 import TableRow from "../../components/orders/TableRow";
 
 export default function OrdersPage() {
-  const subscriptionStatistics = [
-    {
-      name: "total subscriptions",
-      statistic: 727,
-    },
-    {
-      name: "free plans",
-      statistic: 500,
-    },
-    {
-      name: "premium plans",
-      statistic: 227,
-    },
-    {
-      name: "custom plans",
-      statistic: 0,
-    },
-  ];
-
-  const [activeStatistics, setActiveStatistics] = useState(
-    subscriptionStatistics,
-  );
-
   const [activeTab, setActiveTab] = useState("subscriptions");
 
-  const [activeKeys, setActiveKeys] = useState(subscriptionKeys);
-  const [activeRows, setActiveRows] = useState(subscriptionRows);
-  const [activeOrders, setActiveOrders] = useState(subscriptionOrders);
+  const tableConfig = {
+    subscriptions: {
+      keys: subscriptionKeys,
+      rows: subscriptionRows,
+      orders: subscriptionOrders,
+    },
+
+    "one-time purchases": {
+      keys: oneTimeKeys,
+      rows: oneTimeRows,
+      orders: oneTimeOrders,
+    },
+
+    customs: {
+      keys: customKeys,
+      rows: customRows,
+      orders: customOrders,
+    },
+  };
+
+  const activeTable = tableConfig[activeTab];
+
+  function calculateStatistics(orders, tab) {
+    if (tab === "subscriptions") {
+      return [
+        {
+          name: "total subscriptions",
+          statistic: orders.length,
+        },
+        {
+          name: "free plans",
+          statistic: orders.filter((order) => order.plan === "Free").length,
+        },
+        {
+          name: "premium plans",
+          statistic: orders.filter((order) => order.plan === "Premium").length,
+        },
+        {
+          name: "custom plans",
+          statistic: orders.filter((order) => order.plan === "Custom").length,
+        },
+      ];
+    }
+
+    return [
+      {
+        name: "total purchases",
+        statistic: orders.length,
+      },
+      {
+        name: "logos",
+        statistic: orders.filter((order) => order.productType === "Logo")
+          .length,
+      },
+      {
+        name: "copywrites",
+        statistic: orders.filter((order) => order.productType === "Copywrite")
+          .length,
+      },
+      {
+        name: "photos",
+        statistic: orders.filter((order) => order.productType === "Photo")
+          .length,
+      },
+      {
+        name: "templates",
+        statistic: orders.filter((order) => order.productType === "Template")
+          .length,
+      },
+    ];
+  }
+
+  const activeStatistics = calculateStatistics(activeTable.orders, activeTab);
 
   const handleTabClick = (tabName) => {
-    if (tabName === "subscriptions") {
-      setActiveTab("subscriptions");
-      setActiveKeys(subscriptionKeys);
-      setActiveRows(subscriptionRows);
-      setActiveOrders(subscriptionOrders);
-    }
-
-    if (tabName === "one-time purchases") {
-      setActiveTab("one-time purchases");
-      setActiveKeys(oneTimeKeys);
-      setActiveRows(oneTimeRows);
-      setActiveOrders(oneTimeOrders);
-    }
-
-    if (tabName === "customs") {
-      setActiveTab("customs");
-      setActiveKeys(customKeys);
-      setActiveRows(customRows);
-      setActiveOrders(customOrders);
-    }
+    setActiveTab(tabName);
   };
 
   return (
@@ -133,7 +161,7 @@ export default function OrdersPage() {
             {/* checkbox */}
             <col className="w-10" />
 
-            {activeRows.map((row) => (
+            {activeTable.rows.map((row) => (
               <col key={row} />
             ))}
 
@@ -146,7 +174,7 @@ export default function OrdersPage() {
               <th className="px-4 py-3">
                 <input type="checkbox" className="accent-brand-purple" />
               </th>
-              {activeRows.map((row) => (
+              {activeTable.rows.map((row) => (
                 <th
                   key={row}
                   className="px-4 py-3 text-left text-sm font-bold text-gray-500"
@@ -160,8 +188,8 @@ export default function OrdersPage() {
           </thead>
 
           <tbody className="border-b border-gray-500">
-            {activeOrders.map((order, index) => (
-              <TableRow key={index} row={order} column={activeKeys} />
+            {activeTable.orders.map((order, index) => (
+              <TableRow key={index} row={order} column={activeTable.keys} />
             ))}
           </tbody>
         </table>
