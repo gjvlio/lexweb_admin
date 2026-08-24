@@ -36,7 +36,7 @@ export default function InclusionsTable({
           <div
             key={feature.id}
             className={`flex items-stretch border-b border-slate-100 last:border-b-0 ${
-              rowIdx % 2 === 0 ? 'bg-white' : 'bg-slate-50/40'
+              rowIdx % 2 === 0 ? 'bg-white' : 'bg-[#FAFCFD]'
             }`}
           >
             {/* Feature label — sticky left so it stays visible on h-scroll */}
