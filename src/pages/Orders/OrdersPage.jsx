@@ -3,7 +3,7 @@ import StatisticCard from "../../components/orders/StatisticCard";
 import Button from "../../components/ui/Button";
 import { Search, Plus } from "lucide-react";
 import TableTab from "../../components/orders/TableTab";
-import { subscriptionOrders, subscriptionRows } from "./OrdersData";
+import { oneTimeKeys, oneTimeOrders, oneTimeRows, subscriptionKeys, subscriptionOrders, subscriptionRows } from "./OrdersData";
 import TableRow from "../../components/orders/TableRow";
 
 export default function OrdersPage() {
@@ -32,6 +32,26 @@ export default function OrdersPage() {
 
   const [activeTab, setActiveTab] = useState("subscriptions");
 
+  const [activeKeys, setActiveKeys] = useState(subscriptionKeys)
+  const [activeRows, setActiveRows] = useState(subscriptionRows)
+  const [activeOrders, setActiveOrders] = useState(subscriptionOrders)
+
+  const handleTabClick = (tabName) => {
+    if (tabName === "subscriptions") {
+      setActiveTab("subscriptions")
+      setActiveKeys(subscriptionKeys)
+      setActiveRows(subscriptionRows)
+      setActiveOrders(subscriptionOrders)
+    }
+
+    if (tabName === "one-time purchases") {
+      setActiveTab("one-time purchases")
+      setActiveKeys(oneTimeKeys)
+      setActiveRows(oneTimeRows)
+      setActiveOrders(oneTimeOrders)
+    }
+  }
+
   return (
     <div className="relative -left-8 w-[calc(100%+4rem)] h-full text-gray-500">
       <div className="w-full flex border-y border-gray-500">
@@ -58,12 +78,12 @@ export default function OrdersPage() {
           <TableTab
             name={"Subscriptions"}
             isActive={activeTab === "subscriptions"}
-            onClick={() => setActiveTab("subscriptions")}
+            onClick={() => handleTabClick("subscriptions")}
           />
           <TableTab
             name={"One-Time Purchases"}
             isActive={activeTab === "one-time purchases"}
-            onClick={() => setActiveTab("one-time purchases")}
+            onClick={() => handleTabClick("one-time purchases")}
           />
           <TableTab
             name={"Customs"}
@@ -96,7 +116,7 @@ export default function OrdersPage() {
             {/* checkbox */}
             <col className="w-10" />
 
-            {subscriptionRows.map((row) => (
+            {activeRows.map((row) => (
               <col key={row} />
             ))}
 
@@ -109,7 +129,7 @@ export default function OrdersPage() {
               <th>
                 <input type="checkbox" className="accent-brand-purple" />
               </th>
-              {subscriptionRows.map((row) => (
+              {activeRows.map((row) => (
                 <th
                   key={row}
                   className="px-4 py-3 text-left text-sm font-bold text-gray-500"
@@ -123,8 +143,8 @@ export default function OrdersPage() {
           </thead>
 
           <tbody className="border-b border-gray-500">
-            {subscriptionOrders.map((order) => (
-              <TableRow row={order} />
+            {activeOrders.map((order, index) => (
+              <TableRow key={index} row={order} column={activeKeys}/>
             ))}
           </tbody>
         </table>
