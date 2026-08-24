@@ -54,3 +54,60 @@ export const subscriptionOrders = [
         "status": "Active",
     },
 ]
+
+export const oneTimeRows = [
+    "ID", "Product Name", "Type", "Category", "Client", "Order Date", "Price", "Status",
+]
+
+export const oneTimeOrders = [
+    {
+        "id": 100,
+        "productName": "Hammer-Logo",
+        "type": "Logo",
+        "category": "Hammer",
+        "client": "Bautista Law Office",
+        "orderDate": new Date(2026, 6, 5),
+        "price": 1000,
+        "status": "Paid",
+    },
+    {
+        "id": 100,
+        "productName": "Hammer-Logo",
+        "type": "Logo",
+        "category": "Hammer",
+        "client": "Bautista Law Office",
+        "orderDate": new Date(2026, 6, 5),
+        "price": 1000,
+        "status": "Paid",
+    },
+    {
+        "id": 100,
+        "productName": "Hammer-Logo",
+        "type": "Logo",
+        "category": "Hammer",
+        "client": "Bautista Law Office",
+        "orderDate": new Date(2026, 6, 5),
+        "price": 1000,
+        "status": "Paid",
+    },
+    {
+        "id": 100,
+        "productName": "Hammer-Logo",
+        "type": "Logo",
+        "category": "Hammer",
+        "client": "Bautista Law Office",
+        "orderDate": new Date(2026, 6, 5),
+        "price": 1000,
+        "status": "Paid",
+    },
+    {
+        "id": 100,
+        "productName": "Hammer-Logo",
+        "type": "Logo",
+        "category": "Hammer",
+        "client": "Bautista Law Office",
+        "orderDate": new Date(2026, 6, 5),
+        "price": 1000,
+        "status": "Paid",
+    },
+]
