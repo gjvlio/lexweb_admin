@@ -1,15 +1,13 @@
 import React, { useState, useMemo } from 'react'
+import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
-import { Search, X, Check, ChevronDown, Calendar, Plus, Edit3, Trash2 } from 'lucide-react'
+import { Search, X, Check, ChevronDown, Plus, Edit3, Trash2 } from 'lucide-react'
 import Card from '../../components/ui/Card'
 import Button from '../../components/ui/Button'
 import PlanColumn from '../../components/products/PlanColumn'
 import InclusionsTable from '../../components/products/InclusionsTable'
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Static mock data
-// ─────────────────────────────────────────────────────────────────────────────
-
 const INITIAL_FEATURES = [
   { id: '1', label: 'Website Template or Design with Unlimited Colors' },
   { id: '2', label: 'Own Law Firm Logo Upload with Tagline' },
@@ -110,10 +108,10 @@ const INITIAL_PLANS = [
 const COL_WIDTH = '200px'
 const LABEL_WIDTH = '340px'
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Edit Promo Modal Component (Matches exact UI)
-// ─────────────────────────────────────────────────────────────────────────────
+// Fullscreen fixed backdrop style
+const BACKDROP_CLASSES = "fixed top-0 left-0 w-screen h-screen z-[9999] flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4 transition-all"
 
+// Edit Promo Modal Component
 function EditPromoModal({ isOpen, onClose, onSave, promo }) {
   if (!isOpen || !promo) return null
 
@@ -141,11 +139,9 @@ function EditPromoModal({ isOpen, onClose, onSave, promo }) {
     onClose()
   }
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+  return createPortal(
+    <div className={BACKDROP_CLASSES}>
       <div className="relative w-full max-w-sm bg-white rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-        
-        {/* Header */}
         <div className="flex items-center justify-between px-6 pt-6 pb-2 border-b border-slate-100">
           <h2 className="text-xl font-bold font-heading text-brand-purple">
             Edit Promo
@@ -159,7 +155,6 @@ function EditPromoModal({ isOpen, onClose, onSave, promo }) {
           </button>
         </div>
 
-        {/* Modal Form Body */}
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-6 py-4 space-y-3.5">
           <div>
             <label className="block text-xs font-semibold text-slate-400 mb-1">
@@ -242,7 +237,6 @@ function EditPromoModal({ isOpen, onClose, onSave, promo }) {
             </div>
           </div>
 
-          {/* Actions Footer */}
           <div className="flex items-center justify-end pt-3 pb-1">
             <button
               type="submit"
@@ -252,16 +246,13 @@ function EditPromoModal({ isOpen, onClose, onSave, promo }) {
             </button>
           </div>
         </form>
-
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Add / Edit Inclusion Modal Component
-// ─────────────────────────────────────────────────────────────────────────────
-
 function InclusionFormModal({ isOpen, onClose, onSave, feature = null }) {
   if (!isOpen) return null
 
@@ -275,11 +266,9 @@ function InclusionFormModal({ isOpen, onClose, onSave, feature = null }) {
     onClose()
   }
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+  return createPortal(
+    <div className={BACKDROP_CLASSES}>
       <div className="relative w-full max-w-sm bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-        
-        {/* Header */}
         <div className="flex items-center justify-between px-6 pt-5 pb-3 border-b border-slate-100">
           <h2 className="text-xl font-bold font-heading text-brand-purple">
             {isEdit ? 'Edit Inclusions' : 'Add New Inclusions'}
@@ -293,11 +282,10 @@ function InclusionFormModal({ isOpen, onClose, onSave, feature = null }) {
           </button>
         </div>
 
-        {/* Modal Form Body */}
         <form onSubmit={handleSubmit} className="px-6 py-4 space-y-4">
           <div>
             <label className="block text-xs font-semibold text-slate-500 mb-1.5">
-              Plan Name:
+            Name:
             </label>
             <input
               type="text"
@@ -307,7 +295,6 @@ function InclusionFormModal({ isOpen, onClose, onSave, feature = null }) {
             />
           </div>
 
-          {/* Actions Footer */}
           <div className="flex items-center justify-end gap-2.5 pt-2">
             <button
               type="button"
@@ -324,16 +311,13 @@ function InclusionFormModal({ isOpen, onClose, onSave, feature = null }) {
             </button>
           </div>
         </form>
-
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Add Plan Promo Modal Component
-// ─────────────────────────────────────────────────────────────────────────────
-
 function AddPlanPromoModal({ isOpen, onClose, onAdd }) {
   if (!isOpen) return null
 
@@ -362,11 +346,9 @@ function AddPlanPromoModal({ isOpen, onClose, onAdd }) {
     onClose()
   }
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+  return createPortal(
+    <div className={BACKDROP_CLASSES}>
       <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-        
-        {/* Header */}
         <div className="flex items-center justify-between px-7 pt-6 pb-2">
           <h2 className="text-xl font-bold font-heading text-brand-purple">
             Plan Promos
@@ -380,11 +362,10 @@ function AddPlanPromoModal({ isOpen, onClose, onAdd }) {
           </button>
         </div>
 
-        {/* Modal Form Body */}
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-7 py-4 space-y-3.5">
           <div>
             <label className="block text-xs font-semibold text-slate-500 mb-1">
-              Plan Name:
+              Name:
             </label>
             <input
               type="text"
@@ -459,7 +440,6 @@ function AddPlanPromoModal({ isOpen, onClose, onAdd }) {
             />
           </div>
 
-          {/* Actions Footer */}
           <div className="flex items-center justify-end gap-2.5 pt-3 pb-1">
             <button
               type="button"
@@ -476,16 +456,13 @@ function AddPlanPromoModal({ isOpen, onClose, onAdd }) {
             </button>
           </div>
         </form>
-
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // All Inclusions Modal Component
-// ─────────────────────────────────────────────────────────────────────────────
-
 function AllInclusionsModal({
   isOpen,
   onClose,
@@ -496,11 +473,9 @@ function AllInclusionsModal({
 }) {
   if (!isOpen) return null
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+  return createPortal(
+    <div className={BACKDROP_CLASSES}>
       <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-        
-        {/* Header */}
         <div className="flex items-center justify-between px-8 pt-7 pb-4">
           <h2 className="text-2xl font-bold font-heading text-brand-purple">
             All Inclusions
@@ -514,7 +489,6 @@ function AllInclusionsModal({
           </button>
         </div>
 
-        {/* Content Table */}
         <div className="flex-1 overflow-y-auto px-8 py-2">
           <table className="w-full text-left text-sm border-collapse">
             <thead>
@@ -553,7 +527,6 @@ function AllInclusionsModal({
           </table>
         </div>
 
-        {/* Footer */}
         <div className="flex items-center justify-end px-8 py-5 border-t border-slate-100 bg-white">
           <button
             type="button"
@@ -563,16 +536,13 @@ function AllInclusionsModal({
             Add
           </button>
         </div>
-
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Plan Promos Modal Component
-// ─────────────────────────────────────────────────────────────────────────────
-
 function PlanPromosModal({
   isOpen,
   onClose,
@@ -583,11 +553,9 @@ function PlanPromosModal({
 }) {
   if (!isOpen) return null
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+  return createPortal(
+    <div className={BACKDROP_CLASSES}>
       <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-        
-        {/* Header */}
         <div className="flex items-center justify-between px-8 pt-7 pb-4">
           <h2 className="text-2xl font-bold font-heading text-brand-purple">
             Plan Promos
@@ -601,7 +569,6 @@ function PlanPromosModal({
           </button>
         </div>
 
-        {/* Content Table */}
         <div className="flex-1 overflow-y-auto px-8 py-2">
           <table className="w-full text-left text-sm border-collapse">
             <thead>
@@ -644,7 +611,6 @@ function PlanPromosModal({
           </table>
         </div>
 
-        {/* Footer */}
         <div className="flex items-center justify-end px-8 py-5 border-t border-slate-100 bg-white">
           <button
             type="button"
@@ -654,16 +620,13 @@ function PlanPromosModal({
             Add
           </button>
         </div>
-
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Add New Plan Modal Component
-// ─────────────────────────────────────────────────────────────────────────────
-
 function AddPlanModal({ isOpen, onClose, onAdd, features, promos }) {
   if (!isOpen) return null
 
@@ -714,11 +677,9 @@ function AddPlanModal({ isOpen, onClose, onAdd, features, promos }) {
     onClose()
   }
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+  return createPortal(
+    <div className={BACKDROP_CLASSES}>
       <div className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl flex flex-col max-h-[92vh] overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-        
-        {/* Header */}
         <div className="flex items-center justify-between px-8 pt-7 pb-4">
           <h2 className="text-2xl font-bold font-heading text-brand-purple">
             Add New Plan
@@ -734,10 +695,8 @@ function AddPlanModal({ isOpen, onClose, onAdd, features, promos }) {
 
         <div className="border-b border-slate-200 mx-8" />
 
-        {/* Modal Form Body */}
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-8 py-6 space-y-5">
           <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-            {/* Left Inputs */}
             <div className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-500 mb-1">
@@ -776,7 +735,6 @@ function AddPlanModal({ isOpen, onClose, onAdd, features, promos }) {
               </div>
             </div>
 
-            {/* Right Inputs */}
             <div className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-500 mb-1">
@@ -822,9 +780,7 @@ function AddPlanModal({ isOpen, onClose, onAdd, features, promos }) {
             </div>
           </div>
 
-          {/* Promos & Inclusions Containers */}
           <div className="grid grid-cols-2 gap-4 pt-2">
-            {/* Promos Box */}
             <div className="border border-brand-purple rounded-md p-3 flex flex-col h-48">
               <h3 className="text-sm font-bold text-brand-purple mb-2">Promos:</h3>
               <div className="flex-1 overflow-y-auto space-y-2.5 pr-1">
@@ -845,7 +801,6 @@ function AddPlanModal({ isOpen, onClose, onAdd, features, promos }) {
               </div>
             </div>
 
-            {/* Inclusions Box */}
             <div className="border border-orange-400 rounded-md p-3 flex flex-col h-48">
               <h3 className="text-sm font-bold text-brand-purple mb-2">Inclusions:</h3>
               <div className="flex-1 overflow-y-auto space-y-2.5 pr-2 custom-scrollbar">
@@ -866,7 +821,6 @@ function AddPlanModal({ isOpen, onClose, onAdd, features, promos }) {
             </div>
           </div>
 
-          {/* Actions Footer */}
           <div className="flex items-center justify-end gap-3 pt-4">
             <button
               type="button"
@@ -883,16 +837,13 @@ function AddPlanModal({ isOpen, onClose, onAdd, features, promos }) {
             </button>
           </div>
         </form>
-
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Edit Plan Modal Component
-// ─────────────────────────────────────────────────────────────────────────────
-
 function EditPlanModal({ plan, isOpen, onClose, onSave, onDelete, features }) {
   if (!isOpen || !plan) return null
 
@@ -924,8 +875,8 @@ function EditPlanModal({ plan, isOpen, onClose, onSave, onDelete, features }) {
     onClose()
   }
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+  return createPortal(
+    <div className={BACKDROP_CLASSES}>
       <div className="relative w-full max-w-xl bg-white rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-150">
         <div className="flex items-start justify-between px-8 pt-8 pb-4">
           <div>
@@ -1050,14 +1001,12 @@ function EditPlanModal({ plan, isOpen, onClose, onSave, onDelete, features }) {
           </Button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Page Component
-// ─────────────────────────────────────────────────────────────────────────────
-
+// Main Page Component
 export default function Subscriptions() {
   const [plans, setPlans] = useState(INITIAL_PLANS)
   const [features, setFeatures] = useState(INITIAL_FEATURES)
@@ -1067,7 +1016,6 @@ export default function Subscriptions() {
   const [selectedFeature, setSelectedFeature] = useState(null)
   const [selectedPromo, setSelectedPromo] = useState(null)
 
-  // Modal controls
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isInclusionsModalOpen, setIsInclusionsModalOpen] = useState(false)
@@ -1135,7 +1083,6 @@ export default function Subscriptions() {
     )
   }
 
-  // Back navigation handlers
   const handleCloseInclusionForm = () => {
     setIsInclusionFormOpen(false)
     setIsInclusionsModalOpen(true)
@@ -1153,7 +1100,6 @@ export default function Subscriptions() {
 
   return (
     <div className="space-y-5">
-      {/* Page Header */}
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-1.5">
           <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs font-sans">
@@ -1195,7 +1141,6 @@ export default function Subscriptions() {
         </div>
       </div>
 
-      {/* Secondary Toolbar */}
       <div className="flex items-center gap-3">
         <Button
           variant="orange"
@@ -1213,11 +1158,10 @@ export default function Subscriptions() {
           onClick={() => setIsPromosModalOpen(true)}
           id="all-plan-btn"
         >
-          All plan
+          All Promos
         </Button>
       </div>
 
-      {/* Plan Comparison Card */}
       <Card className="p-0 overflow-hidden">
         <div className="overflow-x-auto overflow-y-visible">
           <div
@@ -1225,9 +1169,10 @@ export default function Subscriptions() {
               minWidth: `calc(${LABEL_WIDTH} + ${filteredPlans.length} * ${COL_WIDTH})`,
             }}
           >
-            <div className="flex">
+            {/* ── HEADER ROW ── */}
+            <div className="flex border-b border-slate-200">
               <div
-                className="shrink-0"
+                className="shrink-0 bg-white sticky left-0 z-20 border-r border-slate-100 overflow-hidden"
                 style={{ width: LABEL_WIDTH, minWidth: LABEL_WIDTH }}
               />
 
@@ -1248,6 +1193,7 @@ export default function Subscriptions() {
               )}
             </div>
 
+            {/* ── INCLUSIONS GRID ── */}
             {filteredPlans.length > 0 && (
               <InclusionsTable
                 features={features}
@@ -1257,10 +1203,11 @@ export default function Subscriptions() {
               />
             )}
 
+            {/* ── EDIT BUTTON FOOTER ROW ── */}
             {filteredPlans.length > 0 && (
               <div className="flex border-t border-slate-200">
                 <div
-                  className="shrink-0"
+                  className="shrink-0 bg-white sticky left-0 z-20 border-r border-slate-100 overflow-hidden"
                   style={{ width: LABEL_WIDTH, minWidth: LABEL_WIDTH }}
                 />
                 {filteredPlans.map((plan) => (
@@ -1286,7 +1233,7 @@ export default function Subscriptions() {
         </div>
       </Card>
 
-      {/* Modals */}
+      {/* Modals rendered directly to document.body via Portals */}
       <EditPlanModal
         plan={selectedPlan}
         isOpen={isEditModalOpen}
