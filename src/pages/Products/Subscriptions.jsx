@@ -1149,7 +1149,7 @@ export default function Subscriptions() {
           onClick={() => setIsInclusionsModalOpen(true)}
           id="all-inclusions-btn"
         >
-          All inclusions
+          All Inclusions
         </Button>
         <Button
           variant="orange"
