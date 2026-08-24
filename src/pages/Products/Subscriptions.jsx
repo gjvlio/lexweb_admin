@@ -62,30 +62,6 @@ const PLANS = [
       f9: true,  f10: true, f11: true, f12: true,
     },
   }, 
-  {
-    id: 'professional',
-    name: 'Professional',
-    price: 3500,
-    billingPeriod: 'month',
-    tierBarWidth: '75%',
-    features: {
-      f1: true,  f2: true,  f3: true,  f4: true,
-      f5: true,  f6: true,  f7: true,  f8: true,
-      f9: true,  f10: true, f11: true, f12: false,
-    },
-  },
-  {
-    id: 'enterprise',
-    name: 'Enterprise',
-    price: 5000,
-    billingPeriod: 'month',
-    tierBarWidth: '100%',
-    features: {
-      f1: true,  f2: true,  f3: true,  f4: true,
-      f5: true,  f6: true,  f7: true,  f8: true,
-      f9: true,  f10: true, f11: true, f12: true,
-    },
-  },
 ]
 
 // Column layout constants — shared between PlanColumn and InclusionsTable
