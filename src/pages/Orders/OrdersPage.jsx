@@ -15,6 +15,7 @@ import {
   subscriptionRows,
 } from "./OrdersData";
 import TableRow from "../../components/orders/TableRow";
+import usePagination from "../../hooks/usePagination";
 
 export default function OrdersPage() {
   const [activeTab, setActiveTab] = useState("subscriptions");
@@ -95,7 +96,26 @@ export default function OrdersPage() {
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
+    resetPage();
   };
+
+  const {
+    currentPage,
+    totalPages,
+    startIndex,
+    endIndex,
+    goToPage,
+    nextPage,
+    prevPage,
+    resetPage,
+    hasNextPage,
+    hasPrevPage,
+  } = usePagination({
+    totalItems: activeTable.orders.length,
+    itemsPerPage: 8,
+  });
+
+  const paginatedOrders = activeTable.orders.slice(startIndex, endIndex);
 
   return (
     <div className="relative -left-8 w-[calc(100%+4rem)] h-full text-gray-500">
@@ -188,11 +208,54 @@ export default function OrdersPage() {
           </thead>
 
           <tbody className="border-b border-gray-500">
-            {activeTable.orders.map((order, index) => (
+            {paginatedOrders.map((order, index) => (
               <TableRow key={index} row={order} column={activeTable.keys} />
             ))}
           </tbody>
         </table>
+
+        <div className="flex items-center justify-between px-10 py-4">
+          <p className="text-sm text-gray-500">
+            Page {currentPage} of {totalPages}
+          </p>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={prevPage}
+              disabled={!hasPrevPage}
+              className="px-3 py-2 border rounded"
+            >
+              Previous
+            </button>
+
+            {Array.from({ length: totalPages }, (_, index) => {
+              const page = index + 1;
+
+              return (
+                <button
+                  key={page}
+                  type="button"
+                  onClick={() => goToPage(page)}
+                  className={`px-3 py-2 border rounded ${
+                    currentPage === page ? "bg-brand-purple text-white" : ""
+                  }`}
+                >
+                  {page}
+                </button>
+              );
+            })}
+
+            <button
+              type="button"
+              onClick={nextPage}
+              disabled={!hasNextPage}
+              className="px-3 py-2 border rounded"
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
