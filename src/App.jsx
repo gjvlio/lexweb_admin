@@ -10,6 +10,7 @@ import OrdersPage from './pages/Orders/OrdersPage'
 import WebsitesPage from './pages/Websites/WebsitesPage'
 import ReportsPage from './pages/Reports/ReportsPage'
 import LawFirmsPage from './pages/LawFirms/LawFirmsPage'
+import Templates from './pages/Products/Templates/Templates'
 import LawFirmsListPage from './pages/LawFirms/LawFirmsListPage';
 import Transactions from './pages/Transactions/Transactions'
 
@@ -25,7 +26,7 @@ export default function App() {
           <Route path="lawfirms/:id" element={<LawFirmsPage />} />
           <Route path="products" element={<ProductsMainPage />} />
           <Route path="products/subscriptions" element={<Subscriptions />} />
-          <Route path="products/templates" element={<PlaceholderPage title="Products — Templates" />} />
+          <Route path="products/templates" element={<Templates />} />
           <Route path="products/assets" element={<Assets />} />
           <Route path="orders" element={<OrdersPage />} />
           <Route path="transactions" element={<Transactions />} />
