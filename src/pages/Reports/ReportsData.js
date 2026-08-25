@@ -5,11 +5,11 @@
 export const reportRanges = ['Day', 'Week', 'Month', 'Year']
 
 export const todaysRevenue = {
-  total: '$12.4K',
+  total: '₱12.4K',
   caption: 'TODAY',
   segments: [
-    { label: 'One-time', value: '$8.1K', amount: 8.1, color: '#F4512C' },
-    { label: 'Subscriptions', value: '$4.3K', amount: 4.3, color: '#5E1B89' },
+    { label: 'One-time', value: '₱8.1K', amount: 8.1, color: '#F4512C' },
+    { label: 'Subscriptions', value: '₱4.3K', amount: 4.3, color: '#5E1B89' },
   ],
 }
 
@@ -28,7 +28,7 @@ export const reportSummary = [
   },
   {
     label: 'EXPECTED RECURRING MONTHLY',
-    value: '₱ 2.14M',
+    value: '₱2.14M',
     note: 'from active subscriptions',
     accent: 'orange',
   },
