@@ -7,6 +7,7 @@ import Assets from './pages/Products/Assets/Assets'
 import Subscriptions from './pages/Products/Subscriptions'
 import OrdersPage from './pages/Orders/OrdersPage'
 import LawFirmsPage from './pages/LawFirms/LawFirmsPage'
+import Templates from './pages/Products/Templates/Templates'
 
 export default function App() {
   return (
@@ -21,7 +22,7 @@ export default function App() {
           <Route path="products" element={<PlaceholderPage title="Products Landing Page" />} />
           {/* Products Subpages */}
           <Route path="products/subscriptions" element={<Subscriptions />} />
-          <Route path="products/templates" element={<PlaceholderPage title="Products — Templates" />} />
+          <Route path="products/templates" element={<Templates />} />
           <Route path="products/assets" element={<Assets />} />
           <Route path="products/assets" element={<PlaceholderPage title="Products — Assets" />} />
           <Route path="orders" element={<OrdersPage />} />
