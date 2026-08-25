@@ -44,7 +44,9 @@ export default function ProductsMainPage() {
       {/* Breadcrumb + Title + Search / Add row */}
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-1.5">
-          <p className="text-xs font-semibold text-brand-orange">&rsaquo; Products</p>
+          <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs font-sans">
+            <span className="text-brand-purple font-semibold">Products</span>
+          </nav>
           <h1 className="font-heading text-4xl font-bold tracking-tight text-brand-purple">
             Products
           </h1>
