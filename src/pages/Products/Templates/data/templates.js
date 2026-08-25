@@ -1,3 +1,7 @@
+import neutralPreview from '../template_photos/neutral.png'
+import masculinePreview from '../template_photos/masculine.png'
+import femininePreview from '../template_photos/feminine.png'
+
 export const INITIAL_TEMPLATES = [
   {
     id: 't-neutral',
@@ -5,7 +9,7 @@ export const INITIAL_TEMPLATES = [
     price: '1,000',
     numberOfPages: 5,
     description: 'Neutral template with a balanced, professional palette.',
-    previewImage: '/mock/template-neutral.png',
+    previewImage: neutralPreview,
   },
   {
     id: 't-masculine',
@@ -13,7 +17,7 @@ export const INITIAL_TEMPLATES = [
     price: '1,000',
     numberOfPages: 5,
     description: 'Masculine template with navy as the dominant color.',
-    previewImage: '/mock/template-masculine.png',
+    previewImage: masculinePreview,
   },
   {
     id: 't-feminine',
@@ -21,7 +25,7 @@ export const INITIAL_TEMPLATES = [
     price: '1,000',
     numberOfPages: 5,
     description: 'Feminine template with pink as dominant color.',
-    previewImage: '/mock/template-feminine.png',
+    previewImage: femininePreview,
   },
 ]
 
