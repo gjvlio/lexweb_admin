@@ -190,6 +190,15 @@ export default function OrdersPage() {
 
   return (
     <div className="relative -left-8 w-[calc(100%+4rem)] h-full text-gray-500">
+      <div className="px-10 pt-[18px] pb-4 flex items-start justify-between gap-6">
+        <span
+          className="font-sans hover:underline cursor-pointer"
+          style={{ fontSize: 12, color: '#F4512C' }}
+        >
+          &gt; Orders
+        </span>
+      </div>
+
       {/* Header */}
       <div className="w-full flex border-y border-gray-500">
         <div className="min-w-0 flex-1 flex flex-col justify-center px-10 py-4 bg-brand-purple text-white">
