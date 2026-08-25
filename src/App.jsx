@@ -11,6 +11,7 @@ import WebsitesPage from './pages/Websites/WebsitesPage'
 import ReportsPage from './pages/Reports/ReportsPage'
 import LawFirmsPage from './pages/LawFirms/LawFirmsPage'
 import LawFirmsListPage from './pages/LawFirms/LawFirmsListPage';
+import Transactions from './pages/Transactions/Transactions'
 
 export default function App() {
   return (
@@ -27,7 +28,7 @@ export default function App() {
           <Route path="products/templates" element={<PlaceholderPage title="Products — Templates" />} />
           <Route path="products/assets" element={<Assets />} />
           <Route path="orders" element={<OrdersPage />} />
-          <Route path="transactions" element={<PlaceholderPage title="Transactions" />} />
+          <Route path="transactions" element={<Transactions />} />
           <Route path="reports" element={<ReportsPage />} />
           <Route path="*" element={<PlaceholderPage title="404 — Page Not Found" />} />
         </Route>
