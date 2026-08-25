@@ -85,9 +85,6 @@ export default function Dashboard() {
     subtitle: '',
   })
 
-  // Active donut defaults to Premium Plan (Pro)
-  const activeDonut = hoveredDonutSegment || 'premium'
-
   // Get active timeframe dataset & config
   const activeConfig = datasets[graphFilter] || datasets.Year
   const activeData = activeConfig.data
@@ -159,10 +156,10 @@ export default function Dashboard() {
         </p>
       </div>
 
-      {/* 2. Top 4 KPI Stat Cards Banner — Generous Card Padding & Zero Overflow */}
+      {/* 2. Top 4 KPI Stat Cards Banner — Lawful Purple (#5E1B89) for Positive Health Badges */}
       <div className="-mx-6 bg-lexmeet-gradient px-6 py-5 rounded-none shadow-md">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-
+          
           {/* Card 1: TOTAL LAWYERS (Clickable -> /lawfirms) */}
           <Link
             to="/lawfirms"
@@ -177,7 +174,8 @@ export default function Dashboard() {
                 <span className="font-sans font-extrabold text-2xl xl:text-3xl text-slate-900 tracking-tight">
                   1,426
                 </span>
-                <span className="inline-flex items-center gap-1 text-emerald-600 text-[11px] font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 shrink-0">
+                {/* Brand Color Health Indicator: Lawful Purple (#5E1B89) with lower transparency */}
+                <span className="inline-flex items-center gap-1 text-[#5E1B89] text-[11px] font-bold bg-[#5E1B89]/10 px-2 py-0.5 rounded-md border border-[#5E1B89]/20 shrink-0">
                   <IconGrowingChart className="w-3 h-3" /> +12.4%
                 </span>
               </div>
@@ -201,7 +199,8 @@ export default function Dashboard() {
                 <span className="font-sans font-extrabold text-2xl xl:text-3xl text-slate-900 tracking-tight">
                   ₱922,700
                 </span>
-                <span className="inline-flex items-center gap-1 text-emerald-600 text-[11px] font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 shrink-0">
+                {/* Brand Color Health Indicator: Lawful Purple (#5E1B89) with lower transparency */}
+                <span className="inline-flex items-center gap-1 text-[#5E1B89] text-[11px] font-bold bg-[#5E1B89]/10 px-2 py-0.5 rounded-md border border-[#5E1B89]/20 shrink-0">
                   <IconGrowingChart className="w-3 h-3" /> +8.2%
                 </span>
               </div>
@@ -225,7 +224,8 @@ export default function Dashboard() {
                 <span className="font-sans font-extrabold text-2xl xl:text-3xl text-slate-900 tracking-tight">
                   ₱250,700
                 </span>
-                <span className="inline-flex items-center gap-1 text-emerald-600 text-[11px] font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 shrink-0">
+                {/* Brand Color Health Indicator: Lawful Purple (#5E1B89) with lower transparency */}
+                <span className="inline-flex items-center gap-1 text-[#5E1B89] text-[11px] font-bold bg-[#5E1B89]/10 px-2 py-0.5 rounded-md border border-[#5E1B89]/20 shrink-0">
                   <IconGrowingChart className="w-3 h-3" /> +10% com.
                 </span>
               </div>
@@ -249,7 +249,8 @@ export default function Dashboard() {
                 <span className="font-sans font-extrabold text-2xl xl:text-3xl text-slate-900 tracking-tight">
                   184
                 </span>
-                <span className="bg-emerald-100 text-emerald-700 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0">
+                {/* Brand Color Health Indicator: Lawful Purple (#5E1B89) with lower transparency */}
+                <span className="bg-[#5E1B89]/10 text-[#5E1B89] border border-[#5E1B89]/20 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0">
                   96.7% ACTIVE
                 </span>
               </div>
@@ -264,12 +265,12 @@ export default function Dashboard() {
 
       {/* 3. Analytics Section: Overall Graph & Distribution Chart */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
-
+        
         {/* Overall Graph (2 Cols) */}
         <div className="lg:col-span-2 bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden flex flex-col justify-between">
           {/* Gradient Eyebrow Bar */}
           <div className="h-[5px] w-full bg-lexmeet-gradient" />
-
+          
           <div className="p-6 flex-1 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between flex-wrap gap-4">
@@ -288,10 +289,11 @@ export default function Dashboard() {
                     <button
                       key={item}
                       onClick={() => setGraphFilter(item)}
-                      className={`px-3.5 py-1 rounded-lg transition-all ${graphFilter === item
+                      className={`px-3.5 py-1 rounded-lg transition-all ${
+                        graphFilter === item
                           ? 'bg-[#5E1B89] text-white font-bold shadow-xs'
                           : 'hover:text-slate-900'
-                        }`}
+                      }`}
                     >
                       {item}
                     </button>
@@ -447,12 +449,13 @@ export default function Dashboard() {
               <div
                 onMouseEnter={() => setHoveredLegendSeries('sales')}
                 onMouseLeave={() => setHoveredLegendSeries(null)}
-                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${hoveredLegendSeries === 'sales'
+                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${
+                  hoveredLegendSeries === 'sales'
                     ? 'bg-orange-50 border-orange-200 text-slate-900 shadow-2xs font-bold scale-105'
                     : hoveredLegendSeries !== null
-                      ? 'opacity-35 border-transparent'
-                      : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
-                  }`}
+                    ? 'opacity-35 border-transparent'
+                    : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
+                }`}
               >
                 <span className="w-3.5 h-3.5 rounded-full bg-[#F4512C]" />
                 <span>Marketplace Sales Volume</span>
@@ -461,12 +464,13 @@ export default function Dashboard() {
               <div
                 onMouseEnter={() => setHoveredLegendSeries('sub')}
                 onMouseLeave={() => setHoveredLegendSeries(null)}
-                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${hoveredLegendSeries === 'sub'
+                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${
+                  hoveredLegendSeries === 'sub'
                     ? 'bg-purple-50 border-purple-200 text-slate-900 shadow-2xs font-bold scale-105'
                     : hoveredLegendSeries !== null
-                      ? 'opacity-35 border-transparent'
-                      : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
-                  }`}
+                    ? 'opacity-35 border-transparent'
+                    : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
+                }`}
               >
                 <span className="w-3.5 h-3.5 rounded-full bg-[#5E1B89]" />
                 <span>Subscription Income (Plans)</span>
@@ -475,12 +479,13 @@ export default function Dashboard() {
               <div
                 onMouseEnter={() => setHoveredLegendSeries('com')}
                 onMouseLeave={() => setHoveredLegendSeries(null)}
-                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${hoveredLegendSeries === 'com'
+                className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${
+                  hoveredLegendSeries === 'com'
                     ? 'bg-orange-50 border-orange-200 text-slate-900 shadow-2xs font-bold scale-105'
                     : hoveredLegendSeries !== null
-                      ? 'opacity-35 border-transparent'
-                      : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
-                  }`}
+                    ? 'opacity-35 border-transparent'
+                    : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
+                }`}
               >
                 <span className="w-3.5 h-3.5 rounded-full bg-[#FF7F4D]" />
                 <span>Net Platform Commission (10%)</span>
@@ -489,69 +494,83 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Distribution Chart (1 Col) */}
+        {/* Distribution Chart (1 Col) — Permanently Visible Distribution Percentages */}
         <div className="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden flex flex-col justify-between">
           {/* Gradient Eyebrow Bar */}
           <div className="h-[5px] w-full bg-lexmeet-gradient" />
 
           <div className="p-6 flex-1 flex flex-col justify-between">
             <div>
-              <h2 className="font-heading font-bold text-2xl text-[#5E1B89]">
-                Distribution Chart
-              </h2>
-              <p className="font-sans text-[11px] font-semibold uppercase text-slate-400 tracking-wider mt-0.5">
-                SUBSCRIPTION PLANS
-              </p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="font-heading font-bold text-2xl text-[#5E1B89]">
+                    Distribution Chart
+                  </h2>
+                  <p className="font-sans text-[11px] font-semibold uppercase text-slate-400 tracking-wider mt-0.5">
+                    SUBSCRIPTION PLANS
+                  </p>
+                </div>
+              </div>
 
-              {/* Donut Chart with Pill Hidden at Default & Smooth Fade on Hover */}
+              {/* Donut Chart with Center Percentage Display & Hover Callout */}
               <div
-                className="mt-6 flex flex-col items-center justify-center py-4"
+                className="mt-5 flex flex-col items-center justify-center py-2"
                 onMouseLeave={() => setHoveredDonutSegment(null)}
               >
                 <div className="relative flex items-center justify-center">
-                  <svg className="w-52 h-52 overflow-visible cursor-pointer" viewBox="0 0 160 160">
-                    {/* Free Plan Arc (Orange #F4512C) */}
+                  <svg className="w-48 h-48 overflow-visible cursor-pointer" viewBox="0 0 160 160">
+                    {/* Free Plan Arc (Orange #F4512C - 53%) */}
                     <circle
                       cx="80"
                       cy="80"
                       r="60"
                       fill="none"
                       stroke="#F4512C"
-                      strokeWidth="28"
-                      strokeDasharray="210 377"
+                      strokeWidth="26"
+                      strokeDasharray="200 377"
                       strokeDashoffset="0"
                       className="hover:opacity-85 transition-opacity"
                       onMouseEnter={() => setHoveredDonutSegment('free')}
                     />
-                    {/* Premium Plan Pro Arc (Dark Purple #5E1B89) */}
+                    {/* Premium Plan Pro Arc (Dark Purple #5E1B89 - 27%) */}
                     <circle
                       cx="80"
                       cy="80"
                       r="60"
                       fill="none"
                       stroke="#5E1B89"
-                      strokeWidth="28"
-                      strokeDasharray="100 377"
-                      strokeDashoffset="-210"
+                      strokeWidth="26"
+                      strokeDasharray="102 377"
+                      strokeDashoffset="-200"
                       className="hover:opacity-85 transition-opacity"
                       onMouseEnter={() => setHoveredDonutSegment('premium')}
                     />
-                    {/* Advanced Plan Enterprise Arc (Soft Purple #9D71BC) */}
+                    {/* Advanced Plan Enterprise Arc (Soft Purple #9D71BC - 20%) */}
                     <circle
                       cx="80"
                       cy="80"
                       r="60"
                       fill="none"
                       stroke="#9D71BC"
-                      strokeWidth="28"
-                      strokeDasharray="67 377"
-                      strokeDashoffset="-310"
+                      strokeWidth="26"
+                      strokeDasharray="75 377"
+                      strokeDashoffset="-302"
                       className="hover:opacity-85 transition-opacity"
                       onMouseEnter={() => setHoveredDonutSegment('advanced')}
                     />
                   </svg>
 
-                  {/* Tooltip Callout Box Hidden at Default & Smooth Fade Animation on Hover */}
+                  {/* Permanently Visible Center Summary Text */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
+                    <span className="font-heading font-extrabold text-2xl text-slate-900 leading-none">
+                      1,550
+                    </span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-1">
+                      Total Tenants
+                    </span>
+                  </div>
+
+                  {/* Tooltip Callout Box on Hover */}
                   {hoveredDonutSegment && (
                     <div
                       className={`absolute bg-white border-2 border-[#5E1B89] px-3.5 py-1.5 rounded-xl shadow-md text-center pointer-events-none transition-all duration-200 ease-out z-10 animate-fade-in ${getDonutPillClass()}`}
@@ -560,15 +579,15 @@ export default function Dashboard() {
                         {hoveredDonutSegment === 'free'
                           ? 'FREE PLAN'
                           : hoveredDonutSegment === 'advanced'
-                            ? 'ADVANCED PLAN (ENTERPRISE)'
-                            : 'PREMIUM PLAN (PRO)'}
+                          ? 'ADVANCED PLAN (ENTERPRISE)'
+                          : 'PREMIUM PLAN (PRO)'}
                       </span>
                       <span className="block text-xs font-extrabold text-slate-900">
                         {hoveredDonutSegment === 'free'
                           ? '820 (53%)'
                           : hoveredDonutSegment === 'advanced'
-                            ? '310 (20%)'
-                            : '420 (27%)'}
+                          ? '310 (20%)'
+                          : '420 (27%)'}
                       </span>
                     </div>
                   )}
@@ -576,35 +595,69 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Donut Legend */}
-            <div className="space-y-2 pt-4 border-t border-slate-100 text-xs font-medium text-slate-600">
+            {/* Donut Legend with Permanently Visible Percentage Badges */}
+            <div className="space-y-2.5 pt-4 border-t border-slate-100 text-xs font-medium text-slate-600">
+              
+              {/* Free Plan (53%) */}
               <div
-                className={`flex items-center gap-2.5 cursor-pointer transition-all ${hoveredDonutSegment === 'free' ? 'font-bold text-slate-900' : 'hover:text-slate-900'
-                  }`}
+                className={`flex items-center justify-between p-1.5 rounded-xl cursor-pointer transition-all ${
+                  hoveredDonutSegment === 'free' ? 'bg-orange-50/80 font-bold text-slate-900' : 'hover:bg-slate-50'
+                }`}
                 onMouseEnter={() => setHoveredDonutSegment('free')}
                 onMouseLeave={() => setHoveredDonutSegment(null)}
               >
-                <span className="w-3 h-3 rounded-full bg-[#F4512C]" />
-                <span>Free Plan</span>
+                <div className="flex items-center gap-2.5">
+                  <span className="w-3 h-3 rounded-full bg-[#F4512C] shrink-0" />
+                  <span className="font-semibold">Free Plan</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] text-slate-400">820 firms</span>
+                  <span className="bg-[#F4512C]/10 text-[#F4512C] font-extrabold px-2 py-0.5 rounded-md text-xs border border-[#F4512C]/20">
+                    53%
+                  </span>
+                </div>
               </div>
+
+              {/* Premium Plan Pro (27%) */}
               <div
-                className={`flex items-center gap-2.5 cursor-pointer transition-all ${hoveredDonutSegment === 'premium' ? 'font-bold text-slate-900' : 'hover:text-slate-900'
-                  }`}
+                className={`flex items-center justify-between p-1.5 rounded-xl cursor-pointer transition-all ${
+                  hoveredDonutSegment === 'premium' ? 'bg-purple-50/80 font-bold text-slate-900' : 'hover:bg-slate-50'
+                }`}
                 onMouseEnter={() => setHoveredDonutSegment('premium')}
                 onMouseLeave={() => setHoveredDonutSegment(null)}
               >
-                <span className="w-3 h-3 rounded-full bg-[#FF7F4D]" />
-                <span>Premium Plan (Pro)</span>
+                <div className="flex items-center gap-2.5">
+                  <span className="w-3 h-3 rounded-full bg-[#FF7F4D] shrink-0" />
+                  <span className="font-semibold">Premium Plan (Pro)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] text-slate-400">420 firms</span>
+                  <span className="bg-[#FF7F4D]/10 text-[#FF7F4D] font-extrabold px-2 py-0.5 rounded-md text-xs border border-[#FF7F4D]/20">
+                    27%
+                  </span>
+                </div>
               </div>
+
+              {/* Advanced Plan Enterprise (20%) */}
               <div
-                className={`flex items-center gap-2.5 cursor-pointer transition-all ${hoveredDonutSegment === 'advanced' ? 'font-bold text-slate-900' : 'hover:text-slate-900'
-                  }`}
+                className={`flex items-center justify-between p-1.5 rounded-xl cursor-pointer transition-all ${
+                  hoveredDonutSegment === 'advanced' ? 'bg-purple-50/80 font-bold text-slate-900' : 'hover:bg-slate-50'
+                }`}
                 onMouseEnter={() => setHoveredDonutSegment('advanced')}
                 onMouseLeave={() => setHoveredDonutSegment(null)}
               >
-                <span className="w-3 h-3 rounded-full bg-[#5E1B89]" />
-                <span>Advanced Plan (Enterprise)</span>
+                <div className="flex items-center gap-2.5">
+                  <span className="w-3 h-3 rounded-full bg-[#5E1B89] shrink-0" />
+                  <span className="font-semibold">Advanced Plan (Enterprise)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] text-slate-400">310 firms</span>
+                  <span className="bg-[#5E1B89]/10 text-[#5E1B89] font-extrabold px-2 py-0.5 rounded-md text-xs border border-[#5E1B89]/20">
+                    20%
+                  </span>
+                </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -613,7 +666,7 @@ export default function Dashboard() {
 
       {/* 4. Bottom 3 Management Cards Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-
+        
         {/* Card 1: Most Active Website (Manage -> /websites) */}
         <div className="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden flex flex-col justify-between">
           {/* Gradient Eyebrow Bar */}
@@ -740,7 +793,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Card 3: Onboarding & Health (Manage -> /reports) */}
+        {/* Card 3: REVISED — Top Spenders (Law firm with most product spend, amount spent & saleable product) */}
         <div className="bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden flex flex-col justify-between">
           {/* Gradient Eyebrow Bar */}
           <div className="h-[5px] w-full bg-lexmeet-gradient" />
@@ -748,10 +801,10 @@ export default function Dashboard() {
           <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-heading font-bold text-lg text-[#5E1B89]">
-                Onboarding & Health
+                Top Spenders
               </h3>
               <Link
-                to="/reports"
+                to="/lawfirms"
                 className="bg-[#F4512C] text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-[#FF7F4D] transition-colors shadow-xs"
               >
                 Manage
@@ -760,14 +813,14 @@ export default function Dashboard() {
 
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-[#5E1B89] text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">
-                LC
+                SY
               </div>
               <div>
                 <h4 className="font-bold text-slate-900 text-sm leading-snug">
-                  Fastest Growing Tenant
+                  SyCip Salazar Hernandez & Gatmaitan
                 </h4>
                 <p className="text-xs text-slate-400 font-sans">
-                  LexConsult Corporate • lexconsult.ph
+                  Atty. Hector SyCip • syciplaw.com
                 </p>
               </div>
             </div>
@@ -775,29 +828,29 @@ export default function Dashboard() {
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                  PENDING SIGNUPS
+                  TOTAL AMOUNT SPENT
                 </span>
                 <span className="text-sm font-extrabold text-[#F4512C] mt-0.5 block">
-                  7 Pending
+                  ₱620,000
                 </span>
               </div>
               <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                  GLOBAL NODE UPTIME
+                  TOTAL PRODUCTS BOUGHT
                 </span>
                 <span className="text-sm font-extrabold text-[#5E1B89] mt-0.5 block">
-                  99.98%
+                  42 Products
                 </span>
               </div>
             </div>
 
             <div className="bg-slate-50/80 p-3 rounded-xl border border-slate-200/60 text-xs space-y-0.5">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                SYSTEM ALERT STATUS
+                TOP SALEABLE PRODUCT PURCHASED
               </span>
-              <div className="font-bold text-slate-900">2 Custom Domains Awaiting DNS</div>
+              <div className="font-bold text-slate-900">LexWeb Enterprise Suite & Integration</div>
               <div className="text-slate-500 text-[11px]">
-                Bandwidth cap warning sent to 1 tenant
+                14 Licenses Acquired • ₱350,000 Volume
               </div>
             </div>
           </div>
