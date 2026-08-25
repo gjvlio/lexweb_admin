@@ -1,0 +1,277 @@
+import React, { useMemo, useState } from 'react'
+import { ChevronDown, Search } from 'lucide-react'
+import PhotoCard from './components/PhotoCard'
+import Pagination from './components/Pagination'
+import AddPremadePhotoModal from './modals/AddPremadePhotoModal'
+import AddCustomPhotoRequestModal from './modals/AddCustomPhotoRequestModal'
+import PhotoDetailsModal from './modals/PhotoDetailsModal'
+import CustomPhotoRequestDetailsModal from './modals/CustomPhotoRequestDetailsModal'
+import {
+  CUSTOM_PHOTOS,
+  PHOTO_CATEGORIES,
+  PHOTO_STATUSES,
+  PREMADE_PHOTOS,
+} from './data/photos'
+
+const PAGE_SIZE = 8
+const SOURCES = ['premade', 'custom']
+
+// Card dates read as "Aug 12, 2026"; an empty value falls back to today
+const formatCardDate = (value) => {
+  const date = value ? new Date(value) : new Date()
+  const safe = Number.isNaN(date.getTime()) ? new Date() : date
+
+  return safe.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
+
+export default function PhotosTab({ tabsSlot }) {
+  const [source, setSource] = useState('premade')
+  const [status, setStatus] = useState('All')
+  const [category, setCategory] = useState('All')
+  const [query, setQuery] = useState('')
+  const [page, setPage] = useState(1)
+
+  const [premade, setPremade] = useState(PREMADE_PHOTOS)
+  const [custom, setCustom] = useState(CUSTOM_PHOTOS)
+
+  // Only one modal is ever open: 'add' | 'add-custom' | 'details' | 'custom'
+  const [activeModal, setActiveModal] = useState(null)
+  const [selected, setSelected] = useState(null)
+
+  const items = source === 'premade' ? premade : custom
+
+  const filtered = useMemo(() => {
+    const needle = query.trim().toLowerCase()
+
+    return items.filter((item) => {
+      if (status !== 'All' && item.status !== status) return false
+      if (category !== 'All' && item.category !== category) return false
+      if (!needle) return true
+
+      return (
+        item.title.toLowerCase().includes(needle) ||
+        item.shortDescription.toLowerCase().includes(needle)
+      )
+    })
+  }, [items, status, category, query])
+
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+  const currentPage = Math.min(page, pageCount)
+  const visible = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
+
+  // Any filter change drops the reader back to the first page
+  const applyFilter = (setter) => (value) => {
+    setter(value)
+    setPage(1)
+  }
+
+  const closeModal = () => {
+    setActiveModal(null)
+    setSelected(null)
+  }
+
+  const handleEdit = (item) => {
+    setSelected(item)
+    setActiveModal(item.kind === 'custom' ? 'custom' : 'details')
+  }
+
+  const handleDelete = (item) => {
+    const remove = (list) => list.filter((entry) => entry.id !== item.id)
+
+    if (item.kind === 'custom') {
+      setCustom(remove)
+    } else {
+      setPremade(remove)
+    }
+
+    closeModal()
+  }
+
+  const handleAdd = (values) => {
+    const created = {
+      ...values,
+      id: `photo-pre-${Date.now()}`,
+      kind: 'premade',
+      title: values.title || 'Untitled Photo',
+      price: Number(values.price) || 0,
+      category: values.category || 'Others',
+      date: formatCardDate(),
+      availedBy: 0,
+      status: 'Draft',
+    }
+
+    setPremade((prev) => [created, ...prev])
+    setSource('premade')
+    setPage(1)
+    closeModal()
+  }
+
+  const handleAddCustom = (values) => {
+    const created = {
+      ...values,
+      id: `photo-cus-${Date.now()}`,
+      kind: 'custom',
+      previewText: 'Awaiting output',
+      title: `${values.photoType || 'Photo'} request`,
+      shortDescription:
+        values.description || `Custom ${values.photoType?.toLowerCase() || 'photo'} ordered by ${values.orderedBy}.`,
+      category: 'Others',
+      price: Number(values.priceAtPurchase) || 0,
+      priceAtPurchase: Number(values.priceAtPurchase) || 0,
+      date: values.orderDate ? formatCardDate(values.orderDate) : formatCardDate(),
+      availedBy: 1,
+      status: 'Draft',
+    }
+
+    setCustom((prev) => [created, ...prev])
+    setSource('custom')
+    setPage(1)
+    closeModal()
+  }
+
+  const handleUpdate = (updated) => {
+    setPremade((prev) => prev.map((entry) => (entry.id === updated.id ? updated : entry)))
+    closeModal()
+  }
+
+  return (
+    <div className="space-y-5">
+      {/* Toolbar row 1: asset type tabs + status, search and add */}
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        {tabsSlot}
+
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="relative">
+            <select
+              value={status}
+              onChange={(e) => applyFilter(setStatus)(e.target.value)}
+              aria-label="Filter by status"
+              className="appearance-none rounded-lg border border-slate-900 bg-white py-2 pl-4 pr-9 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-purple"
+            >
+              {PHOTO_STATUSES.map((option) => (
+                <option key={option} value={option}>
+                  {`Status: ${option}`}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-900" />
+          </div>
+
+          <div className="relative w-64 lg:w-80">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-orange" />
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => applyFilter(setQuery)(e.target.value)}
+              placeholder="Search"
+              aria-label="Search photos"
+              className="w-full rounded-lg border border-brand-purple bg-white py-2 pl-9 pr-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-purple"
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setActiveModal(source === 'custom' ? 'add-custom' : 'add')}
+            className="rounded-lg bg-brand-orange px-5 py-2 text-sm font-bold text-white transition-colors hover:bg-brand-orange-light focus:outline-none focus:ring-2 focus:ring-brand-orange focus:ring-offset-2"
+          >
+            + Add
+          </button>
+        </div>
+      </div>
+
+      {/* Toolbar row 2: pre-made / custom switch + category filters */}
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-300 pb-4">
+        <div className="inline-flex rounded-lg bg-slate-200/70 p-1">
+          {SOURCES.map((value) => {
+            const isActive = source === value
+
+            return (
+              <button
+                key={value}
+                type="button"
+                onClick={() => {
+                  setSource(value)
+                  setPage(1)
+                }}
+                className={`rounded-md px-7 py-1.5 text-sm font-semibold transition-colors ${
+                  isActive
+                    ? 'border border-brand-orange bg-white text-brand-orange'
+                    : 'border border-transparent text-slate-500 hover:text-slate-700'
+                }`}
+              >
+                {value === 'premade' ? 'Pre-made' : 'Custom'}
+              </button>
+            )
+          })}
+        </div>
+
+        <div className="flex flex-wrap items-center gap-x-7 gap-y-2">
+          {PHOTO_CATEGORIES.map((option) => {
+            const isActive = category === option
+
+            return (
+              <button
+                key={option}
+                type="button"
+                onClick={() => applyFilter(setCategory)(option)}
+                className={`border-b-2 pb-0.5 text-base transition-colors ${
+                  isActive
+                    ? 'border-brand-orange font-semibold text-brand-orange'
+                    : 'border-transparent text-slate-800 hover:text-brand-orange'
+                }`}
+              >
+                {option}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Card grid */}
+      {visible.length > 0 ? (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          {visible.map((item) => (
+            <PhotoCard
+              key={item.id}
+              item={item}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="rounded-2xl bg-white py-20 text-center text-sm text-slate-500 ring-1 ring-slate-200/70">
+          No photos match the current filters.
+        </div>
+      )}
+
+      <div className="pt-2">
+        <Pagination page={currentPage} pageCount={pageCount} onChange={setPage} />
+      </div>
+
+      <AddPremadePhotoModal
+        open={activeModal === 'add'}
+        onClose={closeModal}
+        onSubmit={handleAdd}
+      />
+      <AddCustomPhotoRequestModal
+        open={activeModal === 'add-custom'}
+        onClose={closeModal}
+        onSubmit={handleAddCustom}
+      />
+      <PhotoDetailsModal
+        open={activeModal === 'details'}
+        photo={selected}
+        onClose={closeModal}
+        onSubmit={handleUpdate}
+        onDelete={handleDelete}
+      />
+      <CustomPhotoRequestDetailsModal
+        open={activeModal === 'custom'}
+        request={selected}
+        onClose={closeModal}
+        onDelete={handleDelete}
+      />
+    </div>
+  )
+}

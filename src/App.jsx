@@ -8,6 +8,7 @@ import Subscriptions from './pages/Products/Subscriptions'
 import OrdersPage from './pages/Orders/OrdersPage'
 import WebsitesPage from './pages/Websites/WebsitesPage'
 import ReportsPage from './pages/Reports/ReportsPage'
+import LawFirmsPage from './pages/LawFirms/LawFirmsPage'
 
 export default function App() {
   return (
@@ -16,16 +17,11 @@ export default function App() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="lawfirms" element={<PlaceholderPage title="Lawfirms" />} />
           <Route path="websites" element={<WebsitesPage />} />
-          {/* Main Products Landing Page */}
-          <Route path="products" element={<PlaceholderPage title="Products Landing Page" />} />
-          {/* Products Subpages */}
+          <Route path="lawfirms" element={<LawFirmsPage />} />
           <Route path="products/subscriptions" element={<Subscriptions />} />
           <Route path="products/templates" element={<PlaceholderPage title="Products — Templates" />} />
           <Route path="products/assets" element={<Assets />} />
-          <Route path="orders" element={<PlaceholderPage title="Orders" />} />
-          <Route path="products/assets" element={<PlaceholderPage title="Products — Assets" />} />
           <Route path="orders" element={<OrdersPage />} />
           <Route path="transactions" element={<PlaceholderPage title="Transactions" />} />
           <Route path="reports" element={<ReportsPage />} />
