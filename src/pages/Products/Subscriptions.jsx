@@ -1103,11 +1103,11 @@ export default function Subscriptions() {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-1.5">
           <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs font-sans">
-            <Link to="/products" className="text-brand-orange hover:underline font-medium">
-              Products
+            <Link to="/products" className="text-brand-orange hover:underline font-semibold">
+              &gt; Products
             </Link>
             <span className="text-slate-400">&rsaquo;</span>
-            <span className="text-brand-purple font-semibold">Subscriptions</span>
+            <span className="text-brand-orange font-semibold">Subscriptions</span>
           </nav>
 
           <h1 className="text-3xl font-heading font-bold text-brand-purple leading-tight">
@@ -1117,7 +1117,7 @@ export default function Subscriptions() {
 
         <div className="flex items-center gap-3 flex-wrap">
           <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#F4512C] pointer-events-none" />
             <input
               id="subscriptions-search"
               type="text"
@@ -1125,14 +1125,14 @@ export default function Subscriptions() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               aria-label="Search subscription plans"
-              className="w-56 md:w-72 border border-slate-300 rounded-xl pl-9 pr-4 py-2 text-sm font-sans text-slate-800 placeholder-slate-400 bg-white focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all"
+              className="w-56 md:w-72 border border-[#5E1B88] rounded pl-9 pr-4 py-2 text-sm font-sans text-slate-800 placeholder-slate-400 bg-white focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all"
             />
           </div>
 
           <Button
             variant="orange"
             size="md"
-            className="rounded-xl font-semibold whitespace-nowrap"
+            className="!rounded font-semibold whitespace-nowrap"
             onClick={() => setIsAddModalOpen(true)}
             id="add-plan-btn"
           >
@@ -1145,7 +1145,7 @@ export default function Subscriptions() {
         <Button
           variant="orange"
           size="md"
-          className="rounded-xl font-semibold"
+          className="!rounded font-semibold"
           onClick={() => setIsInclusionsModalOpen(true)}
           id="all-inclusions-btn"
         >
@@ -1154,7 +1154,7 @@ export default function Subscriptions() {
         <Button
           variant="orange"
           size="md"
-          className="rounded-xl font-semibold"
+          className="!rounded font-semibold"
           onClick={() => setIsPromosModalOpen(true)}
           id="all-plan-btn"
         >
@@ -1219,7 +1219,7 @@ export default function Subscriptions() {
                     <Button
                       variant="orange"
                       size="md"
-                      className="w-full justify-center rounded-lg text-sm font-semibold"
+                      className="w-full justify-center !rounded text-sm font-semibold"
                       onClick={() => handleEditPlan(plan.id)}
                       aria-label={`Edit plan ${plan.name}`}
                     >
