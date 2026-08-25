@@ -217,7 +217,7 @@ export default function OrdersPage() {
 
       {/* Tabs & Search */}
       <div className="flex items-center justify-between px-10 py-8 border-b border-gray-500">
-        <div className="flex border rounded-[5px] border-gray-500 text-sm">
+        <div className="flex border rounded-xl overflow-hidden border-gray-500 text-sm">
           <TableTab
             name={"Subscriptions"}
             isActive={activeTab === "subscriptions"}
@@ -242,7 +242,7 @@ export default function OrdersPage() {
               <input
                 type="text"
                 placeholder="Search"
-                className="w-full bg-slate-50 border border-slate-200 rounded-[5px] pl-9 pr-4 py-2 text-sm text-slate-800 focus:outline-none focus:border-brand-purple"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-2 text-sm text-slate-800 focus:outline-none focus:border-brand-purple"
               />
             </div>
             <Button
@@ -313,12 +313,12 @@ export default function OrdersPage() {
             Page {currentPage} of {totalPages}
           </p>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 text-sm">
             <button
               type="button"
               onClick={prevPage}
               disabled={!hasPrevPage}
-              className="px-3 py-2 border rounded"
+              className="px-3 py-2 border rounded-xl"
             >
               Previous
             </button>
@@ -330,7 +330,7 @@ export default function OrdersPage() {
                   key={page}
                   type="button"
                   onClick={() => goToPage(page)}
-                  className={`px-3 py-2 border rounded ${
+                  className={`px-3 py-2 border rounded-xl ${
                     currentPage === page ? "bg-brand-purple text-white" : ""
                   }`}
                 >
@@ -343,7 +343,7 @@ export default function OrdersPage() {
               type="button"
               onClick={nextPage}
               disabled={!hasNextPage}
-              className="px-3 py-2 border rounded"
+              className="px-3 py-2 border rounded-xl"
             >
               Next
             </button>
