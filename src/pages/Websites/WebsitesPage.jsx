@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { Filter, ChevronDown, Plus, X } from 'lucide-react'
+import { Filter, ChevronDown, X } from 'lucide-react'
 import {
   websites,
   websiteSummary,
@@ -238,19 +238,13 @@ function Modal({ open, title, onClose, children, footer }) {
 
 export default function WebsitesPage() {
   const fitRef = useAutoFit(FIT)
-  const [rows, setRows] = useState(websites)
+  // Provisioning a new site lives on the Templates (Products) page, not here.
+  const rows = websites
   const [activeFilter, setActiveFilter] = useState('All')
   const [sortBy, setSortBy] = useState(sortOptions[0])
   const [page, setPage] = useState(1)
   const [selected, setSelected] = useState([])
   const [detail, setDetail] = useState(null)
-  const [showNew, setShowNew] = useState(false)
-  const [draft, setDraft] = useState({
-    domain: '',
-    lawfirm: '',
-    plan: 'Standard',
-    template: 'Neutral',
-  })
 
   const filtered = useMemo(() => {
     const list =
@@ -297,28 +291,6 @@ export default function WebsitesPage() {
     URL.revokeObjectURL(url)
   }
 
-  const createWebsite = () => {
-    if (!draft.domain.trim() || !draft.lawfirm.trim()) return
-    const nextId = Math.max(...rows.map((r) => r.id)) + 1
-    setRows((prev) => [
-      {
-        id: nextId,
-        domain: draft.domain.includes('.') ? draft.domain.trim() : `${draft.domain.trim()}.lexmeet.loc`,
-        lawfirm: draft.lawfirm.trim(),
-        plan: draft.plan,
-        template: draft.template,
-        status: 'Pending',
-        payment: 'Unpaid',
-      },
-      ...prev,
-    ])
-    setDraft({ domain: '', lawfirm: '', plan: 'Standard', template: 'Neutral' })
-    setShowNew(false)
-    setActiveFilter('All')
-    setSortBy('ID — descending')
-    setPage(1)
-  }
-
   const headStyle = {
     fontSize: 11,
     letterSpacing: '1.3px',
@@ -351,15 +323,6 @@ export default function WebsitesPage() {
               style={{ fontSize: 13.5, color: INK, border: `1px solid #CBD5E1` }}
             >
               Export CSV
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowNew(true)}
-              className="font-sans rounded-[6px] px-[18px] h-[36px] inline-flex items-center gap-[7px] text-white transition-opacity hover:opacity-90"
-              style={{ fontSize: 13.5, background: ORANGE }}
-            >
-              <Plus className="w-[15px] h-[15px]" strokeWidth={2.4} />
-              New website
             </button>
           </div>
         </div>
@@ -618,80 +581,6 @@ export default function WebsitesPage() {
         )}
       </Modal>
 
-      <Modal
-        open={showNew}
-        title="New website"
-        onClose={() => setShowNew(false)}
-        footer={
-          <>
-            <button
-              type="button"
-              onClick={() => setShowNew(false)}
-              className="font-sans rounded-[6px] px-[16px] h-[34px] bg-white hover:bg-slate-50 transition-colors"
-              style={{ fontSize: 13, color: INK, border: `1px solid #CBD5E1` }}
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              onClick={createWebsite}
-              className="font-sans rounded-[6px] px-[16px] h-[34px] text-white hover:opacity-90 transition-opacity"
-              style={{ fontSize: 13, background: ORANGE }}
-            >
-              Provision site
-            </button>
-          </>
-        }
-      >
-        <div className="space-y-[14px]">
-          {[
-            { key: 'domain', label: 'Domain', placeholder: 'firmname.lexmeet.loc' },
-            { key: 'lawfirm', label: 'Lawfirm', placeholder: 'Registered lawfirm name' },
-          ].map((f) => (
-            <label key={f.key} className="block">
-              <span
-                className="block font-sans uppercase mb-[6px]"
-                style={{ fontSize: 10.5, letterSpacing: '1.2px', color: FAINT }}
-              >
-                {f.label}
-              </span>
-              <input
-                value={draft[f.key]}
-                onChange={(e) => setDraft((d) => ({ ...d, [f.key]: e.target.value }))}
-                placeholder={f.placeholder}
-                className="w-full font-sans rounded-[6px] h-[36px] px-[12px] focus:outline-none"
-                style={{ fontSize: 13.5, color: INK, border: `1px solid #CBD5E1` }}
-              />
-            </label>
-          ))}
-
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              { key: 'plan', label: 'Plan', options: ['Basic', 'Standard', 'Premium'] },
-              { key: 'template', label: 'Template', options: ['Neutral', 'Ledger', 'Broadsheet'] },
-            ].map((f) => (
-              <label key={f.key} className="block">
-                <span
-                  className="block font-sans uppercase mb-[6px]"
-                  style={{ fontSize: 10.5, letterSpacing: '1.2px', color: FAINT }}
-                >
-                  {f.label}
-                </span>
-                <select
-                  value={draft[f.key]}
-                  onChange={(e) => setDraft((d) => ({ ...d, [f.key]: e.target.value }))}
-                  className="w-full font-sans rounded-[6px] h-[36px] px-[10px] bg-white cursor-pointer focus:outline-none"
-                  style={{ fontSize: 13.5, color: INK, border: `1px solid #CBD5E1` }}
-                >
-                  {f.options.map((o) => (
-                    <option key={o}>{o}</option>
-                  ))}
-                </select>
-              </label>
-            ))}
-          </div>
-        </div>
-      </Modal>
     </div>
   )
 }
