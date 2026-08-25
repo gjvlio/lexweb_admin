@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import MainLayout from './components/layout/MainLayout'
 import Dashboard from './pages/Dashboard/Dashboard'
 import PlaceholderPage from './pages/PlaceholderPage'
+import ProductsMainPage from './pages/Products/ProductsMainPage'
 import Assets from './pages/Products/Assets/Assets'
 import Subscriptions from './pages/Products/Subscriptions'
 import OrdersPage from './pages/Orders/OrdersPage'
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="websites" element={<WebsitesPage />} />
           <Route path="lawfirms" element={<LawFirmsPage />} />
+          <Route path="products" element={<ProductsMainPage />} />
           <Route path="products/subscriptions" element={<Subscriptions />} />
           <Route path="products/templates" element={<PlaceholderPage title="Products — Templates" />} />
           <Route path="products/assets" element={<Assets />} />
