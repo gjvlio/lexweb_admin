@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { Search, ChevronRight } from "lucide-react";
 import { tokens, demoFirm, demoLawyers, demoAssets, demoRatings, websiteContent } from "./LawFirmsData";
 import settingsIcon from "../../assets/lawfirms/settings.png";
@@ -7,19 +8,6 @@ import LawyerProfileModal from "../../components/lawfirms/LawyerProfileModal";
 const fontFamily = "Lato, sans-serif";
 const PANEL_HEIGHT = "lg:h-[calc(100dvh-7.5rem)]";
 const customScrollbar = "[&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#FF7F4D] [&::-webkit-scrollbar-thumb]:rounded-full";
-
-function Breadcrumb({ items }) {
-  return (
-    <div className="flex flex-wrap items-center gap-1 text-[10px]" style={{ color: tokens.orange, fontFamily: "Gotham, sans-serif" }}>
-      {items.map((item, i) => (
-        <span key={item} className="flex items-center gap-1">
-          {i > 0 && <ChevronRight size={10} />}
-          <span>{item}</span>
-        </span>
-      ))}
-    </div>
-  );
-}
 
 function InfoField({ label, value, className = "" }) {
   return (
@@ -63,7 +51,7 @@ function TabBar({ active, onChange }) {
             key={tab}
             type="button"
             onClick={() => onChange(tab)}
-            className="flex-1 border-r py-2 text-sm font-bold last:border-r-0"
+            className="flex-1 border-r py-2 text-sm font-bold last:border-r-0 cursor-pointer"
             style={{
               backgroundColor: isActive ? tokens.purple : "#FFFFFF",
               color: isActive ? tokens.pageBg : "#898989",
@@ -106,7 +94,7 @@ function LawyersTable({ lawyers, query, onQueryChange, onRowClick, onSearchSetti
           <button
             type="button"
             onClick={onSearchSettings}
-            className="flex shrink-0 items-center justify-center rounded-[5px] bg-[#F8FFFE] p-2 transition-opacity hover:opacity-80 active:opacity-60"
+            className="flex shrink-0 items-center justify-center rounded-[5px] bg-[#F8FFFE] p-2 transition-opacity hover:opacity-80 active:opacity-60 cursor-pointer"
             style={{ borderColor: tokens.purple }}
             title="Search Settings"
           >
@@ -178,7 +166,7 @@ function AssetsTable({ assets, query, onQueryChange, onViewAsset, onSearchSettin
           <button
             type="button"
             onClick={onSearchSettings}
-            className="flex shrink-0 items-center justify-center rounded-[5px] bg-[#F8FFFE] p-2 transition-opacity hover:opacity-80 active:opacity-60"
+            className="flex shrink-0 items-center justify-center rounded-[5px] bg-[#F8FFFE] p-2 transition-opacity hover:opacity-80 active:opacity-60 cursor-pointer"
             style={{ borderColor: tokens.purple }}
             title="Search Settings"
           >
@@ -246,7 +234,7 @@ function RatingsTable({ ratings, query, onQueryChange, onSearchSettings }) {
           <button
             type="button"
             onClick={onSearchSettings}
-            className="flex shrink-0 items-center justify-center rounded-[5px] bg-[#F8FFFE] p-2 transition-opacity hover:opacity-80 active:opacity-60"
+            className="flex shrink-0 items-center justify-center rounded-[5px] bg-[#F8FFFE] p-2 transition-opacity hover:opacity-80 active:opacity-60 cursor-pointer"
             style={{ borderColor: tokens.purple }}
             title="Search Settings"
           >
@@ -350,7 +338,7 @@ function LawFirmDetailColumn({ className = "", onSelectLawyer }) {
 
 function ActionButtons({ onView, onEdit, onDelete }) {
   const base =
-    "rounded-[5px] px-3 py-1 text-[11px] font-normal leading-[14px] text-white transition-opacity hover:opacity-90 active:opacity-80";
+    "rounded-[5px] px-3 py-1 text-[11px] font-normal leading-[14px] text-white transition-opacity hover:opacity-90 active:opacity-80 cursor-pointer";
   return (
     <div className="flex shrink-0 items-center gap-1.5">
       <button type="button" onClick={onView} className={base} style={{ backgroundColor: tokens.purpleSoft }}>
@@ -562,8 +550,16 @@ export default function LawFirmsPage() {
 
   return (
     <div className={`min-w-0 flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 ${customScrollbar}`} style={{ backgroundColor: tokens.pageBg }}>
-      <div className="mb-4 flex flex-col gap-1">
-        <Breadcrumb items={["Lawfirms", "Bautista Lawfirm Office"]} />
+      {/* Breadcrumbs matching Subscriptions.jsx */}
+      <div className="mb-4 flex flex-col gap-1.5">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs font-sans">
+          <Link to="/lawfirms" className="text-brand-orange hover:underline font-medium">
+            Lawfirms
+          </Link>
+          <span className="text-slate-400">&rsaquo;</span>
+          <span className="text-brand-purple font-semibold">Bautista Lawfirm Office</span>
+        </nav>
+
         <h1
           className="text-2xl font-normal sm:text-[32px] sm:leading-[42px]"
           style={{ color: tokens.purple, fontFamily: "'Roboto Slab', serif" }}
@@ -591,4 +587,4 @@ export default function LawFirmsPage() {
       />
     </div>
   );
-} 
+}
