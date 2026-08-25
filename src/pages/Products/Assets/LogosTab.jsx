@@ -239,9 +239,9 @@ export default function LogosTab({ tabsSlot }) {
       {totalPages > 1 && (
         <div className="flex justify-center pt-4">
           <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            onPageChange={setPage}
+            page={page}
+            pageCount={totalPages}
+            onChange={setPage}
           />
         </div>
       )}
