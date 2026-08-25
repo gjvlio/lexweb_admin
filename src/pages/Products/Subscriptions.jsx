@@ -285,7 +285,7 @@ function InclusionFormModal({ isOpen, onClose, onSave, feature = null }) {
         <form onSubmit={handleSubmit} className="px-6 py-4 space-y-4">
           <div>
             <label className="block text-xs font-semibold text-slate-500 mb-1.5">
-            Name:
+              Name:
             </label>
             <input
               type="text"
@@ -962,11 +962,10 @@ function EditPlanModal({ plan, isOpen, onClose, onSave, onDelete, features }) {
                     className="flex items-center gap-3 cursor-pointer group select-none"
                   >
                     <div
-                      className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors ${
-                        isChecked
+                      className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors ${isChecked
                           ? 'bg-brand-purple text-white'
                           : 'border border-slate-300 bg-white group-hover:border-slate-400'
-                      }`}
+                        }`}
                     >
                       {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                     </div>
@@ -1110,7 +1109,7 @@ export default function Subscriptions() {
             <span className="text-brand-purple font-semibold">Subscriptions</span>
           </nav>
 
-          <h1 className="text-3xl font-heading font-bold text-brand-purple leading-tight">
+          <h1 className="text-4xl font-heading font-bold text-brand-purple tracking-tight">
             Subscriptions
           </h1>
         </div>
