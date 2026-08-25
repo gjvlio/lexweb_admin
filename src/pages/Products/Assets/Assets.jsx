@@ -37,12 +37,13 @@ export default function Assets() {
   return (
     <div className="w-full space-y-5 pb-12 font-sans">
       {/* Breadcrumb */}
-      <p className="text-xs font-semibold text-brand-orange">
-        <Link to="/products" className="hover:underline">
-          &gt; Products
-        </Link>{' '}
-        &gt; <span>Assets</span>
-      </p>
+      <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs font-sans">
+        <Link to="/products" className="text-brand-orange hover:underline font-medium">
+          Products
+        </Link>
+        <span className="text-slate-400">&rsaquo;</span>
+        <span className="text-brand-purple font-semibold">Assets</span>
+      </nav>
 
       <h1 className="font-heading text-4xl font-bold tracking-tight text-brand-purple">
         Assets

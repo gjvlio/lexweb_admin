@@ -8,11 +8,11 @@ function DateToString(date) {
   });
 }
 
-export default function TableRow({ row, column }) {
+export default function TableRow({ isChecked = false, row, column }) {
   return (
     <tr className="text-sm text-gray-500">
-      <td className="px-4 py-3">
-        <input type="checkbox" className="accent-brand-purple" />
+      <td className="px-4 py-3 align-middle text-center">
+        <input checked={isChecked} type="checkbox" className="accent-brand-purple" />
       </td>
 
       {/* <td className="px-4 py-3">{row.id}</td>
