@@ -117,6 +117,60 @@ export default function OrdersPage() {
 
   const paginatedOrders = activeTable.orders.slice(startIndex, endIndex);
 
+  const [checkedRows, setCheckedRows] = useState({
+    subscriptions: {},
+    "one-time purchases": {},
+    customs: {},
+  });
+
+  const activeCheckedRows = checkedRows[activeTab];
+
+  const allChecked =
+    paginatedOrders.length > 0 &&
+    paginatedOrders.every((order) => activeCheckedRows[order.id]);
+
+  const toggleAll = () => {
+    setCheckedRows((prev) => {
+      const current = prev[activeTab];
+
+      if (allChecked) {
+        // Uncheck all visible rows
+        const next = { ...current };
+
+        paginatedOrders.forEach((order) => {
+          delete next[order.id];
+        });
+
+        return {
+          ...prev,
+          [activeTab]: next,
+        };
+      }
+
+      // Check all visible rows
+      const next = { ...current };
+
+      paginatedOrders.forEach((order) => {
+        next[order.id] = true;
+      });
+
+      return {
+        ...prev,
+        [activeTab]: next,
+      };
+    });
+  };
+
+  const toggleRow = (id) => {
+    setCheckedRows((prev) => ({
+      ...prev,
+      [activeTab]: {
+        ...prev[activeTab],
+        [id]: !prev[activeTab][id],
+      },
+    }));
+  };
+
   return (
     <div className="relative -left-8 w-[calc(100%+4rem)] h-full text-gray-500">
       <div className="w-full flex border-y border-gray-500">
@@ -192,7 +246,12 @@ export default function OrdersPage() {
           <thead>
             <tr className="border-b border-gray-500 align-middle">
               <th className="px-4 py-3">
-                <input type="checkbox" className="accent-brand-purple" />
+                <input
+                  checked={allChecked}
+                  onChange={toggleAll}
+                  type="checkbox"
+                  className="accent-brand-purple"
+                />
               </th>
               {activeTable.rows.map((row) => (
                 <th
@@ -209,7 +268,13 @@ export default function OrdersPage() {
 
           <tbody className="border-b border-gray-500">
             {paginatedOrders.map((order, index) => (
-              <TableRow key={index} row={order} column={activeTable.keys} />
+              <TableRow
+                key={index}
+                isChecked={!!activeCheckedRows[order.id]}
+                onToggle={() => toggleRow(order.id)}
+                row={order}
+                column={activeTable.keys}
+              />
             ))}
           </tbody>
         </table>
