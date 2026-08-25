@@ -179,14 +179,14 @@ export default function OrdersPage() {
         <table className="w-full table-fixed border-collapse">
           <colgroup>
             {/* checkbox */}
-            <col className="w-10" />
+            <col className="w-20 h-full align-middle text-center" />
 
             {activeTable.rows.map((row) => (
               <col key={row} />
             ))}
 
             {/* Action */}
-            <col className="h-full" />
+            <col className="w-24 h-full" />
           </colgroup>
 
           <thead>

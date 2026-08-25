@@ -11,7 +11,7 @@ function DateToString(date) {
 export default function TableRow({ row, column }) {
   return (
     <tr className="text-sm text-gray-500">
-      <td className="px-4 py-3">
+      <td className="px-4 py-3 align-middle text-center">
         <input type="checkbox" className="accent-brand-purple" />
       </td>
 
