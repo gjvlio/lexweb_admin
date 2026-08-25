@@ -10,6 +10,7 @@ import OrdersPage from './pages/Orders/OrdersPage'
 import WebsitesPage from './pages/Websites/WebsitesPage'
 import ReportsPage from './pages/Reports/ReportsPage'
 import LawFirmsPage from './pages/LawFirms/LawFirmsPage'
+import LawFirmsListPage from './pages/LawFirms/LawFirmsListPage';
 
 export default function App() {
   return (
@@ -19,7 +20,8 @@ export default function App() {
           <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="websites" element={<WebsitesPage />} />
-          <Route path="lawfirms" element={<LawFirmsPage />} />
+          <Route path="lawfirms" element={<LawFirmsListPage />} />
+          <Route path="lawfirms/:id" element={<LawFirmsPage />} />
           <Route path="products" element={<ProductsMainPage />} />
           <Route path="products/subscriptions" element={<Subscriptions />} />
           <Route path="products/templates" element={<PlaceholderPage title="Products — Templates" />} />
@@ -29,7 +31,7 @@ export default function App() {
           <Route path="reports" element={<ReportsPage />} />
           <Route path="*" element={<PlaceholderPage title="404 — Page Not Found" />} />
         </Route>
-      </Routes>
+      </Routes> 
     </BrowserRouter>
   )
 }
