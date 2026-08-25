@@ -30,7 +30,7 @@ export default function CopywriteCard({ item, onEdit, onDelete }) {
 
       <div className="mt-2 flex items-center justify-between">
         <span className="text-[11px] text-slate-400">Availed by</span>
-        <span className="inline-flex items-center gap-1 rounded-full bg-[#CAF4BB] px-2.5 py-0.5 text-[11px] font-bold text-emerald-800">
+        <span className="inline-flex items-center gap-1 rounded-full bg-[#DEBBF4] px-2.5 py-0.5 text-[11px] font-bold text-brand-purple">
           <Users className="h-3 w-3" />
           {item.availedBy} Firms
         </span>
