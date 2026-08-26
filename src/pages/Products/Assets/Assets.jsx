@@ -42,7 +42,9 @@ export default function Assets() {
           Products
         </Link>
         <span className="text-slate-400">&rsaquo;</span>
-        <span className="text-brand-purple font-semibold">Assets</span>
+        <Link to="/products/assets" className="text-[#5E1B89] font-bold hover:underline">
+          Assets
+        </Link>
       </nav>
 
       <h1 className="font-heading text-4xl font-bold tracking-tight text-brand-purple">

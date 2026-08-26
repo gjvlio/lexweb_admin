@@ -48,7 +48,14 @@ export default function PhotoFormFields({ values, onChange, idPrefix }) {
         <FileInput
           label="Upload Photo"
           id={`${idPrefix}-upload`}
-          // Handle file changes appropriately if needed
+          accept="image/jpeg, image/png"
+          onChange={(e) => {
+            const file = e.target.files[0]
+            if (file) {
+              const url = URL.createObjectURL(file)
+              onChange('imageUrl', url)
+            }
+          }}
         />
 
         <TextInput
