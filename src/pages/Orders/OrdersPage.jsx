@@ -223,7 +223,7 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="relative -left-8 w-[calc(100%+4rem)] -top-8 h-full bg-white text-gray-500">
+    <div className="-m-6 min-h-[calc(100vh-68px)] overflow-x-hidden bg-white text-gray-500">
       <div className="px-10 pt-[18px] pb-4 flex items-start justify-between gap-6">
         <Link
           to="/orders"
@@ -312,7 +312,7 @@ export default function OrdersPage() {
           </colgroup>
 
           <thead>
-            <tr className="border-b border-slate-200 align-middle">
+            <tr className="border-b border-gray-500 align-middle">
               <th>
                 <input
                   checked={allChecked}
