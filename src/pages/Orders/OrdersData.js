@@ -31,7 +31,14 @@ export const customKeys = [
 ]
 
 export const subscriptionRows = [
-    "ID", "Law Firm", "Plan", "Start Date", "Renewal Date", "Billing Cycle", "Price", "Status",
+  { label: "ID", className: "w-16" },
+  { label: "Law Firm", className: "w-48" },
+  { label: "Plan", className: "w-28" },
+  { label: "Start Date", className: "w-32" },
+  { label: "Renewal Date", className: "w-32" },
+  { label: "Billing Cycle", className: "w-32" },
+  { label: "Price", className: "w-24" },
+  { label: "Status", className: "w-24" },
 ]
 
 export const subscriptionOrders = [
@@ -188,7 +195,14 @@ export const subscriptionOrders = [
 ]
 
 export const oneTimeRows = [
-    "ID", "Product Name", "Type", "Category", "Client", "Order Date", "Price", "Status",
+  { label: "ID", className: "w-16" },
+  { label: "Product Name", className: "w-48" },
+  { label: "Type", className: "w-28" },
+  { label: "Category", className: "w-32" },
+  { label: "Client", className: "w-40" },
+  { label: "Order Date", className: "w-32" },
+  { label: "Price", className: "w-24" },
+  { label: "Status", className: "w-24" },
 ]
 
 export const oneTimeOrders = [
@@ -395,7 +409,13 @@ export const oneTimeOrders = [
 ]
 
 export const customRows = [
-    "ID", "Client", "Vendor", "Type", "Category", "Order Date", "Status",
+  { label: "ID", className: "w-16" },
+  { label: "Client", className: "w-40" },
+  { label: "Vendor", className: "w-40" },
+  { label: "Type", className: "w-28" },
+  { label: "Category", className: "w-32" },
+  { label: "Order Date", className: "w-32" },
+  { label: "Status", className: "w-24" },
 ]
 
 export const customOrders = [

@@ -302,16 +302,16 @@ export default function OrdersPage() {
       <div className="min-w-full px-8 border-b border-slate-200">
         <table className="w-full table-fixed border-collapse overflow-x-scroll">
           <colgroup>
-            <col className="w-20 h-full align-middle text-center" />
+            <col className="w-16 h-full align-middle text-center" />
             {activeTable.rows.map((row) => (
-              <col key={row} />
+              <col key={row.label} className={row.className} />
             ))}
             <col className="w-24 h-full" />
           </colgroup>
 
           <thead>
             <tr className="border-b border-slate-200 align-middle">
-              <th className="px-4 py-3">
+              <th>
                 <input
                   checked={allChecked}
                   onChange={toggleAll}
@@ -321,10 +321,10 @@ export default function OrdersPage() {
               </th>
               {activeTable.rows.map((row) => (
                 <th key={row} className="px-4 py-3 text-left text-[11px] tracking-wide text-gray-400">
-                  {row.toUpperCase()}
+                  {row.label.toUpperCase()}
                 </th>
               ))}
-              <th className="px-4 py-3 text-left text-[11px] tracking-wide text-gray-400">
+              <th className="px-4 py-3 text-center text-[11px] tracking-wide text-gray-400">
                   ACTION
                 </th>
             </tr>
