@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Filter, ChevronDown, Plus, X } from 'lucide-react';
 import {
   tokens,
@@ -199,9 +199,11 @@ export default function LawFirmsListPage() {
     <div className="-m-6 bg-white min-h-[calc(100vh-68px)] flex flex-col font-sans">
       {/* Header Band */}
       <section style={{ borderBottom: `1px solid ${tokens.line}` }}>
-        <div className="px-4 sm:px-8 pt-[18px] flex items-start justify-between gap-4">
+        <div className="px-4 sm:px-8 pt-[18px] flex items-start justify-between gap-4 mb-2">
           <div className="flex items-center gap-1 text-xs" style={{ color: tokens.orange }}>
-            <span>&gt; Law Firms</span>
+            <Link to="/lawfirms" className="hover:underline block">
+              &gt; Law Firms
+            </Link>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">

@@ -2,8 +2,6 @@ import React from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 export default function Pagination({ page, pageCount, onChange }) {
-  if (pageCount <= 1) return null
-
   const base = 'flex h-8 min-w-[32px] items-center justify-center rounded-md border text-sm font-semibold transition-colors'
 
   return (

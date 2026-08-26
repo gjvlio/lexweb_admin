@@ -236,15 +236,13 @@ export default function LogosTab({ tabsSlot }) {
       )}
 
       {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex justify-center pt-4">
-          <Pagination
-            page={page}
-            pageCount={totalPages}
-            onChange={setPage}
-          />
-        </div>
-      )}
+      <div className="flex justify-center pt-4">
+        <Pagination
+          page={page}
+          pageCount={totalPages}
+          onChange={setPage}
+        />
+      </div>
 
       {/* Modals */}
       <AddPremadeLogoModal

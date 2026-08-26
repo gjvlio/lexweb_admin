@@ -1106,7 +1106,9 @@ export default function Subscriptions() {
               Products
             </Link>
             <span className="text-slate-400">&rsaquo;</span>
-            <span className="text-brand-purple font-semibold">Subscriptions</span>
+            <Link to="/products/subscriptions" className="text-brand-purple font-semibold hover:underline">
+              Subscriptions
+            </Link>
           </nav>
 
           <h1 className="text-4xl font-heading font-bold text-brand-purple tracking-tight">

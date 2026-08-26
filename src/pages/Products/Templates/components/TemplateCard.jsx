@@ -14,7 +14,7 @@ export default function TemplateCard({ template, onView }) {
         <span className="text-[13px] font-semibold text-brand-purple">Price</span>
       </div>
       <div className="mb-4 rounded-lg border border-[#CAC8C9] bg-[#E6E4E6] px-3.5 py-2 text-sm text-slate-700">
-        {template.price}
+        ₱{Number(String(template.price).replace(/,/g, '')).toLocaleString()}
       </div>
 
       <div className="mb-4 aspect-[4/5] w-full overflow-hidden rounded-xl bg-slate-100">
