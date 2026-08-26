@@ -11,6 +11,7 @@ import {
   PAGE_SIZE,
   CHECKBOX_COL_WIDTH,
 } from './LawFirmsListData';
+import StatusPill from '../../components/ui/StatusPill';
 
 const FIT = {
   label: { max: 11, min: 7 },
@@ -80,37 +81,7 @@ function SummaryCell({ label, value, note, accent }) {
   );
 }
 
-function StatusCell({ status }) {
-  if (status === 'Active') {
-    // Tinted purple, not filled — same chip as Suspended but reading as healthy.
-    return (
-      <span
-        className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] w-[90px] text-center"
-        style={{ background: 'rgba(94,27,137,0.10)', color: tokens.purple }}
-      >
-        Active
-      </span>
-    );
-  }
-  if (status === 'Pending') {
-    return (
-      <span
-        className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] w-[90px] text-center"
-        style={{ background: '#F1F5F9', color: '#64748B' }}
-      >
-        Pending
-      </span>
-    );
-  }
-  return (
-    <span
-      className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] text-white w-[90px] text-center"
-      style={{ background: tokens.purple }}
-    >
-      Suspended
-    </span>
-  );
-}
+
 
 function CheckBox({ checked, onChange, label }) {
   return (
@@ -399,7 +370,7 @@ export default function LawFirmsListPage() {
                 <td className="align-middle text-xs text-slate-700 text-center">{row.revenue}</td>
                 <td className="align-middle text-xs text-slate-700 text-center">{row.transactions}</td>
                 <td className="align-middle text-center whitespace-nowrap">
-                  <StatusCell status={row.status} />
+                  <StatusPill status={row.status} />
                 </td>
                 <td className="align-middle text-center whitespace-nowrap">
                   <button

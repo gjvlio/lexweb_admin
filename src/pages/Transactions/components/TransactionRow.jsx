@@ -1,5 +1,5 @@
 import React from 'react'
-import StatusBadge from './StatusBadge'
+import StatusPill from '../../../components/ui/StatusPill'
 
 const tokens = {
   purple: '#5E1B89',
@@ -61,7 +61,7 @@ export default function TransactionRow({ row, columns, checked, onToggle }) {
             } ${col.key === 'client' ? 'font-bold text-slate-900 pr-4' : 'text-slate-700'}`}
           >
             {col.key === 'status' ? (
-              <StatusBadge status={value} />
+              <StatusPill status={value} />
             ) : value instanceof Date ? (
               dateToString(value)
             ) : (

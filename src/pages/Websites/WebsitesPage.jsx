@@ -10,6 +10,7 @@ import {
   PAGE_SIZE,
   CHECKBOX_COL_WIDTH,
 } from './WebsitesData'
+import StatusPill from '../../components/ui/StatusPill'
 
 /* ---------------------------------------------------------------- tokens */
 
@@ -111,68 +112,7 @@ function PlanCell({ plan }) {
   )
 }
 
-function StatusCell({ status }) {
-  if (status === 'Active') {
-    // Tinted purple, not filled — same chip as Suspended but reading as healthy.
-    return (
-      <span
-        className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] w-[90px] text-center"
-        style={{ background: 'rgba(94,27,137,0.10)', color: PURPLE }}
-      >
-        Active
-      </span>
-    )
-  }
-  if (status === 'Pending') {
-    return (
-      <span
-        className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] w-[90px] text-center"
-        style={{ background: '#F1F5F9', color: '#64748B' }}
-      >
-        Pending
-      </span>
-    )
-  }
-  return (
-    <span
-      className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] text-white w-[90px] text-center"
-      style={{ background: PURPLE }}
-    >
-      Suspended
-    </span>
-  )
-}
 
-function PaymentCell({ payment }) {
-  if (payment === 'Paid') {
-    return (
-      <span
-        className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] w-[90px] text-center"
-        style={{ background: 'rgba(94,27,137,0.10)', color: PURPLE }}
-      >
-        Paid
-      </span>
-    )
-  }
-  if (payment === 'Overdue') {
-    return (
-      <span
-        className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] text-white w-[90px] text-center"
-        style={{ background: ORANGE }}
-      >
-        Overdue
-      </span>
-    )
-  }
-  return (
-    <span
-      className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] w-[90px] text-center"
-      style={{ background: '#FDE4E4', color: ORANGE }}
-    >
-      Unpaid
-    </span>
-  )
-}
 
 function CheckBox({ checked, onChange, label }) {
   return (
@@ -511,10 +451,10 @@ export default function WebsitesPage() {
                   {row.template}
                 </td>
                 <td className="align-middle text-center whitespace-nowrap">
-                  <StatusCell status={row.status} />
+                  <StatusPill status={row.status} />
                 </td>
                 <td className="align-middle text-center whitespace-nowrap">
-                  <PaymentCell payment={row.payment} />
+                  <StatusPill status={row.payment} />
                 </td>
                 <td className="align-middle text-center whitespace-nowrap">
                   <button
