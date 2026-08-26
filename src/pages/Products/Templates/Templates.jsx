@@ -78,7 +78,9 @@ export default function Templates() {
               Products
             </Link>
             <span className="text-slate-400">&rsaquo;</span>
-            <span className="text-brand-purple font-semibold">Templates</span>
+            <Link to="/products/templates" className="text-brand-purple font-semibold hover:underline">
+            Templates
+          </Link>
           </nav>
 
           <h1 className="text-3xl font-heading font-bold text-brand-purple leading-tight">

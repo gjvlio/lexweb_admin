@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Search } from 'lucide-react'
 import usePagination from '../../hooks/usePagination'
 import TransactionsTab from './components/TransactionsTab'
@@ -94,10 +95,13 @@ export default function Transactions() {
   return (
     <div className="space-y-5">
       <div className="space-y-1.5">
-        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs font-sans">
-          <span className="text-slate-400">&rsaquo;</span>
-          <span className="text-brand-purple font-semibold">Transactions</span>
-        </nav>
+        <Link
+          to="/transactions"
+          className="font-sans hover:underline cursor-pointer block"
+          style={{ fontSize: 12, color: '#F4512C' }}
+        >
+          &gt; Transactions
+        </Link>
 
         <div className="flex flex-wrap items-center justify-between gap-4">
           <h1 className="text-3xl font-heading font-bold text-brand-purple leading-tight">

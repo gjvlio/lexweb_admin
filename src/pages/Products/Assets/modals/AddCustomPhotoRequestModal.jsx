@@ -139,10 +139,13 @@ export default function AddCustomPhotoRequestModal({ open, onClose, onSubmit }) 
                   <div className="relative overflow-hidden rounded-lg border border-slate-300 bg-slate-100">
                     <input
                       type="file"
+                      accept="image/jpeg, image/png"
                       className="absolute inset-0 z-50 h-full w-full cursor-pointer opacity-0"
                       onChange={(e) => {
-                        if (e.target.files && e.target.files.length > 0) {
-                          setValues((prev) => ({ ...prev, orderOutputUrl: logoPng }))
+                        const file = e.target.files[0]
+                        if (file) {
+                          const url = URL.createObjectURL(file)
+                          setValues((prev) => ({ ...prev, orderOutputUrl: url, fileName: file.name }))
                         }
                       }}
                     />
@@ -150,8 +153,8 @@ export default function AddCustomPhotoRequestModal({ open, onClose, onSubmit }) 
                       <div className="rounded-l-lg border-r border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700">
                         Choose File
                       </div>
-                      <div className="flex-1 px-3 py-1.5 text-sm text-slate-500">
-                        {values.orderOutputUrl ? 'File chosen' : 'No file chosen'}
+                      <div className="flex-1 px-3 py-1.5 text-sm text-slate-500 truncate">
+                        {values.fileName ? values.fileName : 'No file chosen'}
                       </div>
                     </div>
                   </div>

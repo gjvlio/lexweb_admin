@@ -149,12 +149,13 @@ export default function Dashboard() {
       {/* 1. Page Title & Subtitle */}
       <div>
         <div className="flex items-start justify-between gap-6 mb-2">
-          <span
-            className="font-sans hover:underline cursor-pointer"
+          <Link
+            to="/dashboard"
+            className="font-sans hover:underline cursor-pointer block"
             style={{ fontSize: 12, color: '#F4512C' }}
           >
             &gt; Dashboard
-          </span>
+          </Link>
         </div>
         <h1 className="text-4xl font-heading font-bold text-[#5E1B89] tracking-tight">
           Dashboard

@@ -553,11 +553,13 @@ export default function LawFirmsPage() {
       {/* Breadcrumbs matching Subscriptions.jsx */}
       <div className="mb-4 flex flex-col gap-1.5">
         <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs font-sans">
-          <Link to="/lawfirms" className="text-brand-orange hover:underline font-medium">
+          <Link to="/lawfirms" className="text-brand-orange hover:underline">
             Lawfirms
           </Link>
           <span className="text-slate-400">&rsaquo;</span>
-          <span className="text-brand-purple font-semibold">Bautista Lawfirm Office</span>
+          <Link to="" className="text-brand-purple hover:underline">
+            Bautista Lawfirm Office
+          </Link>
         </nav>
 
         <h1

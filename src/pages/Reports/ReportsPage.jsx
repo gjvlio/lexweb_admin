@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import {
   reportRanges,
   reportSummary,
@@ -343,9 +344,13 @@ export default function ReportsPage() {
       {/* ================================================= reports title band */}
       <section style={{ borderBottom: `1px solid ${LINE}` }}>
         <div className="px-8 pt-[14px]">
-          <span className="font-sans" style={{ fontSize: 12, color: ORANGE }}>
+          <Link
+            to="/reports"
+            className="font-sans hover:underline cursor-pointer block"
+            style={{ fontSize: 12, color: ORANGE }}
+          >
             &gt; Reports
-          </span>
+          </Link>
         </div>
 
         <div className="px-8 pt-[6px] pb-[16px] flex items-center gap-5">

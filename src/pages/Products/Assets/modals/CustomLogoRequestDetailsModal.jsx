@@ -138,7 +138,7 @@ export default function CustomLogoRequestDetailsModal({ open, request, onClose, 
           <TextInput
             label="Price at Purchase:"
             id="custom-logo-price"
-            value={Number(request.priceAtPurchase).toLocaleString()}
+            value={Number(String(request.priceAtPurchase).replace(/,/g, '')).toLocaleString()}
             suffix="php"
             readOnly
           />

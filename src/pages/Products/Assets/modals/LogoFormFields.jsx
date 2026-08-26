@@ -48,6 +48,14 @@ export default function LogoFormFields({ values, onChange, idPrefix }) {
         <FileInput
           label="Upload Logo"
           id={`${idPrefix}-upload`}
+          accept="image/jpeg, image/png"
+          onChange={(e) => {
+            const file = e.target.files[0]
+            if (file) {
+              const url = URL.createObjectURL(file)
+              onChange('imageUrl', url)
+            }
+          }}
         />
 
         <TextInput
