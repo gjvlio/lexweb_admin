@@ -111,6 +111,14 @@ const LABEL_WIDTH = '340px'
 // Fullscreen fixed backdrop style
 const BACKDROP_CLASSES = "fixed top-0 left-0 w-screen h-screen z-[9999] flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4 transition-all"
 
+const MODAL_PRIMARY_BUTTON_PROPS = {
+  variant: 'orange',
+  size: 'md',
+  className: 'rounded-lg font-semibold',
+}
+const MODAL_SECONDARY_BUTTON_CLASSES =
+  "bg-brand-purple hover:opacity-90 text-white font-semibold rounded-lg px-5 py-2.5 text-sm transition-opacity outline-none"
+
 // Edit Promo Modal Component
 function EditPromoModal({ isOpen, onClose, onSave, promo }) {
   if (!isOpen || !promo) return null
@@ -238,12 +246,9 @@ function EditPromoModal({ isOpen, onClose, onSave, promo }) {
           </div>
 
           <div className="flex items-center justify-end pt-3 pb-1">
-            <button
-              type="submit"
-              className="bg-[#FF5533] hover:bg-[#e04424] text-white font-medium rounded-lg px-4 py-2 text-xs transition-colors shadow-sm"
-            >
+            <Button type="submit" {...MODAL_PRIMARY_BUTTON_PROPS}>
               Save change
-            </button>
+            </Button>
           </div>
         </form>
       </div>
@@ -296,19 +301,12 @@ function InclusionFormModal({ isOpen, onClose, onSave, feature = null }) {
           </div>
 
           <div className="flex items-center justify-end gap-2.5 pt-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="bg-brand-purple hover:opacity-90 text-white font-medium rounded-lg px-5 py-1.5 text-sm transition-opacity"
-            >
+            <button type="button" onClick={onClose} className={MODAL_SECONDARY_BUTTON_CLASSES}>
               Delete
             </button>
-            <button
-              type="submit"
-              className="bg-[#EA580C] hover:bg-[#C2410C] text-white font-medium rounded-lg px-6 py-1.5 text-sm transition-colors"
-            >
+            <Button type="submit" {...MODAL_PRIMARY_BUTTON_PROPS}>
               Add
-            </button>
+            </Button>
           </div>
         </form>
       </div>
@@ -441,19 +439,12 @@ function AddPlanPromoModal({ isOpen, onClose, onAdd }) {
           </div>
 
           <div className="flex items-center justify-end gap-2.5 pt-3 pb-1">
-            <button
-              type="button"
-              onClick={onClose}
-              className="bg-brand-purple hover:opacity-90 text-white font-medium rounded-lg px-5 py-1.5 text-sm transition-opacity"
-            >
+            <button type="button" onClick={onClose} className={MODAL_SECONDARY_BUTTON_CLASSES}>
               Delete
             </button>
-            <button
-              type="submit"
-              className="bg-[#EA580C] hover:bg-[#C2410C] text-white font-medium rounded-lg px-6 py-1.5 text-sm transition-colors"
-            >
+            <Button type="submit" {...MODAL_PRIMARY_BUTTON_PROPS}>
               Add
-            </button>
+            </Button>
           </div>
         </form>
       </div>
@@ -528,13 +519,9 @@ function AllInclusionsModal({
         </div>
 
         <div className="flex items-center justify-end px-8 py-5 border-t border-slate-100 bg-white">
-          <button
-            type="button"
-            onClick={onOpenAddInclusion}
-            className="bg-[#EA580C] hover:bg-[#C2410C] text-white font-medium rounded-lg px-6 py-2 text-sm transition-colors"
-          >
+          <Button type="button" onClick={onOpenAddInclusion} {...MODAL_PRIMARY_BUTTON_PROPS}>
             Add
-          </button>
+          </Button>
         </div>
       </div>
     </div>,
@@ -612,13 +599,9 @@ function PlanPromosModal({
         </div>
 
         <div className="flex items-center justify-end px-8 py-5 border-t border-slate-100 bg-white">
-          <button
-            type="button"
-            onClick={onOpenAddPromo}
-            className="bg-[#EA580C] hover:bg-[#C2410C] text-white font-medium rounded-lg px-6 py-2 text-sm transition-colors"
-          >
+          <Button type="button" onClick={onOpenAddPromo} {...MODAL_PRIMARY_BUTTON_PROPS}>
             Add
-          </button>
+          </Button>
         </div>
       </div>
     </div>,
@@ -822,19 +805,12 @@ function AddPlanModal({ isOpen, onClose, onAdd, features, promos }) {
           </div>
 
           <div className="flex items-center justify-end gap-3 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="bg-brand-purple hover:opacity-90 text-white font-medium rounded-lg px-6 py-2 text-sm transition-opacity"
-            >
+            <button type="button" onClick={onClose} className={MODAL_SECONDARY_BUTTON_CLASSES}>
               Delete
             </button>
-            <button
-              type="submit"
-              className="bg-[#EA580C] hover:bg-[#C2410C] text-white font-medium rounded-lg px-7 py-2 text-sm transition-colors"
-            >
+            <Button type="submit" {...MODAL_PRIMARY_BUTTON_PROPS}>
               Add
-            </button>
+            </Button>
           </div>
         </form>
       </div>
@@ -982,7 +958,7 @@ function EditPlanModal({ plan, isOpen, onClose, onSave, onDelete, features }) {
         <div className="flex items-center justify-end gap-3 px-8 py-5 border-t border-slate-100 bg-white">
           <button
             type="button"
-            className="bg-brand-purple hover:opacity-90 text-white font-semibold rounded-lg px-5 py-2.5 text-sm transition-opacity outline-none"
+            className={MODAL_SECONDARY_BUTTON_CLASSES}
             onClick={() => {
               onDelete(plan.id)
               onClose()
@@ -990,12 +966,7 @@ function EditPlanModal({ plan, isOpen, onClose, onSave, onDelete, features }) {
           >
             Delete Plan
           </button>
-          <Button
-            type="button"
-            variant="orange"
-            className="font-semibold rounded-lg px-5 py-2.5 text-sm"
-            onClick={handleSave}
-          >
+          <Button type="button" onClick={handleSave} {...MODAL_PRIMARY_BUTTON_PROPS}>
             Save Changes
           </Button>
         </div>
