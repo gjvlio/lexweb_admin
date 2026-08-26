@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Filter, ChevronDown, X, Eye } from 'lucide-react'
+import { Filter, ChevronDown, X, Eye, Search } from 'lucide-react'
 import {
   websites,
   websiteSummary,
@@ -10,6 +10,7 @@ import {
   PAGE_SIZE,
   CHECKBOX_COL_WIDTH,
 } from './WebsitesData'
+import StatusPill from '../../components/ui/StatusPill'
 
 /* ---------------------------------------------------------------- tokens */
 
@@ -111,68 +112,7 @@ function PlanCell({ plan }) {
   )
 }
 
-function StatusCell({ status }) {
-  if (status === 'Active') {
-    // Tinted purple, not filled — same chip as Suspended but reading as healthy.
-    return (
-      <span
-        className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] w-[90px] text-center"
-        style={{ background: 'rgba(94,27,137,0.10)', color: PURPLE }}
-      >
-        Active
-      </span>
-    )
-  }
-  if (status === 'Pending') {
-    return (
-      <span
-        className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] w-[90px] text-center"
-        style={{ background: '#F1F5F9', color: '#64748B' }}
-      >
-        Pending
-      </span>
-    )
-  }
-  return (
-    <span
-      className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] text-white w-[90px] text-center"
-      style={{ background: PURPLE }}
-    >
-      Suspended
-    </span>
-  )
-}
 
-function PaymentCell({ payment }) {
-  if (payment === 'Paid') {
-    return (
-      <span
-        className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] w-[90px] text-center"
-        style={{ background: 'rgba(94,27,137,0.10)', color: PURPLE }}
-      >
-        Paid
-      </span>
-    )
-  }
-  if (payment === 'Overdue') {
-    return (
-      <span
-        className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] text-white w-[90px] text-center"
-        style={{ background: ORANGE }}
-      >
-        Overdue
-      </span>
-    )
-  }
-  return (
-    <span
-      className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] w-[90px] text-center"
-      style={{ background: '#FDE4E4', color: ORANGE }}
-    >
-      Unpaid
-    </span>
-  )
-}
 
 function CheckBox({ checked, onChange, label }) {
   return (
@@ -250,10 +190,22 @@ export default function WebsitesPage() {
   const [page, setPage] = useState(1)
   const [selected, setSelected] = useState([])
   const [detail, setDetail] = useState(null)
+  const [searchQuery, setSearchQuery] = useState('')
 
   const filtered = useMemo(() => {
-    const list =
+    let list =
       activeFilter === 'All' ? [...rows] : rows.filter((r) => r.status === activeFilter)
+
+    const needle = searchQuery.trim().toLowerCase()
+    if (needle) {
+      list = list.filter((r) =>
+        r.domain.toLowerCase().includes(needle) ||
+        r.lawfirm.toLowerCase().includes(needle) ||
+        String(r.id).includes(needle) ||
+        r.template.toLowerCase().includes(needle) ||
+        r.plan.toLowerCase().includes(needle)
+      )
+    }
 
     switch (sortBy) {
       case 'Name — ascending':
@@ -267,7 +219,7 @@ export default function WebsitesPage() {
       default:
         return list
     }
-  }, [rows, activeFilter, sortBy])
+  }, [rows, activeFilter, sortBy, searchQuery])
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
   const safePage = Math.min(page, totalPages)
@@ -413,9 +365,25 @@ export default function WebsitesPage() {
           </div>
         </div>
 
-        <span className="shrink-0 text-xs text-slate-500">
-          Showing <strong style={{ color: INK }}>{pageRows.length}</strong> of {filtered.length}
-        </span>
+        <div className="flex items-center gap-3">
+          <div className="relative w-48 sm:w-56">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value)
+                setPage(1)
+              }}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-[#5E1B89]"
+            />
+          </div>
+
+          <span className="shrink-0 text-xs text-slate-500">
+            Showing <strong style={{ color: INK }}>{pageRows.length}</strong> of {filtered.length}
+          </span>
+        </div>
       </section>
 
       {/* ============================================================ table */}
@@ -434,7 +402,7 @@ export default function WebsitesPage() {
                 <CheckBox checked={allOnPageSelected} onChange={togglePage} label="Select all rows on this page" />
               </th>
               {websiteColumns.map((c) => {
-                const isCenter = ['status', 'payment', 'action'].includes(c.key);
+                const isCenter = ['plan', 'template', 'status', 'payment', 'action'].includes(c.key);
                 return (
                   <th
                     key={c.key}
@@ -476,17 +444,17 @@ export default function WebsitesPage() {
                 <td className="align-middle text-xs truncate pr-4" style={{ color: INK }}>
                   {row.lawfirm}
                 </td>
-                <td className="align-middle whitespace-nowrap">
+                <td className="align-middle text-center whitespace-nowrap">
                   <PlanCell plan={row.plan} />
                 </td>
-                <td className="align-middle text-xs truncate pr-4" style={{ color: INK }}>
+                <td className="align-middle text-xs text-center truncate" style={{ color: INK }}>
                   {row.template}
                 </td>
                 <td className="align-middle text-center whitespace-nowrap">
-                  <StatusCell status={row.status} />
+                  <StatusPill status={row.status} />
                 </td>
                 <td className="align-middle text-center whitespace-nowrap">
-                  <PaymentCell payment={row.payment} />
+                  <StatusPill status={row.payment} />
                 </td>
                 <td className="align-middle text-center whitespace-nowrap">
                   <button
