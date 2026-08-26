@@ -228,7 +228,7 @@ export default function OrdersPage() {
         <Link
           to="/orders"
           className="font-sans hover:underline cursor-pointer block"
-          style={{ fontSize: 12, color: '#F4512C' }}
+          style={{ fontSize: 12, color: "#F4512C" }}
         >
           &gt; Orders
         </Link>
@@ -256,7 +256,7 @@ export default function OrdersPage() {
       <div className="flex items-center justify-between px-10 py-5 border-b border-slate-200">
         <div className="flex gap-4">
           <div className="flex items-center gap-2">
-            <Table size={15} strokeWidth={1.8}/>
+            <Table size={15} strokeWidth={1.8} />
             <span className="text-xs tracking-wider">TABLE</span>
           </div>
           <div className="flex border rounded-xl overflow-hidden border-slate-200 text-sm">
@@ -313,7 +313,7 @@ export default function OrdersPage() {
 
           <thead>
             <tr className="border-b border-gray-500 align-middle">
-              <th>
+              <th className="py-4">
                 <input
                   checked={allChecked}
                   onChange={toggleAll}
@@ -322,17 +322,20 @@ export default function OrdersPage() {
                 />
               </th>
               {activeTable.rows.map((row) => (
-                <th key={row} className="px-4 py-3 text-left text-[11px] tracking-wide text-gray-400">
+                <th
+                  key={row}
+                  className={`py-4 text-left text-[11px] tracking-wide text-gray-400 ${row.key === 'status' ? "text-center" : ""}`}
+                >
                   {row.label.toUpperCase()}
                 </th>
               ))}
-              <th className="px-4 py-3 text-center text-[11px] tracking-wide text-gray-400">
-                  ACTION
-                </th>
+              <th className="py-4 text-center text-[11px] tracking-wide text-gray-400">
+                ACTION
+              </th>
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="text-xs">
             {paginatedOrders.map((order, index) => (
               <TableRow
                 key={index}
@@ -344,51 +347,49 @@ export default function OrdersPage() {
             ))}
           </tbody>
         </table>
-
-        
       </div>
       {/* Pagination */}
-        <div className="flex items-center justify-between px-10 py-4">
-          <p className="text-sm">
-            Page {currentPage} of {totalPages}
-          </p>
+      <div className="flex items-center text-xs justify-between px-10 py-4">
+        <p>
+          Page {currentPage} of {totalPages}
+        </p>
 
-          <div className="flex items-center text-sm border border-slate-200 rounded-xl">
-            <button
-              type="button"
-              onClick={prevPage}
-              disabled={!hasPrevPage}
-              className="px-3 py-2 border-r"
-            >
-              Previous
-            </button>
+        <div className="flex items-center border border-slate-200 rounded-xl">
+          <button
+            type="button"
+            onClick={prevPage}
+            disabled={!hasPrevPage}
+            className="px-3 py-2 border-r"
+          >
+            Previous
+          </button>
 
-            {Array.from({ length: totalPages }, (_, index) => {
-              const page = index + 1;
-              return (
-                <button
-                  key={page}
-                  type="button"
-                  onClick={() => goToPage(page)}
-                  className={`px-3 py-2 border-r last:border-none ${
-                    currentPage === page ? "bg-brand-purple text-white" : ""
-                  }`}
-                >
-                  {page}
-                </button>
-              );
-            })}
+          {Array.from({ length: totalPages }, (_, index) => {
+            const page = index + 1;
+            return (
+              <button
+                key={page}
+                type="button"
+                onClick={() => goToPage(page)}
+                className={`px-3 py-2 border-r last:border-none ${
+                  currentPage === page ? "bg-brand-purple text-white" : ""
+                }`}
+              >
+                {page}
+              </button>
+            );
+          })}
 
-            <button
-              type="button"
-              onClick={nextPage}
-              disabled={!hasNextPage}
-              className="px-3 py-2"
-            >
-              Next
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={nextPage}
+            disabled={!hasNextPage}
+            className="px-3 py-2"
+          >
+            Next
+          </button>
         </div>
+      </div>
 
       {/* 1. SUBSCRIPTION MODAL */}
       {isSubscriptionModalOpen && activeTab === "subscriptions" && (

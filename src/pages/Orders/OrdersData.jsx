@@ -1,44 +1,66 @@
+import StatusPill from "../../components/ui/StatusPill"
+
 export const subscriptionKeys = [
-    { key: "id" },
-    { key: "lawFirm" },
-    { key: "plan" },
-    { key: "startDate" },
-    { key: "renewalDate" },
-    { key: "billingCycle" },
-    { key: "price" },
-    { key: "status" },
+  { key: "id", label: "ID", className: "w-16" },
+  { key: "lawFirm", label: "Law Firm", className: "w-48" },
+  { key: "plan", label: "Plan", className: "w-28" },
+  { key: "startDate", label: "Start Date", className: "w-32" },
+  { key: "renewalDate", label: "Renewal Date", className: "w-32" },
+  { key: "billingCycle", label: "Billing Cycle", className: "w-32" },
+  { key: "price", label: "Price", className: "w-24" },
+  {
+    key: "status",
+    label: "Status",
+    className: "w-24",
+    render: (value) => <StatusPill status={value} />,
+  },
 ]
 
 export const oneTimeKeys = [
-    { key: "id" },
-    { key: "productName" },
-    { key: "productType" },
-    { key: "category" },
-    { key: "client" },
-    { key: "orderDate" },
-    { key: "price" },
-    { key: "status" },
+  { key: "id", label: "ID", className: "w-16" },
+  { key: "productName", label: "Product Name", className: "w-48" },
+  { key: "productType", label: "Type", className: "w-28" },
+  { key: "category", label: "Category", className: "w-32" },
+  { key: "client", label: "Client", className: "w-40" },
+  { key: "orderDate", label: "Order Date", className: "w-32" },
+  { key: "price", label: "Price", className: "w-24" },
+  {
+    key: "status",
+    label: "Status",
+    className: "w-24",
+    render: (value) => <StatusPill status={value} />,
+  },
 ]
 
 export const customKeys = [
-    { key: "id" },
-    { key: "client" },
-    { key: "vendor" },
-    { key: "productType" },
-    { key: "category" },
-    { key: "orderDate" },
-    { key: "status" },
+  { key: "id", label: "ID", className: "w-16" },
+  { key: "client", label: "Client", className: "w-40" },
+  { key: "vendor", label: "Vendor", className: "w-40" },
+  { key: "productType", label: "Type", className: "w-28" },
+  { key: "category", label: "Category", className: "w-32" },
+  { key: "orderDate", label: "Order Date", className: "w-32" },
+  {
+    key: "status",
+    label: "Status",
+    className: "w-24",
+    render: (value) => <StatusPill status={value} />,
+  },
 ]
 
 export const subscriptionRows = [
-  { label: "ID", className: "w-16" },
-  { label: "Law Firm", className: "w-48" },
-  { label: "Plan", className: "w-28" },
-  { label: "Start Date", className: "w-32" },
-  { label: "Renewal Date", className: "w-32" },
-  { label: "Billing Cycle", className: "w-32" },
-  { label: "Price", className: "w-24" },
-  { label: "Status", className: "w-24" },
+  { key: "id", label: "ID", className: "w-16" },
+  { key: "lawFirm", label: "Law Firm", className: "w-48" },
+  { key: "plan", label: "Plan", className: "w-28" },
+  { key: "startDate", label: "Start Date", className: "w-32" },
+  { key: "renewalDate", label: "Renewal Date", className: "w-32" },
+  { key: "billingCycle", label: "Billing Cycle", className: "w-32" },
+  { key: "price", label: "Price", className: "w-24" },
+  {
+    key: "status",
+    label: "Status",
+    className: "w-24",
+    render: (value) => <StatusPill status={value} />,
+  },
 ]
 
 export const subscriptionOrders = [
@@ -195,14 +217,19 @@ export const subscriptionOrders = [
 ]
 
 export const oneTimeRows = [
-  { label: "ID", className: "w-16" },
-  { label: "Product Name", className: "w-48" },
-  { label: "Type", className: "w-28" },
-  { label: "Category", className: "w-32" },
-  { label: "Client", className: "w-40" },
-  { label: "Order Date", className: "w-32" },
-  { label: "Price", className: "w-24" },
-  { label: "Status", className: "w-24" },
+  { key: "id", label: "ID", className: "w-16" },
+  { key: "productName", label: "Product Name", className: "w-48" },
+  { key: "type", label: "Type", className: "w-28" },
+  { key: "category", label: "Category", className: "w-32" },
+  { key: "client", label: "Client", className: "w-40" },
+  { key: "orderDate", label: "Order Date", className: "w-32" },
+  { key: "price", label: "Price", className: "w-24" },
+  {
+    key: "status",
+    label: "Status",
+    className: "w-24",
+    render: (value) => <StatusPill status={value} />,
+  },
 ]
 
 export const oneTimeOrders = [
@@ -409,13 +436,18 @@ export const oneTimeOrders = [
 ]
 
 export const customRows = [
-  { label: "ID", className: "w-16" },
-  { label: "Client", className: "w-40" },
-  { label: "Vendor", className: "w-40" },
-  { label: "Type", className: "w-28" },
-  { label: "Category", className: "w-32" },
-  { label: "Order Date", className: "w-32" },
-  { label: "Status", className: "w-24" },
+  { key: "id", label: "ID", className: "w-16" },
+  { key: "client", label: "Client", className: "w-40" },
+  { key: "vendor", label: "Vendor", className: "w-40" },
+  { key: "type", label: "Type", className: "w-28" },
+  { key: "category", label: "Category", className: "w-32" },
+  { key: "orderDate", label: "Order Date", className: "w-32" },
+  {
+    key: "status",
+    label: "Status",
+    className: "w-24",
+    render: (value) => <StatusPill status={value} />,
+  },
 ]
 
 export const customOrders = [
