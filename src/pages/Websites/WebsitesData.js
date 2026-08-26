@@ -11,17 +11,15 @@ export const websiteSummary = [
   { label: 'SUSPENDED', value: '02', note: 'past 30 days', accent: 'ink' },
 ]
 
-// Widths are percentages, not pixels, so the table always fits the viewport.
-// (They add up to 100% and match the Figma proportions at a 1440px canvas.)
 export const websiteColumns = [
   { key: 'id', label: 'ID', width: '5.5%' },
   { key: 'domain', label: 'DOMAIN', width: '20%' },
   { key: 'lawfirm', label: 'LAWFIRM', width: '20%' },
   { key: 'plan', label: 'PLAN', width: '9%' },
-  { key: 'template', label: 'TEMPLATE', width: '11.5%' },
-  { key: 'status', label: 'STATUS', width: '12%' },
-  { key: 'payment', label: 'PAYMENT', width: '11.5%' },
-  { key: 'action', label: 'ACTION', width: '7%' },
+  { key: 'template', label: 'TEMPLATE', width: '12%' },
+  { key: 'status', label: 'STATUS', width: '10%' },
+  { key: 'payment', label: 'PAYMENT', width: '12%' },
+  { key: 'action', label: 'ACTION', width: '8%' },
 ]
 
 export const CHECKBOX_COL_WIDTH = '3.5%'

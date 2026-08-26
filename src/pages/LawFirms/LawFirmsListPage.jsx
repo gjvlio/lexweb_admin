@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Filter, ChevronDown, Plus, X } from 'lucide-react';
+import { Filter, ChevronDown, Plus, X, Eye } from 'lucide-react';
 import {
   tokens,
   lawFirms,
@@ -64,7 +64,7 @@ function SummaryCell({ label, value, note, accent }) {
         {label}
       </span>
       <span
-        className="font-sans font-bold leading-none mt-2 sm:mt-[15px]"
+        className="font-heading font-bold leading-none mt-2 sm:mt-[15px]"
         style={{ fontSize: 28, color: accent === 'orange' ? tokens.orange : tokens.ink }}
       >
         {value}
@@ -85,7 +85,7 @@ function StatusCell({ status }) {
     // Tinted purple, not filled — same chip as Suspended but reading as healthy.
     return (
       <span
-        className="inline-block font-sans uppercase rounded-[3px] px-[10px] py-[4px] text-[10px] tracking-[1.2px]"
+        className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] w-[90px] text-center"
         style={{ background: 'rgba(94,27,137,0.10)', color: tokens.purple }}
       >
         Active
@@ -94,14 +94,17 @@ function StatusCell({ status }) {
   }
   if (status === 'Pending') {
     return (
-      <span className="inline-block font-sans uppercase rounded-[3px] px-[10px] py-[4px] text-[10px] tracking-[1.2px] bg-slate-100 text-slate-700">
+      <span
+        className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] w-[90px] text-center"
+        style={{ background: '#F1F5F9', color: '#64748B' }}
+      >
         Pending
       </span>
     );
   }
   return (
     <span
-      className="inline-block font-sans uppercase rounded-[3px] px-[10px] py-[4px] text-[10px] tracking-[1.2px] text-white"
+      className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] text-white w-[90px] text-center"
       style={{ background: tokens.purple }}
     >
       Suspended
@@ -323,17 +326,20 @@ export default function LawFirmsListPage() {
               <th className="text-left align-middle h-[52px] pt-[4px]">
                 <CheckBox checked={allOnPageSelected} onChange={togglePage} label="Select all" />
               </th>
-              {lawFirmsColumns.map((c) => (
-                <th
-                  key={c.key}
-                  className={`align-middle h-[52px] font-sans uppercase text-[11px] tracking-[1.2px] whitespace-nowrap ${
-                    c.key === 'action' ? 'text-right' : 'text-left'
-                  }`}
-                  style={{ color: tokens.faint, fontWeight: 400 }}
-                >
-                  {c.label}
-                </th>
-              ))}
+              {lawFirmsColumns.map((c) => {
+                const isCenter = ['visits', 'signups', 'revenue', 'transactions', 'status', 'action'].includes(c.key);
+                return (
+                  <th
+                    key={c.key}
+                    className={`align-middle h-[52px] font-sans uppercase text-[11px] tracking-[1.2px] whitespace-nowrap ${
+                      isCenter ? 'text-center' : 'text-left'
+                    }`}
+                    style={{ color: tokens.faint, fontWeight: 400 }}
+                  >
+                    {c.label}
+                  </th>
+                )
+              })}
             </tr>
           </thead>
 
@@ -358,26 +364,26 @@ export default function LawFirmsListPage() {
                 <td className="align-middle text-xs text-slate-500">{row.id}</td>
                 <td className="align-middle text-xs font-bold text-slate-900 truncate pr-4">{row.name}</td>
                 <td className="align-middle text-xs text-slate-700 truncate pr-4">{row.owner}</td>
-                <td className="align-middle text-xs font-semibold text-slate-900">{row.visits.toLocaleString()}</td>
-                <td className="align-middle text-xs font-semibold" style={{ color: tokens.orange }}>
+                <td className="align-middle text-xs font-semibold text-slate-900 text-center">{row.visits.toLocaleString()}</td>
+                <td className="align-middle text-xs font-semibold text-center" style={{ color: tokens.orange }}>
                   {row.signups.toLocaleString()}
                 </td>
-                <td className="align-middle text-xs font-bold text-slate-900">{row.revenue}</td>
-                <td className="align-middle text-xs text-slate-700">{row.transactions}</td>
-                <td className="align-middle whitespace-nowrap">
+                <td className="align-middle text-xs font-bold text-slate-900 text-center">{row.revenue}</td>
+                <td className="align-middle text-xs text-slate-700 text-center">{row.transactions}</td>
+                <td className="align-middle text-center whitespace-nowrap">
                   <StatusCell status={row.status} />
                 </td>
-                <td className="align-middle text-right whitespace-nowrap">
+                <td className="align-middle text-center whitespace-nowrap">
                   <button
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleOpenFirmDetails(row);
                     }}
-                    className="underline text-xs font-semibold hover:opacity-75 transition-opacity cursor-pointer"
-                    style={{ color: tokens.purple }}
+                    className="hover:opacity-75 transition-opacity cursor-pointer inline-flex items-center justify-center"
+                    title="View Account"
                   >
-                    View Account
+                    <Eye style={{ color: tokens.orange }} size={18} strokeWidth={1.5} />
                   </button>
                 </td>
               </tr>

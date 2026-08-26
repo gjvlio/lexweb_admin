@@ -26,18 +26,18 @@ export const sortOptions = [
 ];
 
 export const PAGE_SIZE = 8;
-export const CHECKBOX_COL_WIDTH = '44px';
+export const CHECKBOX_COL_WIDTH = '3.5%';
 
 export const lawFirmsColumns = [
-  { key: 'id', label: 'ID', width: '60px' },
-  { key: 'name', label: 'Law Firm', width: '220px' },
-  { key: 'owner', label: 'Representative / Owner', width: '180px' },
-  { key: 'visits', label: 'Website Visits', width: '130px' },
-  { key: 'signups', label: 'Sign-up Clients', width: '130px' },
-  { key: 'revenue', label: 'Revenue', width: '130px' },
-  { key: 'transactions', label: 'Transactions', width: '110px' },
-  { key: 'status', label: 'Status', width: '110px' },
-  { key: 'action', label: 'Action', width: '100px' },
+  { key: 'id', label: 'ID', width: '5.5%' },
+  { key: 'name', label: 'Law Firm', width: '20%' },
+  { key: 'owner', label: 'Representative / Owner', width: '16%' },
+  { key: 'visits', label: 'Website Visits', width: '10%' },
+  { key: 'signups', label: 'Sign-up Clients', width: '10%' },
+  { key: 'revenue', label: 'Revenue', width: '10%' },
+  { key: 'transactions', label: 'Transactions', width: '10%' },
+  { key: 'status', label: 'Status', width: '9%' },
+  { key: 'action', label: 'Action', width: '6%' },
 ];
 
 export const lawFirms = [
