@@ -11,10 +11,47 @@ import {
   subscriptionTransactions,
 } from './data/transactionsData'
 
+// NOTE: pulled from LawFirmsListData.js so both pages share one palette.
+// If your project already centralizes this (e.g. src/styles/tokens.js),
+// delete this block and import tokens from there instead.
+const tokens = {
+  purple: '#5E1B89',
+  orange: '#F4512C',
+  ink: '#1E293B',
+  muted: '#64748B',
+  faint: '#94A3B8',
+  line: '#E6EAF0',
+  rule: '#94A3B8',
+  bg: '#F8FFFE',
+}
+
 const PAGE_SIZE = 8
 
 // Stable identifier for a row regardless of which tab it's rendered under
 const rowKey = (tab, row) => `${tab}-${row.id}-${row.orderId}`
+
+function CheckBox({ checked, onChange, label }) {
+  return (
+    <button
+      type="button"
+      role="checkbox"
+      aria-checked={checked}
+      aria-label={label}
+      onClick={onChange}
+      className="w-[15px] h-[15px] rounded-[3px] flex items-center justify-center transition-colors cursor-pointer"
+      style={{
+        border: `1px solid ${checked ? tokens.purple : '#B6BECB'}`,
+        background: checked ? tokens.purple : '#FFFFFF',
+      }}
+    >
+      {checked && (
+        <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
+          <path d="M1.5 5.2L3.8 7.5L8.5 2.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )}
+    </button>
+  )
+}
 
 export default function Transactions() {
   const [activeTab, setActiveTab] = useState('subscriptions')
@@ -42,7 +79,6 @@ export default function Transactions() {
     totalPages,
     startIndex,
     endIndex,
-    goToPage,
     nextPage,
     prevPage,
     resetPage,
@@ -93,23 +129,28 @@ export default function Transactions() {
   const clearSelection = () => setSelectedKeys(new Set())
 
   return (
-    <div className="space-y-5">
-      <div className="space-y-1.5">
-        <Link
-          to="/transactions"
-          className="font-sans hover:underline cursor-pointer block"
-          style={{ fontSize: 12, color: '#F4512C' }}
-        >
-          &gt; Transactions
-        </Link>
+    <div className="-m-6 bg-white min-h-[calc(100vh-68px)] flex flex-col font-sans">
+      {/* Header Band */}
+      <section style={{ borderBottom: `1px solid ${tokens.line}` }}>
+        <div className="px-4 sm:px-8 pt-[18px] pb-[20px] flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <Link
+              to="/transactions"
+              className="hover:underline block"
+              style={{ fontSize: 12, color: tokens.orange }}
+            >
+              &gt; Transactions
+            </Link>
+            <h1
+              className="font-heading font-bold leading-none mt-[12px]"
+              style={{ fontSize: 34, color: tokens.purple }}
+            >
+              Transactions
+            </h1>
+          </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <h1 className="text-3xl font-heading font-bold text-brand-purple leading-tight">
-            Transactions
-          </h1>
-
-          <div className="relative w-64 lg:w-72">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-orange" />
+          <div className="relative w-full sm:w-64 lg:w-72">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" style={{ color: tokens.orange }} />
             <input
               type="search"
               value={query}
@@ -119,65 +160,81 @@ export default function Transactions() {
               }}
               placeholder="Search"
               aria-label="Search transactions"
-              className="w-full rounded-lg border border-brand-purple bg-white py-2 pl-9 pr-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-purple"
+              className="w-full rounded-[6px] h-[36px] border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2"
+              style={{ '--tw-ring-color': tokens.purple }}
             />
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="flex">
-        <TransactionsTab
-          name="Subscriptions"
-          isActive={activeTab === 'subscriptions'}
-          onClick={() => handleTabClick('subscriptions')}
-        />
-        <TransactionsTab
-          name="One-Time Purchase"
-          isActive={activeTab === 'one-time-purchase'}
-          onClick={() => handleTabClick('one-time-purchase')}
-        />
-      </div>
-
-      {selectedKeys.size > 0 && (
-        <div className="flex items-center justify-between rounded-lg bg-[#F1EDFB] px-4 py-2.5">
-          <p className="text-sm font-semibold text-brand-purple">
-            {selectedKeys.size} selected
-          </p>
-          <button
-            type="button"
-            onClick={clearSelection}
-            className="text-sm font-semibold text-brand-purple hover:underline"
-          >
-            Clear selection
-          </button>
+      {/* Filter and Control Bar */}
+      <section
+        className="px-4 sm:px-8 min-h-[64px] py-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-3"
+        style={{ borderBottom: `1px solid ${tokens.line}` }}
+      >
+        <div className="flex rounded-[6px] overflow-hidden shrink-0 border border-slate-300">
+          <TransactionsTab
+            name="Subscriptions"
+            isActive={activeTab === 'subscriptions'}
+            isFirst
+            onClick={() => handleTabClick('subscriptions')}
+          />
+          <TransactionsTab
+            name="One-Time Purchase"
+            isActive={activeTab === 'one-time-purchase'}
+            onClick={() => handleTabClick('one-time-purchase')}
+          />
         </div>
-      )}
 
-      <div className="overflow-hidden rounded-lg">
-        <table className="w-full border-collapse">
+        {selectedKeys.size > 0 ? (
+          <div className="flex items-center gap-4">
+            <p className="text-xs font-semibold" style={{ color: tokens.purple }}>
+              {selectedKeys.size} selected
+            </p>
+            <button
+              type="button"
+              onClick={clearSelection}
+              className="text-xs font-semibold hover:underline"
+              style={{ color: tokens.purple }}
+            >
+              Clear selection
+            </button>
+          </div>
+        ) : (
+          <span className="shrink-0 text-xs text-slate-500">
+            Showing <strong style={{ color: tokens.ink }}>{visibleRows.length}</strong> of {filteredRows.length}
+          </span>
+        )}
+      </section>
+
+      {/* Transactions Table */}
+      <section className="px-4 sm:px-8 flex-1 overflow-x-auto">
+        <table className="w-full border-collapse text-left">
           <thead>
-            <tr className="bg-brand-purple text-left text-sm font-bold text-white">
-              <th className="px-4 py-3">
-                <input
-                  type="checkbox"
-                  className="accent-white"
+            <tr style={{ borderBottom: `1px solid ${tokens.rule}` }}>
+              <th className="text-left align-middle h-[52px] pt-[4px] w-[44px]">
+                <CheckBox
                   checked={allVisibleSelected}
-                  ref={(el) => {
-                    if (el) el.indeterminate = !allVisibleSelected && someVisibleSelected
-                  }}
                   onChange={toggleSelectAllVisible}
-                  aria-label="Select all visible transactions"
+                  label="Select all visible transactions"
                 />
+                {someVisibleSelected && !allVisibleSelected && (
+                  <span className="sr-only">Some rows selected</span>
+                )}
               </th>
               {activeTable.columns.map((col) => (
-                <th key={col.key} className="px-4 py-3">
+                <th
+                  key={col.key}
+                  className="align-middle h-[52px] font-sans uppercase text-[11px] tracking-[1.2px] whitespace-nowrap text-left"
+                  style={{ color: tokens.faint, fontWeight: 400 }}
+                >
                   {col.label}
                 </th>
               ))}
             </tr>
           </thead>
 
-          <tbody className="bg-white">
+          <tbody>
             {visibleRows.length > 0 ? (
               visibleRows.map((row) => (
                 <TransactionRow
@@ -190,57 +247,41 @@ export default function Transactions() {
               ))
             ) : (
               <tr>
-                <td colSpan={activeTable.columns.length + 1} className="px-4 py-16 text-center text-sm text-slate-500">
+                <td colSpan={activeTable.columns.length + 1} className="px-4 py-16 text-center text-xs text-slate-500">
                   No transactions match &ldquo;{query}&rdquo;
                 </td>
               </tr>
             )}
           </tbody>
         </table>
-      </div>
+      </section>
 
+      {/* Pagination Bar */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between px-1 py-2">
-          <p className="text-sm text-slate-500">
-            Page {currentPage} of {totalPages}
-          </p>
-
-          <div className="flex items-center gap-2">
+        <section
+          className="px-4 sm:px-8 h-[68px] flex items-center justify-between"
+          style={{ borderTop: `1px solid ${tokens.rule}`, marginTop: -1 }}
+        >
+          <span className="text-xs text-slate-500">Page {currentPage} of {totalPages}</span>
+          <div className="flex rounded-[6px] overflow-hidden border border-slate-300">
             <button
               type="button"
               onClick={prevPage}
               disabled={!hasPrevPage}
-              className="rounded border px-3 py-2 text-sm disabled:opacity-40"
+              className="h-[32px] px-[16px] bg-white text-xs hover:bg-slate-50 disabled:opacity-40 cursor-pointer"
             >
               Previous
             </button>
-
-            {Array.from({ length: totalPages }, (_, index) => {
-              const page = index + 1
-              return (
-                <button
-                  key={page}
-                  type="button"
-                  onClick={() => goToPage(page)}
-                  className={`rounded border px-3 py-2 text-sm ${
-                    currentPage === page ? 'bg-brand-purple text-white' : ''
-                  }`}
-                >
-                  {page}
-                </button>
-              )
-            })}
-
             <button
               type="button"
               onClick={nextPage}
               disabled={!hasNextPage}
-              className="rounded border px-3 py-2 text-sm disabled:opacity-40"
+              className="h-[32px] px-[16px] bg-white text-xs hover:bg-slate-50 disabled:opacity-40 border-l border-slate-300 cursor-pointer"
             >
               Next
             </button>
           </div>
-        </div>
+        </section>
       )}
     </div>
   )
