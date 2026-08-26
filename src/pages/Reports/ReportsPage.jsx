@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Filter } from 'lucide-react'
 import {
   reportRanges,
   reportSummary,
@@ -21,10 +22,9 @@ const GRID = '#E2E8F0'
 
 /* ---------------------------------------------------- auto-fitting labels */
 /*
- * The stat labels must stay on one line at ANY window width. Rather than
- * hand-pick a font size and hope, this measures the real rendered text and
- * steps the size down until the longest one fits. Every label in a group
- * gets the same size, so the row stays visually even.
+ * Ported from the Law Firms page header — the stat labels stay on one line
+ * at any window width by measuring the real rendered text and stepping the
+ * size down until the longest one fits.
  */
 const FIT = {
   label: { max: 11, min: 7 },
@@ -79,7 +79,7 @@ function arcPath(cx, cy, r, startDeg, endDeg) {
   return `M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArc} 0 ${end.x} ${end.y}`
 }
 
-function Donut({ segments, total, caption }) {
+function Donut({ segments, total, caption, size = 'md' }) {
   const sum = segments.reduce((a, s) => a + s.amount, 0)
 
   // No gaps — the ring is one continuous circle. Each arc except the last
@@ -95,8 +95,15 @@ function Donut({ segments, total, caption }) {
     return { ...s, from, to }
   })
 
+  // 'lg' mirrors the Dashboard Distribution Chart's donut (w-48 h-48 / 192px).
+  const dims =
+    size === 'lg'
+      ? 'w-[176px] h-[176px] min-[1400px]:w-[192px] min-[1400px]:h-[192px]'
+      : 'w-[140px] h-[140px] min-[1400px]:w-[158px] min-[1400px]:h-[158px]'
+  const totalText = size === 'lg' ? 'text-[26px] min-[1400px]:text-[29px]' : 'text-[24px] min-[1400px]:text-[27px]'
+
   return (
-    <div className="relative shrink-0 w-[140px] h-[140px] min-[1400px]:w-[158px] min-[1400px]:h-[158px]">
+    <div className={`relative shrink-0 ${dims}`}>
       <svg width="100%" height="100%" viewBox="0 0 160 160" style={{ display: 'block' }}>
         {arcs.map((a) => (
           <path
@@ -112,7 +119,7 @@ function Donut({ segments, total, caption }) {
 
       {/* centre label — laid out by flexbox, not by hand-guessed baselines */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-        <span className="font-sans font-bold leading-none text-[24px] min-[1400px]:text-[27px]" style={{ color: INK }}>
+        <span className={`font-sans font-bold leading-none ${totalText}`} style={{ color: INK }}>
           {total}
         </span>
         <span
@@ -126,165 +133,206 @@ function Donut({ segments, total, caption }) {
   )
 }
 
-/* ------------------------------------------------------------ line chart */
+/* ------------------------------------------------------ revenue graph -----
+ * Ported straight from the Dashboard page's "Overall Graph" card (same
+ * gridline/tooltip/legend mechanics) but wired to the Reports page's own
+ * content: revenueSeries[range] for the points and seriesLegend for the
+ * series list, instead of Dashboard's hardcoded sales/sub/com datasets.
+ */
 
-const PLOT = { left: 50, right: 1128, top: 16, bottom: 395, xStart: 59, xEnd: 1126 }
+function RevenueGraph({ data }) {
+  const [hoveredSeries, setHoveredSeries] = useState(null)
+  const [hoveredIndex, setHoveredIndex] = useState(null)
+  const [tooltip, setTooltip] = useState({ visible: false, x: 0, y: 0, svgX: 0, label: '', items: [] })
 
-function LineChart({ data, hovered, onHover }) {
-  const { axisMax, tickStep, labels, oneTime, subscriptions } = data
-  const ticks = []
-  for (let v = axisMax; v >= 0; v -= tickStep) ticks.push(v)
+  const { labels, axisMax } = data
+  const series = seriesLegend.map((s) => ({ ...s, values: data[s.key] }))
 
-  const n = labels.length
-  const xAt = (i) => (n === 1 ? PLOT.xStart : PLOT.xStart + (i * (PLOT.xEnd - PLOT.xStart)) / (n - 1))
-  const yAt = (v) => PLOT.bottom - (v / axisMax) * (PLOT.bottom - PLOT.top)
+  const startX = 85
+  const endX = 985
+  const getY = (val) => 200 - (val / axisMax) * 180
+  const getX = (idx) => (labels.length <= 1 ? startX : startX + (idx / (labels.length - 1)) * (endX - startX))
 
-  const toPath = (values) => values.map((v, i) => `${i === 0 ? 'M' : 'L'} ${xAt(i)} ${yAt(v)}`).join(' ')
+  const ticks = [1, 0.75, 0.5, 0.25, 0].map((f) => Math.round(axisMax * f))
 
-  const series = [
-    { key: 'oneTime', values: oneTime, color: ORANGE },
-    { key: 'subscriptions', values: subscriptions, color: PURPLE },
-  ]
+  // one invisible hit-column per timeframe, spanning the midpoints either
+  // side of its point — hovering anywhere in that column (not just the
+  // exact dot) surfaces the tooltip for every series at that index.
+  const columns = labels.map((_, i) => {
+    const cx = getX(i)
+    const left = i === 0 ? startX : (getX(i - 1) + cx) / 2
+    const right = i === labels.length - 1 ? endX : (cx + getX(i + 1)) / 2
+    return { x: left, width: right - left }
+  })
 
-  const handleMove = (e) => {
-    const box = e.currentTarget.getBoundingClientRect()
-    const svgX = ((e.clientX - box.left) / box.width) * 1128
-    let best = 0
-    let bestDist = Infinity
-    for (let i = 0; i < n; i += 1) {
-      const d = Math.abs(xAt(i) - svgX)
-      if (d < bestDist) {
-        bestDist = d
-        best = i
-      }
-    }
-    onHover(best)
+  const handleColumnHover = (e, idx) => {
+    const container = e.currentTarget.closest('.graph-container')
+    if (!container) return
+    const rect = container.getBoundingClientRect()
+    setHoveredIndex(idx)
+    setTooltip({
+      visible: true,
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+      svgX: getX(idx),
+      label: labels[idx],
+      items: series.map((s) => ({ key: s.key, label: s.label, color: s.color, value: s.values[idx] })),
+    })
   }
 
-  const tipW = 168
-  const tipX = hovered === null ? 0 : Math.min(Math.max(xAt(hovered) - tipW / 2, PLOT.left), PLOT.right - tipW)
+  const handlePointLeave = () => {
+    setTooltip((prev) => ({ ...prev, visible: false }))
+    setHoveredIndex(null)
+  }
 
   return (
-    <svg viewBox="0 0 1128 432" className="w-full" style={{ display: 'block' }}>
-      {/* horizontal gridlines + y labels */}
-      {ticks.map((v) => (
-        <g key={v}>
-          <line x1={PLOT.left} x2={PLOT.right} y1={yAt(v)} y2={yAt(v)} stroke={GRID} strokeWidth="1" />
-          <text
-            x={38}
-            y={yAt(v) + 4}
-            textAnchor="end"
-            fontFamily="Lato, sans-serif"
-            fontSize="11"
-            fill={FAINT}
+    <div>
+      {/* edge-to-edge responsive svg graph area — same math as Dashboard's graph */}
+      <div className="relative h-72 w-full graph-container">
+        <svg className="w-full h-full overflow-visible" viewBox="0 0 1000 260" preserveAspectRatio="none">
+          {/* y-axis gridlines */}
+          {[20, 65, 110, 155, 200].map((y, idx) => (
+            <line key={idx} x1="85" y1={y} x2="985" y2={y} stroke={GRID} strokeDasharray="4 4" strokeWidth="1.5" />
+          ))}
+
+          {/* crosshair tracking the hovered column */}
+          {tooltip.visible && (
+            <line
+              x1={tooltip.svgX}
+              y1="20"
+              x2={tooltip.svgX}
+              y2="200"
+              stroke={PURPLE}
+              strokeDasharray="4 4"
+              strokeWidth="1.5"
+              className="opacity-50"
+            />
+          )}
+
+          {/* y-axis tick labels */}
+          {ticks.map((t, idx) => (
+            <text key={idx} x="10" y={24 + idx * 45} className="text-xs font-semibold fill-slate-500 font-sans">
+              {t}k
+            </text>
+          ))}
+
+          {/* series lines + points — purely visual now, hover is handled by the columns below */}
+          {series.map((s) => (
+            <React.Fragment key={s.key}>
+              <polyline
+                fill="none"
+                stroke={s.color}
+                strokeWidth="3"
+                points={s.values.map((v, i) => `${getX(i)},${getY(v)}`).join(' ')}
+                strokeOpacity={hoveredSeries === null || hoveredSeries === s.key ? 1 : 0.15}
+                className="transition-all duration-300"
+              />
+              {s.values.map((v, i) => (
+                <circle
+                  key={`${s.key}-${i}`}
+                  cx={getX(i)}
+                  cy={getY(v)}
+                  r={hoveredIndex === i ? 7.5 : 5.5}
+                  fill={s.color}
+                  fillOpacity={hoveredSeries === null || hoveredSeries === s.key ? 1 : 0.15}
+                  className="transition-all duration-150 pointer-events-none"
+                />
+              ))}
+            </React.Fragment>
+          ))}
+
+          {/* x-axis labels */}
+          {labels.map((label, idx) => (
+            <text key={label} x={getX(idx)} y="245" textAnchor="middle" className="text-xs font-bold fill-slate-600 font-sans">
+              {label}
+            </text>
+          ))}
+
+          {/* invisible full-height hit columns — one per timeframe */}
+          {columns.map((c, idx) => (
+            <rect
+              key={`col-${idx}`}
+              x={c.x}
+              y="0"
+              width={c.width}
+              height="220"
+              fill="transparent"
+              className="cursor-pointer"
+              onMouseEnter={(e) => handleColumnHover(e, idx)}
+              onMouseMove={(e) => handleColumnHover(e, idx)}
+              onMouseLeave={handlePointLeave}
+            />
+          ))}
+        </svg>
+
+        {/* free-floating cursor tooltip — every series for the hovered timeframe, together */}
+        {tooltip.visible && (
+          <div
+            className="absolute bg-white text-slate-900 px-4 py-3 rounded-xl shadow-lg border border-slate-200 pointer-events-none -translate-y-[calc(100%+14px)] transition-all duration-75 ease-out z-30 animate-fade-in min-w-[150px]"
+            style={{ 
+              left: `clamp(75px, ${tooltip.x}px, calc(100% - 75px))`, 
+              top: `${tooltip.y}px`,
+              transform: 'translateX(-50%)' 
+            }}
           >
-            {v === 0 ? '0' : `${v}k`}
-          </text>
-        </g>
-      ))}
+            <div className="font-sans font-bold text-[13px]" style={{ color: INK }}>
+              {tooltip.label}
+            </div>
+            <div className="mt-2 space-y-1.5">
+              {tooltip.items.map((it) => (
+                <div key={it.key} className="flex items-center justify-between gap-5">
+                  <div className="flex items-center gap-[7px]">
+                    <span className="w-2 h-2 rounded-full shrink-0" style={{ background: it.color }} />
+                    <span className="font-sans text-[11.5px] whitespace-nowrap" style={{ color: MUTED }}>
+                      {it.label}
+                    </span>
+                  </div>
+                  <span className="font-sans font-bold text-[12.5px] whitespace-nowrap" style={{ color: INK }}>
+                    {it.value}k
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
 
-      {/* baseline */}
-      <line x1={PLOT.left} x2={PLOT.right} y1={PLOT.bottom} y2={PLOT.bottom} stroke={INK} strokeWidth="2" />
-
-      {/* hover guide */}
-      {hovered !== null && (
-        <line
-          x1={xAt(hovered)}
-          x2={xAt(hovered)}
-          y1={PLOT.top}
-          y2={PLOT.bottom}
-          stroke={FAINT}
-          strokeWidth="1"
-          strokeDasharray="4 4"
-        />
-      )}
-
-      {/* series */}
-      {series.map((s) => (
-        <path
-          key={s.key}
-          d={toPath(s.values)}
-          fill="none"
-          stroke={s.color}
-          strokeWidth="2"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-        />
-      ))}
-
-      {series.map((s) =>
-        s.values.map((v, i) => (
-          <circle
-            key={`${s.key}-${i}`}
-            cx={xAt(i)}
-            cy={yAt(v)}
-            r={hovered === i ? 5.5 : 4}
-            fill="#FFFFFF"
-            stroke={s.color}
-            strokeWidth="2"
-          />
-        )),
-      )}
-
-      {/* x labels */}
-      {labels.map((label, i) => (
-        <text
-          key={label}
-          x={xAt(i)}
-          y={419}
-          textAnchor="middle"
-          fontFamily="Lato, sans-serif"
-          fontSize="12"
-          fill={MUTED}
-        >
-          {label}
-        </text>
-      ))}
-
-      {/* tooltip */}
-      {hovered !== null && (
-        <g pointerEvents="none">
-          <rect x={tipX} y={PLOT.top} width={tipW} height="64" rx="8" fill="#FFFFFF" stroke={GRID} />
-          <text x={tipX + 12} y={PLOT.top + 20} fontFamily="Lato, sans-serif" fontSize="11" fontWeight="700" fill={INK}>
-            {labels[hovered]}
-          </text>
-          <circle cx={tipX + 17} cy={PLOT.top + 34} r="4" fill={ORANGE} />
-          <text x={tipX + 28} y={PLOT.top + 38} fontFamily="Lato, sans-serif" fontSize="11" fill={MUTED}>
-            One-time
-          </text>
-          <text x={tipX + tipW - 12} y={PLOT.top + 38} textAnchor="end" fontFamily="Lato, sans-serif" fontSize="11" fontWeight="700" fill={INK}>
-            {oneTime[hovered]}k
-          </text>
-          <circle cx={tipX + 17} cy={PLOT.top + 51} r="4" fill={PURPLE} />
-          <text x={tipX + 28} y={PLOT.top + 55} fontFamily="Lato, sans-serif" fontSize="11" fill={MUTED}>
-            Subscriptions
-          </text>
-          <text x={tipX + tipW - 12} y={PLOT.top + 55} textAnchor="end" fontFamily="Lato, sans-serif" fontSize="11" fontWeight="700" fill={INK}>
-            {subscriptions[hovered]}k
-          </text>
-        </g>
-      )}
-
-      {/* pointer capture */}
-      <rect
-        x={PLOT.left}
-        y={PLOT.top}
-        width={PLOT.right - PLOT.left}
-        height={PLOT.bottom - PLOT.top}
-        fill="transparent"
-        onMouseMove={handleMove}
-        onMouseLeave={() => onHover(null)}
-      />
-    </svg>
+      {/* softened hover-spotlight legend, below the chart */}
+      <div className="flex flex-wrap items-center justify-center gap-6 pt-5 border-t border-slate-100 text-xs font-semibold text-slate-700 mt-2">
+        {series.map((s) => (
+          <div
+            key={s.key}
+            onMouseEnter={() => setHoveredSeries(s.key)}
+            onMouseLeave={() => setHoveredSeries(null)}
+            className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${
+              hoveredSeries === s.key
+                ? 'bg-slate-50 border-slate-300 text-slate-900 shadow-2xs font-bold scale-105'
+                : hoveredSeries !== null
+                ? 'opacity-35 border-transparent'
+                : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
+            }`}
+          >
+            <span className="w-3.5 h-3.5 rounded-full" style={{ background: s.color }} />
+            <span>{s.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 
 /* ------------------------------------------------------------ stat cells */
+/* Mirrors the Law Firms page's SummaryCell exactly: a bordered strip that
+ * wraps 2-up on mobile instead of a single unbreakable row, with the auto-fit
+ * label/note. This is what "follows the Law Firms landing page design". */
 
 function SummaryCell({ label, value, note, accent }) {
   const color = accent === 'purple' ? PURPLE : accent === 'orange' ? ORANGE : INK
   return (
-    <div className="flex-1 min-w-0 flex flex-col px-4 min-[1400px]:px-7 py-[30px]" style={{ borderLeft: `1px solid ${LINE}` }}>
+    <div
+      className="flex-1 min-w-[140px] flex flex-col justify-center px-4 py-3 sm:py-0 min-[1400px]:px-7 border-t sm:border-t-0 sm:border-l first:border-l-0"
+      style={{ borderColor: LINE }}
+    >
       <span
         data-fit="label"
         className="block w-full font-sans uppercase leading-[1.2] whitespace-nowrap overflow-hidden"
@@ -292,13 +340,12 @@ function SummaryCell({ label, value, note, accent }) {
       >
         {label}
       </span>
-      <span className="font-sans font-bold leading-none mt-[22px]" style={{ fontSize: 38, color }}>
+      <span className="font-sans font-bold leading-none mt-2 sm:mt-[15px]" style={{ fontSize: 28, color }}>
         {value}
       </span>
-      <div className="flex-1" />
       <span
         data-fit="note"
-        className="block w-full font-sans leading-[1.4] whitespace-nowrap overflow-hidden"
+        className="block w-full font-sans leading-[1.4] mt-2 sm:mt-[18px] whitespace-nowrap overflow-hidden"
         style={{ fontSize: FIT.note.max, color: FAINT }}
       >
         {note}
@@ -312,7 +359,6 @@ function SummaryCell({ label, value, note, accent }) {
 export default function ReportsPage() {
   const fitRef = useAutoFit(FIT)
   const [range, setRange] = useState('Year')
-  const [hovered, setHovered] = useState(null)
 
   const data = revenueSeries[range]
 
@@ -343,7 +389,7 @@ export default function ReportsPage() {
     <div className="-m-6 bg-white min-h-[calc(100vh-68px)] overflow-x-hidden">
       {/* ================================================= reports title band */}
       <section style={{ borderBottom: `1px solid ${LINE}` }}>
-        <div className="px-8 pt-[14px]">
+        <div className="px-8 pt-[18px] flex items-start justify-between gap-6">
           <Link
             to="/reports"
             className="font-sans hover:underline cursor-pointer block"
@@ -353,19 +399,44 @@ export default function ReportsPage() {
           </Link>
         </div>
 
-        <div className="px-8 pt-[6px] pb-[16px] flex items-center gap-5">
-          <h1 className="font-heading font-bold leading-none shrink-0" style={{ fontSize: 34, color: PURPLE }}>
-            Reports
-          </h1>
+        {/* title + kpi stats bar — same layout mechanics as the Law Firms page header */}
+        <div className="px-8 pt-[15px] pb-[20px] flex flex-col lg:flex-row items-stretch gap-6">
+          <div className="w-full lg:w-[300px] min-[1400px]:w-[330px] shrink-0 pr-2">
+            <h1 className="font-heading font-bold leading-none" style={{ fontSize: 38, color: PURPLE }}>
+              Reports
+            </h1>
+            <p className="font-sans mt-[16px]" style={{ fontSize: 13.5, color: MUTED, lineHeight: '25px' }}>
+              Revenue, transactions and subscription health across the platform.
+            </p>
+          </div>
 
-          <span className="self-stretch w-px shrink-0" style={{ background: '#CBD5E1' }} />
+          {/* stats bar — wraps 2-up on mobile instead of forcing one unbreakable row */}
+          <div
+            ref={fitRef}
+            className="flex-1 min-w-0 grid grid-cols-2 sm:flex border border-slate-200 sm:border-0 rounded-lg sm:rounded-none overflow-hidden"
+          >
+            {reportSummary.map((cell) => (
+              <SummaryCell key={cell.label} {...cell} />
+            ))}
+          </div>
+        </div>
+      </section>
 
-          <p className="font-sans min-w-0 truncate" style={{ fontSize: 13.5, color: MUTED }}>
-            Revenue, transactions and subscription health across the platform ·{' '}
-            <span style={{ letterSpacing: '0.6px', color: FAINT }}>UPDATED {updatedAt} GMT+8</span>
-          </p>
-
-          <div className="flex-1" />
+      {/* ======================================================= range/filter bar */}
+      <section
+        className="px-8 min-h-[70px] py-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-3"
+        style={{ borderBottom: `1px solid ${LINE}` }}
+      >
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-[9px] shrink-0">
+            <Filter className="w-[15px] h-[15px]" style={{ color: MUTED }} strokeWidth={1.8} />
+            <span
+              className="font-sans uppercase"
+              style={{ fontSize: 11, letterSpacing: '1.3px', color: MUTED }}
+            >
+              Filter
+            </span>
+          </div>
 
           <div className="flex rounded-[6px] overflow-hidden shrink-0" style={{ border: `1px solid #CBD5E1` }}>
             {reportRanges.map((r, i) => {
@@ -374,10 +445,7 @@ export default function ReportsPage() {
                 <button
                   key={r}
                   type="button"
-                  onClick={() => {
-                    setRange(r)
-                    setHovered(null)
-                  }}
+                  onClick={() => setRange(r)}
                   className="font-sans h-[34px] px-[21px] transition-colors"
                   style={{
                     fontSize: 13.5,
@@ -391,6 +459,12 @@ export default function ReportsPage() {
               )
             })}
           </div>
+        </div>
+
+        <div className="flex items-center gap-4 shrink-0">
+          <span className="font-sans" style={{ fontSize: 11, letterSpacing: '0.6px', color: FAINT }}>
+            UPDATED {updatedAt} GMT+8
+          </span>
 
           <button
             type="button"
@@ -403,84 +477,79 @@ export default function ReportsPage() {
         </div>
       </section>
 
-      {/* ========================================================== kpi strip */}
-      <section ref={fitRef} className="flex items-stretch" style={{ borderBottom: `1px solid ${LINE}` }}>
-        <div className="w-[344px] min-[1400px]:w-[388px] shrink-0 flex items-center gap-[18px] min-[1400px]:gap-[24px] px-4 min-[1400px]:px-6 py-[30px]">
-          <Donut
-            segments={todaysRevenue.segments}
-            total={todaysRevenue.total}
-            caption={todaysRevenue.caption}
-          />
+      {/* =============================================== monthly revenue + today's revenue */}
+      {/*
+       * Mirrors the Dashboard's Analytics section: the line graph and the
+       * donut sit side by side in the same row (graph 2/3, donut 1/3),
+       * each in its own gradient-eyebrow card — instead of the donut living
+       * separately from the chart it's meant to sit beside.
+       */}
+      <section className="px-8 pt-[26px] pb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+          {/* Monthly revenue overview — 2 cols, same graph as before */}
+          <div className="lg:col-span-2 bg-white rounded-2xl shadow-xs border border-slate-200/80 flex flex-col">
+            <div className="h-[5px] w-full bg-lexmeet-gradient rounded-t-[15px]" />
+            <div className="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <h2 className="font-heading font-bold text-lg" style={{ color: PURPLE }}>
+                  Monthly Revenue Overview
+                </h2>
+                <p
+                  className="font-sans uppercase leading-none mt-[10px]"
+                  style={{ fontSize: 11, letterSpacing: '1.6px', color: MUTED }}
+                >
+                  {data.subtitle}
+                </p>
+              </div>
 
-          <div className="min-w-0">
-            <p
-              data-fit="label"
-              className="block w-full font-sans uppercase leading-[1.2] whitespace-nowrap overflow-hidden"
-              style={{ fontSize: FIT.label.max, letterSpacing: '1px', color: MUTED }}
-            >
-              Today&apos;s revenue
-            </p>
-            <div className="mt-[18px] space-y-[13px]">
-              {todaysRevenue.segments.map((s) => (
-                <div key={s.label} className="flex items-center gap-[10px]">
-                  <span
-                    className="w-[11px] h-[11px] rounded-[2px] shrink-0"
-                    style={{ background: s.color }}
-                  />
-                  <span
-                    className="font-sans whitespace-nowrap shrink-0"
-                    style={{ fontSize: 13, color: INK, width: 86 }}
-                  >
-                    {s.label}
-                  </span>
-                  <span
-                    className="font-sans font-bold whitespace-nowrap shrink-0"
-                    style={{ fontSize: 13, color: INK }}
-                  >
-                    {s.value}
-                  </span>
-                </div>
-              ))}
+              <div className="mt-[18px]">
+                <RevenueGraph data={data} />
+              </div>
             </div>
           </div>
-        </div>
 
-        {reportSummary.map((cell) => (
-          <SummaryCell key={cell.label} {...cell} />
-        ))}
-      </section>
+          {/* Today's Revenue — donut card, styled like Dashboard's Distribution Chart card */}
+          <div className="lg:col-span-1 bg-white rounded-2xl shadow-xs border border-slate-200/80 overflow-hidden flex flex-col">
+            <div className="h-[5px] w-full bg-lexmeet-gradient" />
+            <div className="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <h2 className="font-heading font-bold text-lg" style={{ color: PURPLE }}>
+                  Today&apos;s Revenue
+                </h2>
+                <p
+                  className="font-sans text-[11px] font-semibold uppercase tracking-wider mt-0.5"
+                  style={{ color: MUTED }}
+                >
+                  Revenue breakdown
+                </p>
 
-      {/* =============================================== monthly revenue chart */}
-      <section className="px-8 pt-[26px] pb-8">
-        <div className="flex items-end justify-between gap-6">
-          <div>
-            <h2 className="font-heading font-bold leading-none" style={{ fontSize: 22, color: INK }}>
-              Monthly revenue overview
-            </h2>
-            <p
-              className="font-sans uppercase leading-none mt-[13px]"
-              style={{ fontSize: 11, letterSpacing: '1.6px', color: MUTED }}
-            >
-              {data.subtitle}
-            </p>
-          </div>
-
-          <div className="flex items-center gap-[26px] shrink-0 pb-[6px]">
-            {seriesLegend.map((l) => (
-              <div key={l.key} className="flex items-center gap-[9px]">
-                <span className="w-[18px] h-[2px] rounded-full" style={{ background: l.color }} />
-                <span className="font-sans" style={{ fontSize: 12.5, color: INK }}>
-                  {l.label}
-                </span>
+                <div className="mt-5 flex flex-col items-center">
+                  <Donut
+                    segments={todaysRevenue.segments}
+                    total={todaysRevenue.total}
+                    caption={todaysRevenue.caption}
+                    size="lg"
+                  />
+                </div>
               </div>
-            ))}
+
+              <div className="space-y-2 pt-4 mt-4 border-t border-slate-100">
+                {todaysRevenue.segments.map((s) => (
+                  <div key={s.label} className="flex items-center justify-between gap-2 p-1.5 rounded-xl">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="w-3 h-3 rounded-full shrink-0" style={{ background: s.color }} />
+                      <span className="font-sans font-semibold text-xs truncate" style={{ color: INK }}>
+                        {s.label}
+                      </span>
+                    </div>
+                    <span className="font-sans font-extrabold text-xs shrink-0" style={{ color: INK }}>
+                      {s.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div className="mt-[16px]" style={{ borderTop: `1.5px solid ${INK}` }} />
-
-        <div className="mt-[18px]">
-          <LineChart data={data} hovered={hovered} onHover={setHovered} />
         </div>
       </section>
     </div>
