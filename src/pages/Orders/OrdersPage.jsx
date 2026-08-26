@@ -310,7 +310,7 @@ export default function OrdersPage() {
           </colgroup>
 
           <thead>
-            <tr className="border-b border-slate-200 align-middle">
+            <tr className="border-b border-gray-500 align-middle">
               <th>
                 <input
                   checked={allChecked}
