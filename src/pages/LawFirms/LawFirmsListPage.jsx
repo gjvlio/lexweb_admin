@@ -82,8 +82,12 @@ function SummaryCell({ label, value, note, accent }) {
 
 function StatusCell({ status }) {
   if (status === 'Active') {
+    // Tinted purple, not filled — same chip as Suspended but reading as healthy.
     return (
-      <span className="font-sans uppercase text-[11px] tracking-[1.2px]" style={{ color: tokens.muted }}>
+      <span
+        className="inline-block font-sans uppercase rounded-[3px] px-[10px] py-[4px] text-[10px] tracking-[1.2px]"
+        style={{ background: 'rgba(94,27,137,0.10)', color: tokens.purple }}
+      >
         Active
       </span>
     );
