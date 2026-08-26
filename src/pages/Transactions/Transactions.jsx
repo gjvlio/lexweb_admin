@@ -132,21 +132,21 @@ export default function Transactions() {
     <div className="-m-6 bg-white min-h-[calc(100vh-68px)] flex flex-col font-sans">
       {/* Header Band */}
       <section style={{ borderBottom: `1px solid ${tokens.line}` }}>
-        <div className="px-4 sm:px-8 pt-[18px] pb-[20px] flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <Link
-              to="/transactions"
-              className="hover:underline block"
-              style={{ fontSize: 12, color: tokens.orange }}
-            >
-              &gt; Transactions
-            </Link>
-            <h1
-              className="font-heading font-bold leading-none mt-[12px]"
-              style={{ fontSize: 34, color: tokens.purple }}
-            >
+        <div className="px-6 pt-6 pb-5 flex flex-wrap items-start justify-between gap-4">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-1 text-xs mb-2" style={{ color: tokens.orange }}>
+              <Link to="/" className="hover:underline">
+                &gt; Dashboard
+              </Link>
+              <span>&gt;</span>
+              <span className="font-semibold">Transactions</span>
+            </div>
+            <h1 className="text-4xl font-heading font-bold text-brand-purple tracking-tight">
               Transactions
             </h1>
+            <p className="text-xs text-slate-500 leading-normal mt-1.5">
+              Monitor client payments, subscriptions, and financial records.
+            </p>
           </div>
         </div>
       </section>

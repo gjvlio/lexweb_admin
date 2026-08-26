@@ -70,22 +70,27 @@ export default function Templates() {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="-m-6 bg-white min-h-[calc(100vh-68px)] flex flex-col font-sans px-6 pt-6 pb-12 w-full space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-1.5">
-          <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs font-sans">
-            <Link to="/products" className="text-brand-orange hover:underline font-medium">
+          <div className="flex items-center gap-1 text-xs mb-2" style={{ color: '#F4512C' }}>
+            <Link to="/" className="hover:underline">
+              &gt; Dashboard
+            </Link>
+            <span>&gt;</span>
+            <Link to="/products" className="hover:underline">
               Products
             </Link>
-            <span className="text-slate-400">&rsaquo;</span>
-            <Link to="/products/templates" className="text-brand-purple font-semibold hover:underline">
-            Templates
-          </Link>
-          </nav>
+            <span>&gt;</span>
+            <span className="font-semibold" style={{ color: '#5E1B89' }}>Templates</span>
+          </div>
 
-          <h1 className="text-3xl font-heading font-bold text-brand-purple leading-tight">
+          <h1 className="font-heading text-4xl font-bold tracking-tight text-brand-purple">
             Templates
           </h1>
+          <p className="text-xs text-slate-500 leading-normal mt-1.5">
+            Manage layout templates, styles, and configurations.
+          </p>
         </div>
 
         <div className="flex items-center gap-3 flex-wrap">

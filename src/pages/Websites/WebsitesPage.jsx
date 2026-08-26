@@ -252,40 +252,34 @@ export default function WebsitesPage() {
     <div className="-m-6 bg-white min-h-[calc(100vh-68px)] flex flex-col font-sans">
       {/* ============================================ directory header band */}
       <section style={{ borderBottom: `1px solid ${LINE}` }}>
-        <div className="px-4 sm:px-8 pt-[18px] flex items-start justify-between gap-4 mb-2">
-          <Link
-            to="/websites"
-            className="font-sans hover:underline cursor-pointer block"
-            style={{ fontSize: 12, color: ORANGE }}
-          >
-            &gt; Websites
-          </Link>
+        <div className="px-6 pt-5 pb-2 flex items-start justify-between gap-4">
+          <div className="flex items-center gap-1 text-xs" style={{ color: ORANGE }}>
+            <Link to="/" className="hover:underline">
+              &gt; Dashboard
+            </Link>
+            <span>&gt;</span>
+            <span className="font-semibold">Websites</span>
+          </div>
 
           <div className="flex items-center gap-3 shrink-0">
             <button
               type="button"
               onClick={exportCsv}
-              className="font-sans rounded-[6px] px-3.5 sm:px-[18px] h-[36px] transition-colors hover:bg-slate-50 cursor-pointer"
-              style={{ fontSize: 13.5, color: INK, border: `1px solid #CBD5E1` }}
+              className="font-sans rounded-[6px] px-3.5 sm:px-[18px] h-[36px] transition-colors hover:bg-slate-50 cursor-pointer text-xs font-semibold"
+              style={{ color: INK, border: `1px solid #CBD5E1` }}
             >
               Export CSV
             </button>
           </div>
         </div>
 
-        <div className="px-4 sm:px-8 pt-[15px] pb-[20px] flex flex-col lg:flex-row items-stretch gap-6">
+        <div className="px-6 pb-5 flex flex-col lg:flex-row items-stretch gap-6">
           {/* left — title block */}
           <div className="w-full lg:w-[320px] shrink-0 pr-2">
-            <p
-              className="font-sans uppercase leading-none"
-              style={{ fontSize: 12, letterSpacing: '2px', color: MUTED }}
-            >
+            <p className="uppercase leading-none" style={{ fontSize: 12, letterSpacing: '2px', color: MUTED }}>
               Directory
             </p>
-            <h1
-              className="font-heading font-bold leading-none mt-[12px]"
-              style={{ fontSize: 34, color: PURPLE }}
-            >
+            <h1 className="font-heading font-bold text-4xl tracking-tight mt-[12px]" style={{ color: PURPLE }}>
               Websites
             </h1>
             <p className="mt-[12px] text-xs leading-[20px]" style={{ color: MUTED }}>

@@ -189,19 +189,21 @@ export default function LawFirmsListPage() {
     <div className="-m-6 bg-white min-h-[calc(100vh-68px)] flex flex-col font-sans">
       {/* Header Band */}
       <section style={{ borderBottom: `1px solid ${tokens.line}` }}>
-        <div className="px-4 sm:px-8 pt-[18px] flex items-start justify-between gap-4 mb-2">
+        <div className="px-6 pt-5 pb-2 flex items-start justify-between gap-4">
           <div className="flex items-center gap-1 text-xs" style={{ color: tokens.orange }}>
-            <Link to="/lawfirms" className="hover:underline block">
-              &gt; Law Firms
+            <Link to="/" className="hover:underline">
+              &gt; Dashboard
             </Link>
+            <span>&gt;</span>
+            <span className="font-semibold">Law Firms</span>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
             <button
               type="button"
               onClick={() => setShowNew(true)}
-              className="font-sans rounded-[6px] px-3.5 sm:px-[18px] h-[36px] inline-flex items-center gap-[7px] text-white transition-opacity hover:opacity-90 cursor-pointer"
-              style={{ fontSize: 13.5, background: tokens.orange }}
+              className="font-sans rounded-[6px] px-3.5 sm:px-[18px] h-[36px] inline-flex items-center gap-[7px] text-white transition-opacity hover:opacity-90 cursor-pointer text-xs font-semibold"
+              style={{ background: tokens.orange }}
             >
               <Plus className="w-[15px] h-[15px]" strokeWidth={2.4} />
               New Law Firm
@@ -209,12 +211,12 @@ export default function LawFirmsListPage() {
           </div>
         </div>
 
-        <div className="px-4 sm:px-8 pt-[15px] pb-[20px] flex flex-col lg:flex-row items-stretch gap-6">
+        <div className="px-6 pb-5 flex flex-col lg:flex-row items-stretch gap-6">
           <div className="w-full lg:w-[320px] shrink-0 pr-2">
             <p className="uppercase leading-none" style={{ fontSize: 12, letterSpacing: '2px', color: tokens.muted }}>
               Directory
             </p>
-            <h1 className="font-heading font-bold leading-none mt-[12px]" style={{ fontSize: 34, color: tokens.purple }}>
+            <h1 className="font-heading font-bold text-4xl tracking-tight mt-[12px]" style={{ color: tokens.purple }}>
               Law Firms
             </h1>
             <p className="mt-[12px] text-xs leading-[20px]" style={{ color: tokens.muted }}>

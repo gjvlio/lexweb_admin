@@ -12,7 +12,7 @@ export default {
           'orange-light': '#FF7F4D',
           purple: '#5E1B89',
           'purple-soft': '#9D71BC',
-          bg: '#F8FFFE',
+          bg: '#FFFFFF',
         },
       },
       fontFamily: {
