@@ -72,8 +72,8 @@ function useAutoFit(config) {
 function SummaryCell({ label, value, note, accent }) {
   return (
     <div
-      className="flex-1 min-w-0 flex flex-col justify-center px-4 min-[1400px]:px-7"
-      style={{ borderLeft: `1px solid ${LINE}` }}
+      className="flex-1 min-w-[140px] flex flex-col justify-center px-4 py-3 sm:py-0 min-[1400px]:px-7 border-t sm:border-t-0 sm:border-l first:border-l-0"
+      style={{ borderColor: LINE }}
     >
       <span
         data-fit="label"
@@ -83,14 +83,14 @@ function SummaryCell({ label, value, note, accent }) {
         {label}
       </span>
       <span
-        className="font-sans font-bold leading-none mt-[15px]"
-        style={{ fontSize: 32, color: accent === 'orange' ? ORANGE : INK }}
+        className="font-sans font-bold leading-none mt-2 sm:mt-[15px]"
+        style={{ fontSize: 28, color: accent === 'orange' ? ORANGE : INK }}
       >
         {value}
       </span>
       <span
         data-fit="note"
-        className="block w-full font-sans leading-[1.4] mt-[18px] whitespace-nowrap overflow-hidden"
+        className="block w-full font-sans leading-[1.4] mt-2 sm:mt-[18px] whitespace-nowrap overflow-hidden"
         style={{ fontSize: FIT.note.max, color: FAINT }}
       >
         {note}
@@ -103,8 +103,8 @@ function PlanCell({ plan }) {
   const isPremium = plan === 'Premium'
   return (
     <span
-      className={`font-sans ${isPremium ? 'font-bold' : 'font-normal'}`}
-      style={{ fontSize: 13.5, color: isPremium ? PURPLE : INK }}
+      className={`font-sans text-xs ${isPremium ? 'font-bold' : 'font-normal'}`}
+      style={{ color: isPremium ? PURPLE : INK }}
     >
       {plan}
     </span>
@@ -114,10 +114,7 @@ function PlanCell({ plan }) {
 function StatusCell({ status }) {
   if (status === 'Active') {
     return (
-      <span
-        className="font-sans uppercase"
-        style={{ fontSize: 11, letterSpacing: '1.2px', color: MUTED }}
-      >
+      <span className="font-sans uppercase text-[11px] tracking-[1.2px]" style={{ color: MUTED }}>
         Active
       </span>
     )
@@ -125,8 +122,8 @@ function StatusCell({ status }) {
   if (status === 'Pending') {
     return (
       <span
-        className="inline-block font-sans uppercase rounded-[3px] px-[11px] py-[6px]"
-        style={{ fontSize: 11, letterSpacing: '1.2px', background: '#E2E8F0', color: '#475569' }}
+        className="inline-block font-sans uppercase rounded-[3px] px-[10px] py-[4px] text-[10px] tracking-[1.2px]"
+        style={{ background: '#E2E8F0', color: '#475569' }}
       >
         Pending
       </span>
@@ -134,8 +131,8 @@ function StatusCell({ status }) {
   }
   return (
     <span
-      className="inline-block font-sans uppercase rounded-[3px] px-[11px] py-[6px]"
-      style={{ fontSize: 11, letterSpacing: '1.2px', background: PURPLE, color: '#FFFFFF' }}
+      className="inline-block font-sans uppercase rounded-[3px] px-[10px] py-[4px] text-[10px] tracking-[1.2px] text-white"
+      style={{ background: PURPLE }}
     >
       Suspended
     </span>
@@ -145,7 +142,7 @@ function StatusCell({ status }) {
 function PaymentCell({ payment }) {
   if (payment === 'Paid') {
     return (
-      <span className="font-sans" style={{ fontSize: 13.5, color: INK }}>
+      <span className="font-sans text-xs" style={{ color: INK }}>
         Paid
       </span>
     )
@@ -153,8 +150,8 @@ function PaymentCell({ payment }) {
   if (payment === 'Overdue') {
     return (
       <span
-        className="inline-block font-sans uppercase rounded-[3px] px-[11px] py-[6px]"
-        style={{ fontSize: 11, letterSpacing: '1.2px', background: ORANGE, color: '#FFFFFF' }}
+        className="inline-block font-sans uppercase rounded-[3px] px-[10px] py-[4px] text-[10px] tracking-[1.2px] text-white"
+        style={{ background: ORANGE }}
       >
         Overdue
       </span>
@@ -162,8 +159,8 @@ function PaymentCell({ payment }) {
   }
   return (
     <span
-      className="inline-block font-sans uppercase rounded-[3px] px-[11px] py-[6px]"
-      style={{ fontSize: 11, letterSpacing: '1.2px', background: '#FDE4E4', color: ORANGE }}
+      className="inline-block font-sans uppercase rounded-[3px] px-[10px] py-[4px] text-[10px] tracking-[1.2px]"
+      style={{ background: '#FDE4E4', color: ORANGE }}
     >
       Unpaid
     </span>
@@ -178,7 +175,7 @@ function CheckBox({ checked, onChange, label }) {
       aria-checked={checked}
       aria-label={label}
       onClick={onChange}
-      className="w-[15px] h-[15px] rounded-[3px] flex items-center justify-center transition-colors"
+      className="w-[15px] h-[15px] rounded-[3px] flex items-center justify-center transition-colors cursor-pointer"
       style={{
         border: `1px solid ${checked ? PURPLE : '#B6BECB'}`,
         background: checked ? PURPLE : '#FFFFFF',
@@ -202,20 +199,20 @@ function Modal({ open, title, onClose, children, footer }) {
       onClick={onClose}
     >
       <div
-        className="w-full max-w-[440px] bg-white rounded-[14px] overflow-hidden shadow-2xl"
+        className="w-full max-w-[420px] bg-white rounded-[10px] overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div
           className="flex items-center justify-between px-6 py-4"
           style={{ borderBottom: `1px solid ${LINE}` }}
         >
-          <h3 className="font-sans font-bold" style={{ fontSize: 17, color: PURPLE }}>
+          <h3 className="font-bold text-base" style={{ color: PURPLE }}>
             {title}
           </h3>
           <button
             type="button"
             onClick={onClose}
-            className="p-1 rounded-lg hover:bg-slate-100 transition-colors"
+            className="p-1 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
             aria-label="Close"
           >
             <X className="w-4 h-4" style={{ color: MUTED }} />
@@ -292,22 +289,15 @@ export default function WebsitesPage() {
     URL.revokeObjectURL(url)
   }
 
-  const headStyle = {
-    fontSize: 11,
-    letterSpacing: '1.3px',
-    color: FAINT,
-    fontWeight: 400,
-  }
-
   return (
-    <div className="-m-6 bg-white min-h-[calc(100vh-68px)] overflow-x-hidden">
+    <div className="-m-6 bg-white min-h-[calc(100vh-68px)] flex flex-col font-sans">
       {/* ============================================ directory header band */}
       <section style={{ borderBottom: `1px solid ${LINE}` }}>
-        <div className="px-8 pt-[18px] flex items-start justify-between gap-6">
+        <div className="px-4 sm:px-8 pt-[18px] flex items-start justify-between gap-4 mb-2">
           <Link
             to="/websites"
             className="font-sans hover:underline cursor-pointer block"
-            style={{ fontSize: 12, color: '#F4512C' }}
+            style={{ fontSize: 12, color: ORANGE }}
           >
             &gt; Websites
           </Link>
@@ -316,7 +306,7 @@ export default function WebsitesPage() {
             <button
               type="button"
               onClick={exportCsv}
-              className="font-sans rounded-[6px] px-[18px] h-[36px] transition-colors hover:bg-slate-50"
+              className="font-sans rounded-[6px] px-3.5 sm:px-[18px] h-[36px] transition-colors hover:bg-slate-50 cursor-pointer"
               style={{ fontSize: 13.5, color: INK, border: `1px solid #CBD5E1` }}
             >
               Export CSV
@@ -324,9 +314,9 @@ export default function WebsitesPage() {
           </div>
         </div>
 
-        <div className="px-8 pt-[15px] pb-[26px] flex items-stretch">
+        <div className="px-4 sm:px-8 pt-[15px] pb-[20px] flex flex-col lg:flex-row items-stretch gap-6">
           {/* left — title block */}
-          <div className="w-[300px] min-[1400px]:w-[330px] shrink pr-6">
+          <div className="w-full lg:w-[320px] shrink-0 pr-2">
             <p
               className="font-sans uppercase leading-none"
               style={{ fontSize: 12, letterSpacing: '2px', color: MUTED }}
@@ -334,18 +324,21 @@ export default function WebsitesPage() {
               Directory
             </p>
             <h1
-              className="font-heading font-bold leading-none mt-[14px]"
-              style={{ fontSize: 38, color: PURPLE }}
+              className="font-heading font-bold leading-none mt-[12px]"
+              style={{ fontSize: 34, color: PURPLE }}
             >
               Websites
             </h1>
-            <p className="font-sans mt-[16px]" style={{ fontSize: 13.5, color: MUTED, lineHeight: '25px' }}>
+            <p className="mt-[12px] text-xs leading-[20px]" style={{ color: MUTED }}>
               Every provisioned lawfirm site, its plan, template and billing state.
             </p>
           </div>
 
           {/* right — summary strip */}
-          <div ref={fitRef} className="flex-1 min-w-0 flex">
+          <div
+            ref={fitRef}
+            className="flex-1 min-w-0 grid grid-cols-2 sm:flex border border-slate-200 sm:border-0 rounded-lg sm:rounded-none overflow-hidden"
+          >
             {websiteSummary.map((cell) => (
               <SummaryCell key={cell.label} {...cell} />
             ))}
@@ -355,81 +348,72 @@ export default function WebsitesPage() {
 
       {/* ======================================================= filter bar */}
       <section
-        className="px-8 min-h-[70px] py-3 flex flex-wrap items-center gap-x-4 gap-y-3"
+        className="px-4 sm:px-8 min-h-[64px] py-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-3"
         style={{ borderBottom: `1px solid ${LINE}` }}
       >
-        <div className="flex items-center gap-[9px] shrink-0">
-          <Filter className="w-[15px] h-[15px]" style={{ color: MUTED }} strokeWidth={1.8} />
-          <span
-            className="font-sans uppercase"
-            style={{ fontSize: 11, letterSpacing: '1.3px', color: MUTED }}
-          >
-            Filter
-          </span>
-        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-[9px] shrink-0">
+            <Filter className="w-[15px] h-[15px]" style={{ color: MUTED }} strokeWidth={1.8} />
+            <span className="uppercase" style={{ fontSize: 11, letterSpacing: '1.3px', color: MUTED }}>
+              Filter
+            </span>
+          </div>
 
-        <div className="flex rounded-[6px] overflow-hidden shrink-0" style={{ border: `1px solid #CBD5E1` }}>
-          {statusFilters.map((f, i) => {
-            const active = activeFilter === f
-            return (
-              <button
-                key={f}
-                type="button"
-                onClick={() => {
-                  setActiveFilter(f)
+          <div className="flex rounded-[6px] overflow-hidden shrink-0 border border-slate-300">
+            {statusFilters.map((f, i) => {
+              const active = activeFilter === f
+              return (
+                <button
+                  key={f}
+                  type="button"
+                  onClick={() => {
+                    setActiveFilter(f)
+                    setPage(1)
+                  }}
+                  className="h-[34px] px-3 sm:px-[18px] transition-colors cursor-pointer text-xs font-semibold"
+                  style={{
+                    background: active ? PURPLE : '#FFFFFF',
+                    color: active ? '#FFFFFF' : INK,
+                    borderLeft: i === 0 ? 'none' : `1px solid #CBD5E1`,
+                  }}
+                >
+                  {f}
+                </button>
+              )
+            })}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="shrink-0 text-xs text-slate-500">Sort</span>
+            <div className="relative shrink-0">
+              <select
+                value={sortBy}
+                onChange={(e) => {
+                  setSortBy(e.target.value)
                   setPage(1)
                 }}
-                className="font-sans h-[34px] px-[19px] transition-colors"
-                style={{
-                  fontSize: 13.5,
-                  background: active ? PURPLE : '#FFFFFF',
-                  color: active ? '#FFFFFF' : INK,
-                  borderLeft: i === 0 ? 'none' : `1px solid #CBD5E1`,
-                }}
+                className="appearance-none rounded-[6px] h-[34px] pl-[12px] pr-[32px] cursor-pointer bg-white text-xs border border-slate-300 focus:outline-none"
+                style={{ width: 160, color: INK }}
               >
-                {f}
-              </button>
-            )
-          })}
+                {sortOptions.map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="w-4 h-4 absolute right-[10px] top-1/2 -translate-y-1/2 pointer-events-none text-slate-400" />
+            </div>
+          </div>
         </div>
 
-        <span className="font-sans shrink-0 ml-[8px]" style={{ fontSize: 13.5, color: MUTED }}>
-          Sort
-        </span>
-
-        <div className="relative shrink-0">
-          <select
-            value={sortBy}
-            onChange={(e) => {
-              setSortBy(e.target.value)
-              setPage(1)
-            }}
-            className="font-sans appearance-none rounded-[6px] h-[34px] pl-[15px] pr-[38px] cursor-pointer bg-white focus:outline-none"
-            style={{ fontSize: 13.5, color: INK, border: `1px solid #CBD5E1`, width: 157 }}
-          >
-            {sortOptions.map((o) => (
-              <option key={o} value={o}>
-                {o}
-              </option>
-            ))}
-          </select>
-          <ChevronDown
-            className="w-4 h-4 absolute right-[11px] top-1/2 -translate-y-1/2 pointer-events-none"
-            style={{ color: MUTED }}
-          />
-        </div>
-
-        <div className="flex-1" />
-
-        <span className="font-sans shrink-0" style={{ fontSize: 12.5, color: MUTED }}>
-          Showing <strong style={{ color: INK, fontWeight: 700 }}>{pageRows.length}</strong> of{' '}
-          {filtered.length}
+        <span className="shrink-0 text-xs text-slate-500">
+          Showing <strong style={{ color: INK }}>{pageRows.length}</strong> of {filtered.length}
         </span>
       </section>
 
       {/* ============================================================ table */}
-      <section className="px-8">
-        <table className="w-full table-fixed border-collapse">
+      <section className="px-4 sm:px-8 flex-1 overflow-x-auto">
+        <table className="w-full min-w-[980px] table-fixed border-collapse text-left">
           <colgroup>
             <col style={{ width: CHECKBOX_COL_WIDTH }} />
             {websiteColumns.map((c) => (
@@ -445,10 +429,10 @@ export default function WebsitesPage() {
               {websiteColumns.map((c) => (
                 <th
                   key={c.key}
-                  className={`align-middle h-[52px] font-sans uppercase whitespace-nowrap ${
+                  className={`align-middle h-[52px] font-sans uppercase text-[11px] tracking-[1.2px] whitespace-nowrap ${
                     c.key === 'action' ? 'text-right' : 'text-left'
                   }`}
-                  style={headStyle}
+                  style={{ color: FAINT, fontWeight: 400 }}
                 >
                   {c.label}
                 </th>
@@ -473,19 +457,19 @@ export default function WebsitesPage() {
                     label={`Select ${row.domain}`}
                   />
                 </td>
-                <td className="align-middle font-sans whitespace-nowrap" style={{ fontSize: 13.5, color: MUTED }}>
+                <td className="align-middle text-xs whitespace-nowrap" style={{ color: MUTED }}>
                   {row.id}
                 </td>
-                <td className="align-middle font-sans font-bold truncate pr-5" style={{ fontSize: 13.5, color: INK }}>
+                <td className="align-middle text-xs font-bold truncate pr-4" style={{ color: INK }}>
                   {row.domain}
                 </td>
-                <td className="align-middle font-sans truncate pr-5" style={{ fontSize: 13.5, color: INK }}>
+                <td className="align-middle text-xs truncate pr-4" style={{ color: INK }}>
                   {row.lawfirm}
                 </td>
                 <td className="align-middle whitespace-nowrap">
                   <PlanCell plan={row.plan} />
                 </td>
-                <td className="align-middle font-sans truncate pr-5" style={{ fontSize: 13.5, color: INK }}>
+                <td className="align-middle text-xs truncate pr-4" style={{ color: INK }}>
                   {row.template}
                 </td>
                 <td className="align-middle whitespace-nowrap">
@@ -498,8 +482,8 @@ export default function WebsitesPage() {
                   <button
                     type="button"
                     onClick={() => setDetail(row)}
-                    className="font-sans underline underline-offset-[3px] hover:opacity-70 transition-opacity"
-                    style={{ fontSize: 13.5, color: PURPLE }}
+                    className="underline underline-offset-[3px] text-xs font-semibold hover:opacity-70 transition-opacity cursor-pointer"
+                    style={{ color: PURPLE }}
                   >
                     Live view
                   </button>
@@ -509,7 +493,7 @@ export default function WebsitesPage() {
 
             {pageRows.length === 0 && (
               <tr>
-                <td colSpan={9} className="h-[160px] text-center font-sans" style={{ fontSize: 13.5, color: FAINT }}>
+                <td colSpan={9} className="h-[160px] text-center text-xs" style={{ color: FAINT }}>
                   No websites match this filter.
                 </td>
               </tr>
@@ -520,20 +504,19 @@ export default function WebsitesPage() {
 
       {/* ======================================================= pagination */}
       <section
-        className="px-8 h-[68px] flex items-center justify-between"
+        className="px-4 sm:px-8 h-[68px] flex items-center justify-between"
         style={{ borderTop: `1px solid ${RULE}`, marginTop: -1 }}
       >
-        <span className="font-sans" style={{ fontSize: 12.5, color: MUTED }}>
+        <span className="text-xs text-slate-500">
           Page {safePage} of {totalPages}
         </span>
 
-        <div className="flex rounded-[6px] overflow-hidden" style={{ border: `1px solid #CBD5E1` }}>
+        <div className="flex rounded-[6px] overflow-hidden border border-slate-300">
           <button
             type="button"
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={safePage === 1}
-            className="font-sans h-[32px] px-[17px] bg-white transition-colors hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white"
-            style={{ fontSize: 13, color: INK }}
+            className="h-[32px] px-[16px] bg-white text-xs hover:bg-slate-50 disabled:opacity-40 cursor-pointer"
           >
             Previous
           </button>
@@ -541,8 +524,7 @@ export default function WebsitesPage() {
             type="button"
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={safePage === totalPages}
-            className="font-sans h-[32px] px-[17px] bg-white transition-colors hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white"
-            style={{ fontSize: 13, color: INK, borderLeft: `1px solid #CBD5E1` }}
+            className="h-[32px] px-[16px] bg-white text-xs hover:bg-slate-50 disabled:opacity-40 border-l border-slate-300 cursor-pointer"
           >
             Next
           </button>
@@ -552,7 +534,7 @@ export default function WebsitesPage() {
       {/* =========================================================== modals */}
       <Modal open={!!detail} title="Site details" onClose={() => setDetail(null)}>
         {detail && (
-          <dl className="space-y-[14px]">
+          <dl className="space-y-[14px] text-xs">
             {[
               ['Domain', detail.domain],
               ['Lawfirm', detail.lawfirm],
@@ -563,13 +545,10 @@ export default function WebsitesPage() {
               ['Record ID', String(detail.id)],
             ].map(([k, v]) => (
               <div key={k} className="flex items-center justify-between gap-4">
-                <dt
-                  className="font-sans uppercase"
-                  style={{ fontSize: 10.5, letterSpacing: '1.2px', color: FAINT }}
-                >
+                <dt className="font-sans uppercase text-slate-500" style={{ letterSpacing: '1.2px' }}>
                   {k}
                 </dt>
-                <dd className="font-sans text-right" style={{ fontSize: 13.5, color: INK }}>
+                <dd className="font-sans text-right" style={{ color: INK }}>
                   {v}
                 </dd>
               </div>

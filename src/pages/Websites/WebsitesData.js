@@ -69,4 +69,4 @@ function buildDirectory() {
 
 export const websites = buildDirectory()
 
-export const PAGE_SIZE = 10
+export const PAGE_SIZE = 8
