@@ -145,24 +145,22 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="space-y-7 font-sans pb-12 w-full">
+    <div className="-m-6 bg-white min-h-[calc(100vh-68px)] flex flex-col font-sans px-6 pt-6 pb-12 space-y-7">
       {/* 1. Page Title & Subtitle */}
-      <div>
-        <div className="flex items-start justify-between gap-6 mb-2">
-          <Link
-            to="/dashboard"
-            className="font-sans hover:underline cursor-pointer block"
-            style={{ fontSize: 12, color: '#F4512C' }}
-          >
-            &gt; Dashboard
-          </Link>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-1 text-xs mb-2" style={{ color: '#F4512C' }}>
+            <Link to="/dashboard" className="hover:underline">
+              &gt; Dashboard
+            </Link>
+          </div>
+          <h1 className="font-heading text-4xl font-bold tracking-tight text-brand-purple">
+            Dashboard
+          </h1>
+          <p className="text-xs text-slate-500 leading-normal mt-1.5 font-medium">
+            The bird's eye view of your account
+          </p>
         </div>
-        <h1 className="text-4xl font-heading font-bold text-[#5E1B89] tracking-tight">
-          Dashboard
-        </h1>
-        <p className="text-slate-700 text-sm font-sans font-medium mt-1.5">
-          The bird's eye view of your account
-        </p>
       </div>
 
       {/* 2. Top 4 KPI Stat Cards Banner — Lawful Purple (#5E1B89) for Positive Health Badges */}
@@ -284,9 +282,14 @@ export default function Dashboard() {
             <div>
               <div className="flex items-center justify-between flex-wrap gap-4">
                 <div>
-                  <h2 className="font-heading font-bold text-2xl text-[#5E1B89]">
-                    Overall Graph
-                  </h2>
+                  <div className="flex items-baseline gap-3">
+                    <h2 className="font-heading font-bold text-2xl text-[#5E1B89]">
+                      Overall Graph
+                    </h2>
+                    <Link to="/reports" className="text-xs font-bold text-[#F4512C] hover:underline whitespace-nowrap">
+                      View Reports &rsaquo;
+                    </Link>
+                  </div>
                   <p className="font-sans text-[11px] font-semibold uppercase text-slate-400 tracking-wider mt-0.5">
                     FINANCIAL PROGRESS ACROSS ALL TRANSACTIONS
                   </p>
@@ -512,9 +515,14 @@ export default function Dashboard() {
             <div>
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="font-heading font-bold text-2xl text-[#5E1B89]">
-                    Distribution Chart
-                  </h2>
+                  <div className="flex items-baseline gap-3">
+                    <h2 className="font-heading font-bold text-2xl text-[#5E1B89]">
+                      Distribution Chart
+                    </h2>
+                    <Link to="/reports" className="text-xs font-bold text-[#F4512C] hover:underline whitespace-nowrap">
+                      View Reports &rsaquo;
+                    </Link>
+                  </div>
                   <p className="font-sans text-[11px] font-semibold uppercase text-slate-400 tracking-wider mt-0.5">
                     SUBSCRIPTION PLANS
                   </p>
@@ -813,7 +821,7 @@ export default function Dashboard() {
                 Top Spenders
               </h3>
               <Link
-                to="/lawfirms"
+                to="/orders"
                 className="bg-[#F4512C] text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-[#FF7F4D] transition-colors shadow-xs"
               >
                 Manage

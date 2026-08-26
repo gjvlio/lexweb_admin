@@ -389,25 +389,23 @@ export default function ReportsPage() {
     <div className="-m-6 bg-white min-h-[calc(100vh-68px)] overflow-x-hidden">
       {/* ================================================= reports title band */}
       <section style={{ borderBottom: `1px solid ${LINE}` }}>
-        <div className="px-8 pt-[18px] flex items-start justify-between gap-6">
-          <Link
-            to="/reports"
-            className="font-sans hover:underline cursor-pointer block"
-            style={{ fontSize: 12, color: ORANGE }}
-          >
-            &gt; Reports
-          </Link>
-        </div>
-
-        {/* title + kpi stats bar — same layout mechanics as the Law Firms page header */}
-        <div className="px-8 pt-[15px] pb-[20px] flex flex-col lg:flex-row items-stretch gap-6">
-          <div className="w-full lg:w-[300px] min-[1400px]:w-[330px] shrink-0 pr-2">
-            <h1 className="font-heading font-bold leading-none" style={{ fontSize: 38, color: PURPLE }}>
-              Reports
-            </h1>
-            <p className="font-sans mt-[16px]" style={{ fontSize: 13.5, color: MUTED, lineHeight: '25px' }}>
-              Revenue, transactions and subscription health across the platform.
-            </p>
+        <div className="px-6 pt-6 pb-5 flex flex-col lg:flex-row items-stretch justify-between gap-6">
+          <div className="w-full lg:w-[320px] shrink-0 space-y-1.5 pr-2 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-1 text-xs mb-2" style={{ color: ORANGE }}>
+                <Link to="/" className="hover:underline">
+                  &gt; Dashboard
+                </Link>
+                <span>&gt;</span>
+                <span className="font-semibold">Reports</span>
+              </div>
+              <h1 className="text-4xl font-heading font-bold text-brand-purple tracking-tight">
+                Reports
+              </h1>
+              <p className="text-xs text-slate-500 leading-normal mt-1.5">
+                Revenue, transactions and subscription health across the platform.
+              </p>
+            </div>
           </div>
 
           {/* stats bar — wraps 2-up on mobile instead of forcing one unbreakable row */}
