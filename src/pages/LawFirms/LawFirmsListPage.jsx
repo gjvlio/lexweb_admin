@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Filter, ChevronDown, Plus, X, Eye } from 'lucide-react';
+import { Filter, ChevronDown, Plus, X, Eye, Search } from 'lucide-react';
 import {
   tokens,
   lawFirms,
@@ -145,9 +145,21 @@ export default function LawFirmsListPage() {
   const [selected, setSelected] = useState([]);
   const [showNew, setShowNew] = useState(false);
   const [draft, setDraft] = useState({ name: '', owner: '', acronym: '' });
+  const [searchQuery, setSearchQuery] = useState('');
 
   const filtered = useMemo(() => {
-    const list = activeFilter === 'All' ? [...rows] : rows.filter((r) => r.status === activeFilter);
+    let list = activeFilter === 'All' ? [...rows] : rows.filter((r) => r.status === activeFilter);
+
+    const needle = searchQuery.trim().toLowerCase();
+    if (needle) {
+      list = list.filter((r) =>
+        r.name.toLowerCase().includes(needle) ||
+        r.owner.toLowerCase().includes(needle) ||
+        String(r.id).includes(needle) ||
+        String(r.acronym).toLowerCase().includes(needle)
+      );
+    }
+
     switch (sortBy) {
       case 'Name — ascending':
         return list.sort((a, b) => a.name.localeCompare(b.name));
@@ -160,7 +172,7 @@ export default function LawFirmsListPage() {
       default:
         return list;
     }
-  }, [rows, activeFilter, sortBy]);
+  }, [rows, activeFilter, sortBy, searchQuery]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
@@ -306,9 +318,25 @@ export default function LawFirmsListPage() {
           </div>
         </div>
 
-        <span className="shrink-0 text-xs text-slate-500">
-          Showing <strong style={{ color: tokens.ink }}>{pageRows.length}</strong> of {filtered.length}
-        </span>
+        <div className="flex items-center gap-3">
+          <div className="relative w-48 sm:w-56">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setPage(1);
+              }}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-purple"
+            />
+          </div>
+
+          <span className="shrink-0 text-xs text-slate-500">
+            Showing <strong style={{ color: tokens.ink }}>{pageRows.length}</strong> of {filtered.length}
+          </span>
+        </div>
       </section>
 
       {/* Law Firms Directory Table Container (Responsive Horizontal Scroll) */}
@@ -364,11 +392,11 @@ export default function LawFirmsListPage() {
                 <td className="align-middle text-xs text-slate-500">{row.id}</td>
                 <td className="align-middle text-xs font-bold text-slate-900 truncate pr-4">{row.name}</td>
                 <td className="align-middle text-xs text-slate-700 truncate pr-4">{row.owner}</td>
-                <td className="align-middle text-xs font-semibold text-slate-900 text-center">{row.visits.toLocaleString()}</td>
-                <td className="align-middle text-xs font-semibold text-center" style={{ color: tokens.orange }}>
+                <td className="align-middle text-xs text-slate-700 text-center">{row.visits.toLocaleString()}</td>
+                <td className="align-middle text-xs text-center" style={{ color: tokens.orange }}>
                   {row.signups.toLocaleString()}
                 </td>
-                <td className="align-middle text-xs font-bold text-slate-900 text-center">{row.revenue}</td>
+                <td className="align-middle text-xs text-slate-700 text-center">{row.revenue}</td>
                 <td className="align-middle text-xs text-slate-700 text-center">{row.transactions}</td>
                 <td className="align-middle text-center whitespace-nowrap">
                   <StatusCell status={row.status} />

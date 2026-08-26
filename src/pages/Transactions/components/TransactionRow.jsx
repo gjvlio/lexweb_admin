@@ -51,11 +51,14 @@ export default function TransactionRow({ row, columns, checked, onToggle }) {
 
       {columns.map((col) => {
         const value = row[col.key]
+        const isCenter = ['id', 'orderId', 'transactionDate', 'amount', 'paymentMethod', 'status'].includes(col.key)
 
         return (
           <td
             key={col.key}
-            className={`align-middle text-xs pr-4 ${col.key === 'client' ? 'font-bold text-slate-900' : 'text-slate-700'}`}
+            className={`align-middle text-xs ${
+              isCenter ? 'text-center' : 'text-left'
+            } ${col.key === 'client' ? 'font-bold text-slate-900 pr-4' : 'text-slate-700'}`}
           >
             {col.key === 'status' ? (
               <StatusBadge status={value} />

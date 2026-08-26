@@ -14,7 +14,10 @@ const tokens = {
 export default function StatusBadge({ status }) {
   if (status === 'Refunded') {
     return (
-      <span className="font-sans uppercase text-[11px] tracking-[1.2px]" style={{ color: tokens.muted }}>
+      <span
+        className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] w-[90px] text-center"
+        style={{ background: '#F1F5F9', color: '#64748B' }}
+      >
         Refunded
       </span>
     )
@@ -22,7 +25,10 @@ export default function StatusBadge({ status }) {
 
   if (status === 'Pending') {
     return (
-      <span className="inline-block font-sans uppercase rounded-[3px] px-[10px] py-[4px] text-[10px] tracking-[1.2px] bg-slate-100 text-slate-700">
+      <span
+        className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] w-[90px] text-center"
+        style={{ background: '#F1F5F9', color: '#64748B' }}
+      >
         Pending
       </span>
     )
@@ -31,7 +37,7 @@ export default function StatusBadge({ status }) {
   if (status === 'Failed') {
     return (
       <span
-        className="inline-block font-sans uppercase rounded-[3px] px-[10px] py-[4px] text-[10px] tracking-[1.2px] text-white"
+        className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] text-white w-[90px] text-center"
         style={{ background: tokens.purple }}
       >
         Failed
@@ -42,8 +48,8 @@ export default function StatusBadge({ status }) {
   // Paid (default)
   return (
     <span
-      className="inline-block font-sans uppercase rounded-[3px] px-[10px] py-[4px] text-[10px] tracking-[1.2px] text-white"
-      style={{ background: tokens.orange }}
+      className="inline-block font-sans uppercase rounded-[3px] py-[4px] text-[10px] tracking-[1.2px] w-[90px] text-center"
+      style={{ background: 'rgba(94,27,137,0.10)', color: tokens.purple }}
     >
       Paid
     </span>
