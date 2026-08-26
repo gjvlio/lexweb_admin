@@ -1,7 +1,8 @@
 import { useState } from "react";
 import StatisticCard from "../../components/orders/StatisticCard";
 import Button from "../../components/ui/Button";
-import { Search, Plus, X } from "lucide-react";
+import Card from "../../components/ui/Card";
+import { Search, Plus, X, Upload } from "lucide-react";
 import TableTab from "../../components/orders/TableTab";
 import {
   customKeys,
@@ -17,39 +18,39 @@ import {
 import TableRow from "../../components/orders/TableRow";
 import usePagination from "../../hooks/usePagination";
 
+const initialSubscriptionData = {
+  orderId: "",
+  lawfirm: "",
+  billingCycle: "",
+  plan: "",
+  price: "",
+  startDate: "",
+  status: "Active",
+  renewalDate: "",
+  method: "",
+};
+
+const initialOneTimeData = {
+  orderId: "",
+  productName: "",
+  type: "",
+  category: "",
+  client: "",
+  price: "",
+  orderDate: "",
+  status: "Paid",
+  productImage: "",
+};
+
 export default function OrdersPage() {
   const [activeTab, setActiveTab] = useState("subscriptions");
 
-  // Modal states
   const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
   const [isOneTimeModalOpen, setIsOneTimeModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
 
-  // Subscription Form State
-  const [subscriptionFormData, setSubscriptionFormData] = useState({
-    orderId: "S-123",
-    lawfirm: "Bautista Lawfirm",
-    billingCycle: "Monthly",
-    plan: "Premium",
-    price: "1,000",
-    startDate: "2026-04-05",
-    status: "Active",
-    renewalDate: "2026-05-05",
-    method: "Visa",
-  });
-
-  // One-Time Purchase Form State
-  const [oneTimeFormData, setOneTimeFormData] = useState({
-    orderId: "S-123",
-    productName: "Scale-pink",
-    type: "Logo",
-    category: "Scale",
-    client: "Bautista Lawfirm Office",
-    price: "1,000",
-    orderDate: "2026-05-05",
-    status: "Paid",
-    productImage: "",
-  });
+  const [subscriptionFormData, setSubscriptionFormData] = useState(initialSubscriptionData);
+  const [oneTimeFormData, setOneTimeFormData] = useState(initialOneTimeData);
 
   const handleSubscriptionInputChange = (e) => {
     const { name, value } = e.target;
@@ -59,6 +60,14 @@ export default function OrdersPage() {
   const handleOneTimeInputChange = (e) => {
     const { name, value } = e.target;
     setOneTimeFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setOneTimeFormData((prev) => ({ ...prev, productImage: imageUrl }));
+    }
   };
 
   const tableConfig = {
@@ -108,10 +117,18 @@ export default function OrdersPage() {
   };
 
   const handleAddClick = () => {
-    setIsEditMode(false);
+    setIsEditMode(true);
     if (activeTab === "subscriptions") {
+      setSubscriptionFormData({
+        ...initialSubscriptionData,
+        orderId: `S-${Math.floor(100 + Math.random() * 900)}`,
+      });
       setIsSubscriptionModalOpen(true);
     } else if (activeTab === "one-time purchases") {
+      setOneTimeFormData({
+        ...initialOneTimeData,
+        orderId: `P-${Math.floor(100 + Math.random() * 900)}`,
+      });
       setIsOneTimeModalOpen(true);
     }
   };
@@ -151,30 +168,19 @@ export default function OrdersPage() {
       const current = prev[activeTab];
 
       if (allChecked) {
-        // Uncheck all visible rows
         const next = { ...current };
-
         paginatedOrders.forEach((order) => {
           delete next[order.id];
         });
-
-        return {
-          ...prev,
-          [activeTab]: next,
-        };
+        return { ...prev, [activeTab]: next };
       }
 
-      // Check all visible rows
       const next = { ...current };
-
       paginatedOrders.forEach((order) => {
         next[order.id] = true;
       });
 
-      return {
-        ...prev,
-        [activeTab]: next,
-      };
+      return { ...prev, [activeTab]: next };
     });
   };
 
@@ -261,14 +267,10 @@ export default function OrdersPage() {
       <div className="min-w-full">
         <table className="w-full table-fixed border-collapse">
           <colgroup>
-            {/* checkbox */}
             <col className="w-20 h-full align-middle text-center" />
-
             {activeTable.rows.map((row) => (
               <col key={row} />
             ))}
-
-            {/* Action */}
             <col className="w-24 h-full" />
           </colgroup>
 
@@ -357,7 +359,7 @@ export default function OrdersPage() {
           <div className="relative w-full max-w-4xl bg-white rounded-xl shadow-xl p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto text-slate-800">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl md:text-3xl font-bold font-heading text-brand-purple">
-                Order: {subscriptionFormData.orderId}
+                Order: {subscriptionFormData.orderId || "New Subscription"}
               </h2>
               <div className="flex items-center gap-3">
                 <button
@@ -366,13 +368,14 @@ export default function OrdersPage() {
                 >
                   Terminate
                 </button>
-                <button
-                  type="button"
+                <Button
+                  variant="orange"
+                  size="md"
+                  className="rounded-[5px]"
                   onClick={() => setIsEditMode(!isEditMode)}
-                  className="px-4 py-1.5 bg-brand-orange text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"
                 >
                   {isEditMode ? "Save Mode" : "Edit Mode"}
-                </button>
+                </Button>
                 <button
                   type="button"
                   onClick={() => setIsSubscriptionModalOpen(false)}
@@ -385,13 +388,14 @@ export default function OrdersPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
               <div className="space-y-1">
-                <label className="text-slate-400 font-medium uppercase">Lawfirm:</label>
+                <label className="text-slate-400 font-medium uppercase">Law Firm:</label>
                 <input
                   type="text"
                   name="lawfirm"
                   readOnly={!isEditMode}
                   value={subscriptionFormData.lawfirm}
                   onChange={handleSubscriptionInputChange}
+                  placeholder="Enter Law Firm Name"
                   className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 ${
                     isEditMode ? "bg-white focus:outline-none focus:border-brand-purple" : "bg-slate-50/50"
                   }`}
@@ -406,6 +410,7 @@ export default function OrdersPage() {
                   readOnly={!isEditMode}
                   value={subscriptionFormData.billingCycle}
                   onChange={handleSubscriptionInputChange}
+                  placeholder="e.g. Monthly, Yearly"
                   className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 ${
                     isEditMode ? "bg-white focus:outline-none focus:border-brand-purple" : "bg-slate-50/50"
                   }`}
@@ -420,6 +425,7 @@ export default function OrdersPage() {
                   readOnly={!isEditMode}
                   value={subscriptionFormData.plan}
                   onChange={handleSubscriptionInputChange}
+                  placeholder="e.g. Premium, Free, Custom"
                   className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 ${
                     isEditMode ? "bg-white focus:outline-none focus:border-brand-purple" : "bg-slate-50/50"
                   }`}
@@ -434,6 +440,7 @@ export default function OrdersPage() {
                   readOnly={!isEditMode}
                   value={subscriptionFormData.price}
                   onChange={handleSubscriptionInputChange}
+                  placeholder="e.g. 1,000"
                   className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 ${
                     isEditMode ? "bg-white focus:outline-none focus:border-brand-purple" : "bg-slate-50/50"
                   }`}
@@ -462,6 +469,7 @@ export default function OrdersPage() {
                   readOnly={!isEditMode}
                   value={subscriptionFormData.status}
                   onChange={handleSubscriptionInputChange}
+                  placeholder="Active, Inactive"
                   className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 ${
                     isEditMode ? "bg-white focus:outline-none focus:border-brand-purple" : "bg-slate-50/50"
                   }`}
@@ -502,12 +510,12 @@ export default function OrdersPage() {
                   <tr className="border-b border-slate-100">
                     <td className="py-3 px-2">1</td>
                     <td className="py-3 px-2">123</td>
-                    <td className="py-3 px-2">{subscriptionFormData.orderId}</td>
-                    <td className="py-3 px-2 truncate max-w-[120px]">{subscriptionFormData.lawfirm}</td>
-                    <td className="py-3 px-2">{subscriptionFormData.startDate}</td>
-                    <td className="py-3 px-2">{subscriptionFormData.price} php</td>
-                    <td className="py-3 px-2">{subscriptionFormData.method}</td>
-                    <td className="py-3 px-2 font-medium">{subscriptionFormData.status}</td>
+                    <td className="py-3 px-2">{subscriptionFormData.orderId || "--"}</td>
+                    <td className="py-3 px-2 truncate max-w-[120px]">{subscriptionFormData.lawfirm || "--"}</td>
+                    <td className="py-3 px-2">{subscriptionFormData.startDate || "--"}</td>
+                    <td className="py-3 px-2">{subscriptionFormData.price ? `${subscriptionFormData.price} php` : "--"}</td>
+                    <td className="py-3 px-2">{subscriptionFormData.method || "--"}</td>
+                    <td className="py-3 px-2 font-medium">{subscriptionFormData.status || "--"}</td>
                   </tr>
                 </tbody>
               </table>
@@ -523,7 +531,7 @@ export default function OrdersPage() {
             {/* Header */}
             <div className="flex items-center justify-between">
               <h2 className="text-2xl md:text-3xl font-bold font-heading text-brand-purple">
-                Order: {oneTimeFormData.orderId}
+                Order: {oneTimeFormData.orderId || "New Order"}
               </h2>
               <div className="flex items-center gap-3">
                 <button
@@ -532,13 +540,14 @@ export default function OrdersPage() {
                 >
                   Terminate
                 </button>
-                <button
-                  type="button"
+                <Button
+                  variant="orange"
+                  size="md"
+                  className="rounded-[5px]"
                   onClick={() => setIsEditMode(!isEditMode)}
-                  className="px-4 py-1.5 bg-brand-orange text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"
                 >
                   {isEditMode ? "Save Mode" : "Edit Mode"}
-                </button>
+                </Button>
                 <button
                   type="button"
                   onClick={() => setIsOneTimeModalOpen(false)}
@@ -561,6 +570,7 @@ export default function OrdersPage() {
                     readOnly={!isEditMode}
                     value={oneTimeFormData.productName}
                     onChange={handleOneTimeInputChange}
+                    placeholder="Enter product name"
                     className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 ${
                       isEditMode ? "bg-white focus:outline-none focus:border-brand-purple" : "bg-slate-50/50"
                     }`}
@@ -575,6 +585,7 @@ export default function OrdersPage() {
                     readOnly={!isEditMode}
                     value={oneTimeFormData.type}
                     onChange={handleOneTimeInputChange}
+                    placeholder="e.g. Logo, Template"
                     className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 ${
                       isEditMode ? "bg-white focus:outline-none focus:border-brand-purple" : "bg-slate-50/50"
                     }`}
@@ -589,6 +600,7 @@ export default function OrdersPage() {
                     readOnly={!isEditMode}
                     value={oneTimeFormData.category}
                     onChange={handleOneTimeInputChange}
+                    placeholder="Enter category"
                     className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 ${
                       isEditMode ? "bg-white focus:outline-none focus:border-brand-purple" : "bg-slate-50/50"
                     }`}
@@ -603,6 +615,7 @@ export default function OrdersPage() {
                     readOnly={!isEditMode}
                     value={oneTimeFormData.client}
                     onChange={handleOneTimeInputChange}
+                    placeholder="Enter client name"
                     className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 ${
                       isEditMode ? "bg-white focus:outline-none focus:border-brand-purple" : "bg-slate-50/50"
                     }`}
@@ -617,6 +630,7 @@ export default function OrdersPage() {
                     readOnly={!isEditMode}
                     value={oneTimeFormData.price}
                     onChange={handleOneTimeInputChange}
+                    placeholder="e.g. 1,000"
                     className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 ${
                       isEditMode ? "bg-white focus:outline-none focus:border-brand-purple" : "bg-slate-50/50"
                     }`}
@@ -645,6 +659,7 @@ export default function OrdersPage() {
                     readOnly={!isEditMode}
                     value={oneTimeFormData.status}
                     onChange={handleOneTimeInputChange}
+                    placeholder="Paid, Pending"
                     className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 ${
                       isEditMode ? "bg-white focus:outline-none focus:border-brand-purple" : "bg-slate-50/50"
                     }`}
@@ -652,35 +667,45 @@ export default function OrdersPage() {
                 </div>
               </div>
 
-              {/* Product Preview Right Column */}
+              {/* Product Placeholder Page Embedded */}
               <div className="space-y-2 text-[11px] font-sans">
                 <label className="text-slate-400 font-semibold uppercase block">Product:</label>
-                <div className="w-full aspect-square border border-slate-800 rounded-md p-4 flex flex-col items-center justify-center bg-white">
+                
+                <div className="w-full aspect-square border border-slate-200 rounded-xl p-4 bg-slate-50/50 flex flex-col items-center justify-center relative overflow-hidden">
                   {oneTimeFormData.productImage ? (
                     <img
                       src={oneTimeFormData.productImage}
-                      alt={oneTimeFormData.productName}
+                      alt={oneTimeFormData.productName || "Product"}
                       className="max-h-full max-w-full object-contain"
                     />
                   ) : (
-                    <div className="flex flex-col items-center text-center text-slate-900 space-y-2">
-                      <svg className="w-24 h-24" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M20 30 H40 V75 H20 Z" />
-                        <circle cx="30" cy="38" r="4" />
-                        <circle cx="30" cy="48" r="4" />
-                        <path d="M50 25 L85 25 M67.5 25 V65" />
-                        <path d="M52 45 L67.5 25 L83 45" />
-                        <path d="M50 45 C50 55 85 55 85 45 Z" />
-                        <path d="M10 15 L90 15 L90 60 C90 80 50 90 50 90 C50 90 10 80 10 60 Z" strokeWidth="2.5" />
-                      </svg>
-                      <div className="mt-2 font-bold text-lg tracking-wider uppercase">
-                        {oneTimeFormData.client.split(" ")[0] || "YOURNAME"}
-                      </div>
-                      <div className="text-[9px] tracking-widest text-slate-500 uppercase">
-                        Your Tagline Here
-                      </div>
-                    </div>
+                    <Card className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-white shadow-sm border border-slate-200">
+                      <h3 className="text-lg font-heading font-bold text-slate-900 mb-2">
+                        {oneTimeFormData.productName || "Product Preview"}
+                      </h3>
+                      <p className="text-xs text-slate-500 font-sans max-w-[200px] mb-4">
+                        This is a scaffolded route placeholder for <strong>{oneTimeFormData.productName || "Product"}</strong>.
+                      </p>
+                      
+                      {isEditMode && (
+                        <label
+                          htmlFor="product-image-upload"
+                          className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-purple text-white rounded-md text-xs font-medium shadow-sm hover:opacity-90 transition-opacity"
+                        >
+                          <Upload className="w-3.5 h-3.5" /> Upload Image
+                        </label>
+                      )}
+                    </Card>
                   )}
+
+                  <input
+                    id="product-image-upload"
+                    type="file"
+                    accept="image/*"
+                    disabled={!isEditMode}
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
                 </div>
               </div>
             </div>
