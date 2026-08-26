@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import StatisticCard from "../../components/orders/StatisticCard";
 import Button from "../../components/ui/Button";
 import Card from "../../components/ui/Card";
@@ -197,12 +198,13 @@ export default function OrdersPage() {
   return (
     <div className="relative -left-8 w-[calc(100%+4rem)] h-full text-gray-500">
       <div className="px-10 pt-[18px] pb-4 flex items-start justify-between gap-6">
-        <span
-          className="font-sans hover:underline cursor-pointer"
+        <Link
+          to="/orders"
+          className="font-sans hover:underline cursor-pointer block"
           style={{ fontSize: 12, color: '#F4512C' }}
         >
           &gt; Orders
-        </span>
+        </Link>
       </div>
 
       {/* Header */}

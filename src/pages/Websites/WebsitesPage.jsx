@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Filter, ChevronDown, X } from 'lucide-react'
 import {
   websites,
@@ -303,17 +304,13 @@ export default function WebsitesPage() {
       {/* ============================================ directory header band */}
       <section style={{ borderBottom: `1px solid ${LINE}` }}>
         <div className="px-8 pt-[18px] flex items-start justify-between gap-6">
-          <button
-            type="button"
-            onClick={() => {
-              setActiveFilter('All')
-              setPage(1)
-            }}
-            className="font-sans hover:underline"
-            style={{ fontSize: 12, color: ORANGE }}
+          <Link
+            to="/websites"
+            className="font-sans hover:underline cursor-pointer block"
+            style={{ fontSize: 12, color: '#F4512C' }}
           >
             &gt; Websites
-          </button>
+          </Link>
 
           <div className="flex items-center gap-3 shrink-0">
             <button
