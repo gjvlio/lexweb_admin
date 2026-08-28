@@ -589,7 +589,7 @@ export default function LawyerProfileModal({ isOpen, onClose, lawyer }) {
           <button
             type="button"
             className="text-white px-10 py-1.5 rounded-[5px] text-xs font-medium hover:opacity-90 cursor-pointer shadow"
-            style={{ backgroundColor: tokens.orangeAccent }}
+            style={{ backgroundColor: tokens.purpleSoft }}
           >
             Edit
           </button>
