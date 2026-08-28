@@ -223,7 +223,7 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="-m-6 min-h-[calc(100vh-68px)] overflow-x-hidden bg-white text-gray-500">
+    <div className="-m-6 min-h-[calc(100vh-68px)] overflow-x-hidden bg-white text-black">
       <div className="px-6 pt-5 pb-2 flex items-start justify-between gap-4">
         <div className="flex items-center gap-1 text-xs" style={{ color: "#F4512C" }}>
           <Link to="/" className="hover:underline">
@@ -241,7 +241,7 @@ export default function OrdersPage() {
           <h1 className="font-heading font-bold text-4xl tracking-tight text-brand-purple mt-[12px]">
             Orders
           </h1>
-          <p className="text-xs text-slate-500 mt-[12px] leading-normal">Manage all orders made</p>
+          <p className="text-xs text-black mt-[12px] leading-normal">Manage all orders made</p>
         </div>
 
         {/* Stats */}
@@ -283,11 +283,11 @@ export default function OrdersPage() {
         <div>
           <div className="flex items-center gap-2">
             <div className="relative flex-1">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-black" />
               <input
                 type="text"
                 placeholder="Search"
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-2 text-sm text-slate-800 focus:outline-none focus:border-brand-purple"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-2 text-sm text-black focus:outline-none focus:border-brand-purple"
               />
             </div>
             <Button
@@ -326,12 +326,12 @@ export default function OrdersPage() {
               {activeTable.rows.map((row) => (
                 <th
                   key={row}
-                  className={`py-4 text-left text-[11px] tracking-wide text-gray-400 ${row.key === 'status' ? "text-center" : ""}`}
+                  className={`py-4 text-left text-[11px] tracking-wide text-black ${row.key === 'status' ? "text-center" : ""}`}
                 >
                   {row.label.toUpperCase()}
                 </th>
               ))}
-              <th className="py-4 text-center text-[11px] tracking-wide text-gray-400">
+              <th className="py-4 text-center text-[11px] tracking-wide text-black">
                 ACTION
               </th>
             </tr>
@@ -396,7 +396,7 @@ export default function OrdersPage() {
       {/* 1. SUBSCRIPTION MODAL */}
       {isSubscriptionModalOpen && activeTab === "subscriptions" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="relative w-full max-w-4xl bg-white rounded-xl shadow-xl p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto text-slate-800">
+          <div className="relative w-full max-w-4xl bg-white rounded-xl shadow-xl p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto text-black">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl md:text-3xl font-bold font-heading text-brand-purple">
                 Order: {subscriptionFormData.orderId || "New Subscription"}
@@ -404,7 +404,7 @@ export default function OrdersPage() {
               <div className="flex items-center gap-3">
                 <button
                   type="button"
-                  className="px-4 py-1.5 border border-slate-900 text-slate-900 rounded-lg text-sm font-semibold hover:bg-slate-100 transition-colors"
+                  className="px-4 py-1.5 border border-slate-900 text-black rounded-lg text-sm font-semibold hover:bg-slate-100 transition-colors"
                 >
                   Terminate
                 </button>
@@ -419,7 +419,7 @@ export default function OrdersPage() {
                 <button
                   type="button"
                   onClick={() => setIsSubscriptionModalOpen(false)}
-                  className="p-1 text-slate-500 hover:text-slate-800 transition-colors ml-2"
+                  className="p-1 text-black hover:text-black transition-colors ml-2"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -428,7 +428,7 @@ export default function OrdersPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
               <div className="space-y-1">
-                <label className="text-slate-400 font-medium uppercase">
+                <label className="text-black font-medium uppercase">
                   Law Firm:
                 </label>
                 <input
@@ -438,7 +438,7 @@ export default function OrdersPage() {
                   value={subscriptionFormData.lawfirm}
                   onChange={handleSubscriptionInputChange}
                   placeholder="Enter Law Firm Name"
-                  className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 ${
+                  className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-black ${
                     isEditMode
                       ? "bg-white focus:outline-none focus:border-brand-purple"
                       : "bg-slate-50/50"
@@ -447,7 +447,7 @@ export default function OrdersPage() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-slate-400 font-medium uppercase">
+                <label className="text-black font-medium uppercase">
                   Billing Cycle:
                 </label>
                 <input
@@ -457,7 +457,7 @@ export default function OrdersPage() {
                   value={subscriptionFormData.billingCycle}
                   onChange={handleSubscriptionInputChange}
                   placeholder="e.g. Monthly, Yearly"
-                  className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 ${
+                  className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-black ${
                     isEditMode
                       ? "bg-white focus:outline-none focus:border-brand-purple"
                       : "bg-slate-50/50"
@@ -466,7 +466,7 @@ export default function OrdersPage() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-slate-400 font-medium uppercase">
+                <label className="text-black font-medium uppercase">
                   Plan:
                 </label>
                 <input
@@ -476,7 +476,7 @@ export default function OrdersPage() {
                   value={subscriptionFormData.plan}
                   onChange={handleSubscriptionInputChange}
                   placeholder="e.g. Premium, Free, Custom"
-                  className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 ${
+                  className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-black ${
                     isEditMode
                       ? "bg-white focus:outline-none focus:border-brand-purple"
                       : "bg-slate-50/50"
@@ -485,7 +485,7 @@ export default function OrdersPage() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-slate-400 font-medium uppercase">
+                <label className="text-black font-medium uppercase">
                   Price:
                 </label>
                 <input
@@ -495,7 +495,7 @@ export default function OrdersPage() {
                   value={subscriptionFormData.price}
                   onChange={handleSubscriptionInputChange}
                   placeholder="e.g. 1,000"
-                  className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 ${
+                  className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-black ${
                     isEditMode
                       ? "bg-white focus:outline-none focus:border-brand-purple"
                       : "bg-slate-50/50"
@@ -504,7 +504,7 @@ export default function OrdersPage() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-slate-400 font-medium uppercase">
+                <label className="text-black font-medium uppercase">
                   Start Date:
                 </label>
                 <input
@@ -513,7 +513,7 @@ export default function OrdersPage() {
                   readOnly={!isEditMode}
                   value={subscriptionFormData.startDate}
                   onChange={handleSubscriptionInputChange}
-                  className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 ${
+                  className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-black ${
                     isEditMode
                       ? "bg-white focus:outline-none focus:border-brand-purple cursor-pointer"
                       : "bg-slate-50/50"
@@ -522,7 +522,7 @@ export default function OrdersPage() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-slate-400 font-medium uppercase">
+                <label className="text-black font-medium uppercase">
                   Status:
                 </label>
                 <input
@@ -532,7 +532,7 @@ export default function OrdersPage() {
                   value={subscriptionFormData.status}
                   onChange={handleSubscriptionInputChange}
                   placeholder="Active, Inactive"
-                  className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 ${
+                  className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-black ${
                     isEditMode
                       ? "bg-white focus:outline-none focus:border-brand-purple"
                       : "bg-slate-50/50"
@@ -541,7 +541,7 @@ export default function OrdersPage() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-slate-400 font-medium uppercase">
+                <label className="text-black font-medium uppercase">
                   Renewal Date:
                 </label>
                 <input
@@ -550,7 +550,7 @@ export default function OrdersPage() {
                   readOnly={!isEditMode}
                   value={subscriptionFormData.renewalDate}
                   onChange={handleSubscriptionInputChange}
-                  className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 ${
+                  className={`w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-black ${
                     isEditMode
                       ? "bg-white focus:outline-none focus:border-brand-purple cursor-pointer"
                       : "bg-slate-50/50"
@@ -561,9 +561,9 @@ export default function OrdersPage() {
 
             {/* Subscription Table */}
             <div className="pt-2 overflow-x-auto">
-              <table className="w-full text-xs text-slate-700 text-left border-collapse">
+              <table className="w-full text-xs text-black text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-slate-700 font-semibold text-slate-800">
+                  <tr className="border-b border-slate-700 font-semibold text-black">
                     <th className="py-2 px-2">#</th>
                     <th className="py-2 px-2">ID</th>
                     <th className="py-2 px-2">Order ID</th>
@@ -609,7 +609,7 @@ export default function OrdersPage() {
       {/* 2. ONE-TIME PURCHASE MODAL */}
       {isOneTimeModalOpen && activeTab === "one-time purchases" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="relative w-full max-w-3xl bg-white rounded-xl shadow-xl p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto text-slate-800">
+          <div className="relative w-full max-w-3xl bg-white rounded-xl shadow-xl p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto text-black">
             {/* Header */}
             <div className="flex items-center justify-between">
               <h2 className="text-2xl md:text-3xl font-bold font-heading text-brand-purple">
@@ -618,7 +618,7 @@ export default function OrdersPage() {
               <div className="flex items-center gap-3">
                 <button
                   type="button"
-                  className="px-4 py-1.5 border border-slate-900 text-slate-900 rounded-lg text-sm font-semibold hover:bg-slate-100 transition-colors"
+                  className="px-4 py-1.5 border border-slate-900 text-black rounded-lg text-sm font-semibold hover:bg-slate-100 transition-colors"
                 >
                   Terminate
                 </button>
@@ -633,7 +633,7 @@ export default function OrdersPage() {
                 <button
                   type="button"
                   onClick={() => setIsOneTimeModalOpen(false)}
-                  className="p-1 text-slate-500 hover:text-slate-800 transition-colors ml-2"
+                  className="p-1 text-black hover:text-black transition-colors ml-2"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -645,7 +645,7 @@ export default function OrdersPage() {
               {/* Form Fields Left Column */}
               <div className="space-y-3 text-[11px] font-sans">
                 <div className="space-y-1">
-                  <label className="text-slate-400 font-semibold uppercase">
+                  <label className="text-black font-semibold uppercase">
                     Product Name:
                   </label>
                   <input
@@ -655,7 +655,7 @@ export default function OrdersPage() {
                     value={oneTimeFormData.productName}
                     onChange={handleOneTimeInputChange}
                     placeholder="Enter product name"
-                    className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 ${
+                    className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-black ${
                       isEditMode
                         ? "bg-white focus:outline-none focus:border-brand-purple"
                         : "bg-slate-50/50"
@@ -664,7 +664,7 @@ export default function OrdersPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-slate-400 font-semibold uppercase">
+                  <label className="text-black font-semibold uppercase">
                     Type:
                   </label>
                   <input
@@ -674,7 +674,7 @@ export default function OrdersPage() {
                     value={oneTimeFormData.type}
                     onChange={handleOneTimeInputChange}
                     placeholder="e.g. Logo, Template"
-                    className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 ${
+                    className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-black ${
                       isEditMode
                         ? "bg-white focus:outline-none focus:border-brand-purple"
                         : "bg-slate-50/50"
@@ -683,7 +683,7 @@ export default function OrdersPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-slate-400 font-semibold uppercase">
+                  <label className="text-black font-semibold uppercase">
                     Category:
                   </label>
                   <input
@@ -693,7 +693,7 @@ export default function OrdersPage() {
                     value={oneTimeFormData.category}
                     onChange={handleOneTimeInputChange}
                     placeholder="Enter category"
-                    className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 ${
+                    className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-black ${
                       isEditMode
                         ? "bg-white focus:outline-none focus:border-brand-purple"
                         : "bg-slate-50/50"
@@ -702,7 +702,7 @@ export default function OrdersPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-slate-400 font-semibold uppercase">
+                  <label className="text-black font-semibold uppercase">
                     Client:
                   </label>
                   <input
@@ -712,7 +712,7 @@ export default function OrdersPage() {
                     value={oneTimeFormData.client}
                     onChange={handleOneTimeInputChange}
                     placeholder="Enter client name"
-                    className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 ${
+                    className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-black ${
                       isEditMode
                         ? "bg-white focus:outline-none focus:border-brand-purple"
                         : "bg-slate-50/50"
@@ -721,7 +721,7 @@ export default function OrdersPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-slate-400 font-semibold uppercase">
+                  <label className="text-black font-semibold uppercase">
                     Price:
                   </label>
                   <input
@@ -731,7 +731,7 @@ export default function OrdersPage() {
                     value={oneTimeFormData.price}
                     onChange={handleOneTimeInputChange}
                     placeholder="e.g. 1,000"
-                    className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 ${
+                    className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-black ${
                       isEditMode
                         ? "bg-white focus:outline-none focus:border-brand-purple"
                         : "bg-slate-50/50"
@@ -740,7 +740,7 @@ export default function OrdersPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-slate-400 font-semibold uppercase">
+                  <label className="text-black font-semibold uppercase">
                     Order Date:
                   </label>
                   <input
@@ -749,7 +749,7 @@ export default function OrdersPage() {
                     readOnly={!isEditMode}
                     value={oneTimeFormData.orderDate}
                     onChange={handleOneTimeInputChange}
-                    className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 ${
+                    className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-black ${
                       isEditMode
                         ? "bg-white focus:outline-none focus:border-brand-purple cursor-pointer"
                         : "bg-slate-50/50"
@@ -758,7 +758,7 @@ export default function OrdersPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-slate-400 font-semibold uppercase">
+                  <label className="text-black font-semibold uppercase">
                     Status:
                   </label>
                   <input
@@ -768,7 +768,7 @@ export default function OrdersPage() {
                     value={oneTimeFormData.status}
                     onChange={handleOneTimeInputChange}
                     placeholder="Paid, Pending"
-                    className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 ${
+                    className={`w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-black ${
                       isEditMode
                         ? "bg-white focus:outline-none focus:border-brand-purple"
                         : "bg-slate-50/50"
@@ -779,7 +779,7 @@ export default function OrdersPage() {
 
               {/* Product Placeholder Page Embedded */}
               <div className="space-y-2 text-[11px] font-sans">
-                <label className="text-slate-400 font-semibold uppercase block">
+                <label className="text-black font-semibold uppercase block">
                   Product:
                 </label>
 
@@ -792,10 +792,10 @@ export default function OrdersPage() {
                     />
                   ) : (
                     <Card className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-white shadow-sm border border-slate-200">
-                      <h3 className="text-lg font-heading font-bold text-slate-900 mb-2">
+                      <h3 className="text-lg font-heading font-bold text-black mb-2">
                         {oneTimeFormData.productName || "Product Preview"}
                       </h3>
-                      <p className="text-xs text-slate-500 font-sans max-w-[200px] mb-4">
+                      <p className="text-xs text-black font-sans max-w-[200px] mb-4">
                         This is a scaffolded route placeholder for{" "}
                         <strong>
                           {oneTimeFormData.productName || "Product"}

@@ -50,11 +50,11 @@ export default function Navbar({ isCollapsed, onToggleCollapse, className = '' }
         <div className="h-[68px] px-5 flex items-center justify-between border-b border-slate-100">
           <button
             onClick={onToggleCollapse}
-            className="flex items-center gap-3 text-slate-700 hover:text-brand-purple transition-colors w-full font-sans font-medium text-sm"
+            className="flex items-center gap-3 text-black hover:text-brand-purple transition-colors w-full font-sans font-medium text-sm"
             title={isCollapsed ? 'Expand Navigation' : 'Collapse Navigation'}
           >
             <Menu className="w-[25px] h-[25px] shrink-0 text-brand-purple" />
-            {!isCollapsed && <span className="font-semibold text-slate-800 text-[16px]">Menu</span>}
+            {!isCollapsed && <span className="font-semibold text-black text-[16px]">Menu</span>}
           </button>
         </div>
 
@@ -71,7 +71,7 @@ export default function Navbar({ isCollapsed, onToggleCollapse, className = '' }
                 className={({ isActive }) =>
                   `flex items-center gap-3.5 px-3 py-2.5 rounded-xl transition-all duration-150 ${isActive
                     ? 'bg-brand-purple/10 text-brand-purple border border-brand-purple/20 font-bold'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 font-normal'
+                    : 'text-black hover:text-black hover:bg-slate-100/80 font-normal'
                   } ${isCollapsed ? 'justify-center px-0' : ''}`
                 }
               >
@@ -92,7 +92,7 @@ export default function Navbar({ isCollapsed, onToggleCollapse, className = '' }
                 className={({ isActive }) =>
                   `flex-1 flex items-center gap-3.5 px-3 py-2.5 rounded-xl transition-all duration-150 ${isActive || isProductsParentActive
                     ? 'bg-brand-purple/10 text-brand-purple border border-brand-purple/20 font-bold'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 font-normal'
+                    : 'text-black hover:text-black hover:bg-slate-100/80 font-normal'
                   } ${isCollapsed ? 'justify-center px-0' : ''}`
                 }
               >
@@ -110,7 +110,7 @@ export default function Navbar({ isCollapsed, onToggleCollapse, className = '' }
                     e.stopPropagation()
                     setIsProductsOpen((prev) => !prev)
                   }}
-                  className="p-2 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors ml-1"
+                  className="p-2 rounded-lg text-black hover:text-black hover:bg-slate-100 transition-colors ml-1"
                   title="Toggle Sub-menu"
                 >
                   {isProductsOpen ? (
@@ -132,7 +132,7 @@ export default function Navbar({ isCollapsed, onToggleCollapse, className = '' }
                     className={({ isActive }) =>
                       `block px-3 py-2 rounded-lg font-sans text-[14px] transition-all ${isActive
                         ? 'text-brand-orange bg-brand-orange/10 font-bold'
-                        : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100 font-normal'
+                        : 'text-black hover:text-black hover:bg-slate-100 font-normal'
                       }`
                     }
                   >
@@ -153,7 +153,7 @@ export default function Navbar({ isCollapsed, onToggleCollapse, className = '' }
                 className={({ isActive }) =>
                   `flex items-center gap-3.5 px-3 py-2.5 rounded-xl transition-all duration-150 ${isActive
                     ? 'bg-brand-purple/10 text-brand-purple border border-brand-purple/20 font-bold'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 font-normal'
+                    : 'text-black hover:text-black hover:bg-slate-100/80 font-normal'
                   } ${isCollapsed ? 'justify-center px-0' : ''}`
                 }
               >

@@ -16,9 +16,9 @@ import StatusPill from '../../components/ui/StatusPill'
 
 const PURPLE = '#5E1B89'
 const ORANGE = '#F4512C'
-const INK = '#1E293B'
-const MUTED = '#64748B'
-const FAINT = '#94A3B8'
+const INK = '#000000'
+const MUTED = '#000000'
+const FAINT = '#000000'
 const LINE = '#E6EAF0'
 const RULE = '#94A3B8'
 
@@ -337,7 +337,7 @@ export default function WebsitesPage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="shrink-0 text-xs text-slate-500">Sort</span>
+            <span className="shrink-0 text-xs text-black">Sort</span>
             <div className="relative shrink-0">
               <select
                 value={sortBy}
@@ -354,14 +354,14 @@ export default function WebsitesPage() {
                   </option>
                 ))}
               </select>
-              <ChevronDown className="w-4 h-4 absolute right-[10px] top-1/2 -translate-y-1/2 pointer-events-none text-slate-400" />
+              <ChevronDown className="w-4 h-4 absolute right-[10px] top-1/2 -translate-y-1/2 pointer-events-none text-black" />
             </div>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="relative w-48 sm:w-56">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-black" />
             <input
               type="text"
               placeholder="Search"
@@ -370,11 +370,11 @@ export default function WebsitesPage() {
                 setSearchQuery(e.target.value)
                 setPage(1)
               }}
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-[#5E1B89]"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-1.5 text-xs text-black focus:outline-none focus:border-[#5E1B89]"
             />
           </div>
 
-          <span className="shrink-0 text-xs text-slate-500">
+          <span className="shrink-0 text-xs text-black">
             Showing <strong style={{ color: INK }}>{pageRows.length}</strong> of {filtered.length}
           </span>
         </div>
@@ -479,7 +479,7 @@ export default function WebsitesPage() {
         className="px-4 sm:px-8 h-[68px] flex items-center justify-between"
         style={{ borderTop: `1px solid ${RULE}`, marginTop: -1 }}
       >
-        <span className="text-xs text-slate-500">
+        <span className="text-xs text-black">
           Page {safePage} of {totalPages}
         </span>
 
@@ -517,7 +517,7 @@ export default function WebsitesPage() {
               ['Record ID', String(detail.id)],
             ].map(([k, v]) => (
               <div key={k} className="flex items-center justify-between gap-4">
-                <dt className="font-sans uppercase text-slate-500" style={{ letterSpacing: '1.2px' }}>
+                <dt className="font-sans uppercase text-black" style={{ letterSpacing: '1.2px' }}>
                   {k}
                 </dt>
                 <dd className="font-sans text-right" style={{ color: INK }}>

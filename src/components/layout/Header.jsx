@@ -116,7 +116,7 @@ export default function Header({
               LEXWEB ADMIN
             </span>
             {sectionTitle && (
-              <span className="font-sans font-normal text-[12px] tracking-[2px] text-slate-500 uppercase leading-none border-l border-slate-300 pl-3">
+              <span className="font-sans font-normal text-[12px] tracking-[2px] text-black uppercase leading-none border-l border-slate-300 pl-3">
                 {sectionTitle}
               </span>
             )}
@@ -129,11 +129,11 @@ export default function Header({
         
         {/* Global Search Bar */}
         <div className="relative hidden sm:block w-64 md:w-80">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-black" />
           <input
             type="text"
             placeholder="Search domains, lawfirms..."
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#5E1B89] focus:ring-1 focus:ring-[#5E1B89] transition-all font-sans"
+            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-1.5 text-xs text-black placeholder-slate-400 focus:outline-none focus:border-[#5E1B89] focus:ring-1 focus:ring-[#5E1B89] transition-all font-sans"
           />
         </div>
 
@@ -144,7 +144,7 @@ export default function Header({
               setShowNotifications((prev) => !prev)
               setShowProfileModal(false)
             }}
-            className="relative p-1 rounded-xl hover:bg-slate-100 transition-colors flex items-center justify-center text-slate-700 cursor-pointer"
+            className="relative p-1 rounded-xl hover:bg-slate-100 transition-colors flex items-center justify-center text-black cursor-pointer"
             title="Notifications"
           >
             <IconNotification className="w-[25px] h-[25px]" />
@@ -193,12 +193,12 @@ export default function Header({
                     />
                     <div className="flex-1 space-y-0.5">
                       <div className="flex items-center justify-between">
-                        <h4 className="text-xs font-bold text-slate-900 leading-snug">
+                        <h4 className="text-xs font-bold text-black leading-snug">
                           {item.title}
                         </h4>
-                        <span className="text-[10px] text-slate-400 font-sans">{item.time}</span>
+                        <span className="text-[10px] text-black font-sans">{item.time}</span>
                       </div>
-                      <p className="text-xs text-slate-500 leading-normal">{item.desc}</p>
+                      <p className="text-xs text-black leading-normal">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -229,8 +229,8 @@ export default function Header({
           >
             <IconProfile className="w-[25px] h-[25px]" />
             <div className="hidden lg:block">
-              <h4 className="text-xs font-bold text-slate-900 leading-tight">{user.name}</h4>
-              <span className="text-[10px] font-semibold text-slate-400 block">{user.role}</span>
+              <h4 className="text-xs font-bold text-black leading-tight">{user.name}</h4>
+              <span className="text-[10px] font-semibold text-black block">{user.role}</span>
             </div>
           </button>
 
@@ -258,37 +258,37 @@ export default function Header({
               </div>
 
               {/* Account Quick Details & Made Up Settings */}
-              <div className="p-4 space-y-3 text-xs text-slate-700">
+              <div className="p-4 space-y-3 text-xs text-black">
                 <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-1">
                   <div className="flex justify-between text-[11px]">
-                    <span className="text-slate-400 font-semibold uppercase tracking-wider text-[9px]">
+                    <span className="text-black font-semibold uppercase tracking-wider text-[9px]">
                       TENANT NODE
                     </span>
                     <span className="font-bold text-emerald-600">Active • Region PH-01</span>
                   </div>
                   <div className="flex justify-between text-[11px]">
-                    <span className="text-slate-400 font-semibold uppercase tracking-wider text-[9px]">
+                    <span className="text-black font-semibold uppercase tracking-wider text-[9px]">
                       LAST LOGIN
                     </span>
-                    <span className="font-medium text-slate-600">Today, 08:42 AM</span>
+                    <span className="font-medium text-black">Today, 08:42 AM</span>
                   </div>
                 </div>
 
                 {/* Account Navigation Links */}
                 <div className="space-y-1 pt-1">
-                  <button className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors font-medium text-xs text-left">
+                  <button className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-black hover:bg-slate-100 transition-colors font-medium text-xs text-left">
                     <User className="w-4 h-4 text-[#5E1B89]" />
                     <span>Primary Account Profile</span>
                   </button>
-                  <button className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors font-medium text-xs text-left">
+                  <button className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-black hover:bg-slate-100 transition-colors font-medium text-xs text-left">
                     <Settings className="w-4 h-4 text-[#5E1B89]" />
                     <span>System Settings & Preferences</span>
                   </button>
-                  <button className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors font-medium text-xs text-left">
+                  <button className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-black hover:bg-slate-100 transition-colors font-medium text-xs text-left">
                     <Shield className="w-4 h-4 text-[#5E1B89]" />
                     <span>Security & 2FA Auth</span>
                   </button>
-                  <button className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors font-medium text-xs text-left">
+                  <button className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-black hover:bg-slate-100 transition-colors font-medium text-xs text-left">
                     <FileText className="w-4 h-4 text-[#5E1B89]" />
                     <span>Platform Audit Logs</span>
                   </button>

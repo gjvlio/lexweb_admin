@@ -13,8 +13,8 @@ export default function Button({
     primary: 'bg-lexmeet-gradient text-white shadow-md shadow-brand-orange/20 hover:opacity-95 focus:ring-brand-orange',
     orange: 'bg-brand-orange text-white hover:bg-brand-orange-light focus:ring-brand-orange shadow-xs',
     purple: 'bg-brand-purple text-white hover:bg-brand-purple-soft focus:ring-brand-purple shadow-xs',
-    outline: 'bg-transparent border border-slate-300 text-slate-700 hover:bg-slate-100 focus:ring-slate-400',
-    ghost: 'bg-transparent hover:bg-slate-100 text-slate-700 focus:ring-slate-400',
+    outline: 'bg-transparent border border-slate-300 text-black hover:bg-slate-100 focus:ring-slate-400',
+    ghost: 'bg-transparent hover:bg-slate-100 text-black focus:ring-slate-400',
   }
 
   const sizeStyles = {

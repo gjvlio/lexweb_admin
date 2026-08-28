@@ -157,7 +157,7 @@ export default function Dashboard() {
           <h1 className="font-heading text-4xl font-bold tracking-tight text-brand-purple">
             Dashboard
           </h1>
-          <p className="text-xs text-slate-500 leading-normal mt-1.5 font-medium">
+          <p className="text-xs text-black leading-normal mt-1.5 font-medium">
             The bird's eye view of your account
           </p>
         </div>
@@ -178,7 +178,7 @@ export default function Dashboard() {
                 TOTAL LAWYERS
               </span>
               <div className="flex items-center gap-2 my-0.5 flex-wrap">
-                <span className="font-sans font-extrabold text-2xl xl:text-3xl text-slate-900 tracking-tight">
+                <span className="font-sans font-extrabold text-2xl xl:text-3xl text-black tracking-tight">
                   1,426
                 </span>
                 {/* Brand Color Health Indicator: Lawful Purple (#5E1B89) with lower transparency */}
@@ -186,7 +186,7 @@ export default function Dashboard() {
                   <IconGrowingChart className="w-3 h-3" /> +12.4%
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-sans truncate block">
+              <p className="text-xs text-black font-sans truncate block">
                 Across 184 law firms
               </p>
             </div>
@@ -203,7 +203,7 @@ export default function Dashboard() {
                 TOTAL SUBSCRIPTION INCOME
               </span>
               <div className="flex items-center gap-2 my-0.5 flex-wrap">
-                <span className="font-sans font-extrabold text-2xl xl:text-3xl text-slate-900 tracking-tight">
+                <span className="font-sans font-extrabold text-2xl xl:text-3xl text-black tracking-tight">
                   ₱922,700
                 </span>
                 {/* Brand Color Health Indicator: Lawful Purple (#5E1B89) with lower transparency */}
@@ -211,8 +211,8 @@ export default function Dashboard() {
                   <IconGrowingChart className="w-3 h-3" /> +8.2%
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-sans truncate block">
-                Total Income: <span className="font-semibold text-slate-600">₱7.8M</span>
+              <p className="text-xs text-black font-sans truncate block">
+                Total Income: <span className="font-semibold text-black">₱7.8M</span>
               </p>
             </div>
           </Link>
@@ -228,7 +228,7 @@ export default function Dashboard() {
                 TOTAL SALES
               </span>
               <div className="flex items-center gap-2 my-0.5 flex-wrap">
-                <span className="font-sans font-extrabold text-2xl xl:text-3xl text-slate-900 tracking-tight">
+                <span className="font-sans font-extrabold text-2xl xl:text-3xl text-black tracking-tight">
                   ₱250,700
                 </span>
                 {/* Brand Color Health Indicator: Lawful Purple (#5E1B89) with lower transparency */}
@@ -236,7 +236,7 @@ export default function Dashboard() {
                   <IconGrowingChart className="w-3 h-3" /> +10% com.
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-sans truncate block">
+              <p className="text-xs text-black font-sans truncate block">
                 ₱25,700 net commission
               </p>
             </div>
@@ -253,7 +253,7 @@ export default function Dashboard() {
                 ACTIVE WEBSITES
               </span>
               <div className="flex items-center gap-2 my-0.5 flex-wrap">
-                <span className="font-sans font-extrabold text-2xl xl:text-3xl text-slate-900 tracking-tight">
+                <span className="font-sans font-extrabold text-2xl xl:text-3xl text-black tracking-tight">
                   184
                 </span>
                 {/* Brand Color Health Indicator: Lawful Purple (#5E1B89) with lower transparency */}
@@ -261,7 +261,7 @@ export default function Dashboard() {
                   96.7% ACTIVE
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-sans truncate block">
+              <p className="text-xs text-black font-sans truncate block">
                 7 Pending Approvals
               </p>
             </div>
@@ -290,13 +290,13 @@ export default function Dashboard() {
                       View Reports &rsaquo;
                     </Link>
                   </div>
-                  <p className="font-sans text-[11px] font-semibold uppercase text-slate-400 tracking-wider mt-0.5">
+                  <p className="font-sans text-[11px] font-semibold uppercase text-black tracking-wider mt-0.5">
                     FINANCIAL PROGRESS ACROSS ALL TRANSACTIONS
                   </p>
                 </div>
 
                 {/* Time Filter Pills — Default Toggled to 'Year' */}
-                <div className="bg-slate-100/90 p-1 rounded-xl flex items-center gap-1 text-xs font-semibold text-slate-500">
+                <div className="bg-slate-100/90 p-1 rounded-xl flex items-center gap-1 text-xs font-semibold text-black">
                   {['Today', 'Week', 'Month', 'Year'].map((item) => (
                     <button
                       key={item}
@@ -304,7 +304,7 @@ export default function Dashboard() {
                       className={`px-3.5 py-1 rounded-lg transition-all ${
                         graphFilter === item
                           ? 'bg-[#5E1B89] text-white font-bold shadow-xs'
-                          : 'hover:text-slate-900'
+                          : 'hover:text-black'
                       }`}
                     >
                       {item}
@@ -457,13 +457,13 @@ export default function Dashboard() {
             </div>
 
             {/* Softened Hover Spotlight Legend */}
-            <div className="flex flex-wrap items-center justify-center gap-6 pt-5 border-t border-slate-100 text-xs font-semibold text-slate-700 mt-2">
+            <div className="flex flex-wrap items-center justify-center gap-6 pt-5 border-t border-slate-100 text-xs font-semibold text-black mt-2">
               <div
                 onMouseEnter={() => setHoveredLegendSeries('sales')}
                 onMouseLeave={() => setHoveredLegendSeries(null)}
                 className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${
                   hoveredLegendSeries === 'sales'
-                    ? 'bg-orange-50 border-orange-200 text-slate-900 shadow-2xs font-bold scale-105'
+                    ? 'bg-orange-50 border-orange-200 text-black shadow-2xs font-bold scale-105'
                     : hoveredLegendSeries !== null
                     ? 'opacity-35 border-transparent'
                     : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
@@ -478,7 +478,7 @@ export default function Dashboard() {
                 onMouseLeave={() => setHoveredLegendSeries(null)}
                 className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${
                   hoveredLegendSeries === 'sub'
-                    ? 'bg-purple-50 border-purple-200 text-slate-900 shadow-2xs font-bold scale-105'
+                    ? 'bg-purple-50 border-purple-200 text-black shadow-2xs font-bold scale-105'
                     : hoveredLegendSeries !== null
                     ? 'opacity-35 border-transparent'
                     : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
@@ -493,7 +493,7 @@ export default function Dashboard() {
                 onMouseLeave={() => setHoveredLegendSeries(null)}
                 className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${
                   hoveredLegendSeries === 'com'
-                    ? 'bg-orange-50 border-orange-200 text-slate-900 shadow-2xs font-bold scale-105'
+                    ? 'bg-orange-50 border-orange-200 text-black shadow-2xs font-bold scale-105'
                     : hoveredLegendSeries !== null
                     ? 'opacity-35 border-transparent'
                     : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
@@ -523,7 +523,7 @@ export default function Dashboard() {
                       View Reports &rsaquo;
                     </Link>
                   </div>
-                  <p className="font-sans text-[11px] font-semibold uppercase text-slate-400 tracking-wider mt-0.5">
+                  <p className="font-sans text-[11px] font-semibold uppercase text-black tracking-wider mt-0.5">
                     SUBSCRIPTION PLANS
                   </p>
                 </div>
@@ -579,10 +579,10 @@ export default function Dashboard() {
 
                   {/* Permanently Visible Center Summary Text */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
-                    <span className="font-heading font-extrabold text-2xl text-slate-900 leading-none">
+                    <span className="font-heading font-extrabold text-2xl text-black leading-none">
                       1,550
                     </span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-black mt-1">
                       Total Tenants
                     </span>
                   </div>
@@ -592,14 +592,14 @@ export default function Dashboard() {
                     <div
                       className={`absolute bg-white border-2 border-[#5E1B89] px-3.5 py-1.5 rounded-xl shadow-md text-center pointer-events-none transition-all duration-200 ease-out z-10 animate-fade-in ${getDonutPillClass()}`}
                     >
-                      <span className="block text-[9px] font-extrabold uppercase tracking-wider text-slate-500">
+                      <span className="block text-[9px] font-extrabold uppercase tracking-wider text-black">
                         {hoveredDonutSegment === 'free'
                           ? 'FREE PLAN'
                           : hoveredDonutSegment === 'advanced'
                           ? 'ADVANCED PLAN (ENTERPRISE)'
                           : 'PREMIUM PLAN (PRO)'}
                       </span>
-                      <span className="block text-xs font-extrabold text-slate-900">
+                      <span className="block text-xs font-extrabold text-black">
                         {hoveredDonutSegment === 'free'
                           ? '820 (53%)'
                           : hoveredDonutSegment === 'advanced'
@@ -613,12 +613,12 @@ export default function Dashboard() {
             </div>
 
             {/* Donut Legend with Permanently Visible Percentage Badges */}
-            <div className="space-y-2.5 pt-4 border-t border-slate-100 text-xs font-medium text-slate-600">
+            <div className="space-y-2.5 pt-4 border-t border-slate-100 text-xs font-medium text-black">
               
               {/* Free Plan (53%) */}
               <div
                 className={`flex items-center justify-between p-1.5 rounded-xl cursor-pointer transition-all ${
-                  hoveredDonutSegment === 'free' ? 'bg-orange-50/80 font-bold text-slate-900' : 'hover:bg-slate-50'
+                  hoveredDonutSegment === 'free' ? 'bg-orange-50/80 font-bold text-black' : 'hover:bg-slate-50'
                 }`}
                 onMouseEnter={() => setHoveredDonutSegment('free')}
                 onMouseLeave={() => setHoveredDonutSegment(null)}
@@ -628,7 +628,7 @@ export default function Dashboard() {
                   <span className="font-semibold">Free Plan</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] text-slate-400">820 firms</span>
+                  <span className="text-[11px] text-black">820 firms</span>
                   <span className="bg-[#F4512C]/10 text-[#F4512C] font-extrabold px-2 py-0.5 rounded-md text-xs border border-[#F4512C]/20">
                     53%
                   </span>
@@ -638,7 +638,7 @@ export default function Dashboard() {
               {/* Premium Plan Pro (27%) */}
               <div
                 className={`flex items-center justify-between p-1.5 rounded-xl cursor-pointer transition-all ${
-                  hoveredDonutSegment === 'premium' ? 'bg-purple-50/80 font-bold text-slate-900' : 'hover:bg-slate-50'
+                  hoveredDonutSegment === 'premium' ? 'bg-purple-50/80 font-bold text-black' : 'hover:bg-slate-50'
                 }`}
                 onMouseEnter={() => setHoveredDonutSegment('premium')}
                 onMouseLeave={() => setHoveredDonutSegment(null)}
@@ -648,7 +648,7 @@ export default function Dashboard() {
                   <span className="font-semibold">Premium Plan (Pro)</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] text-slate-400">420 firms</span>
+                  <span className="text-[11px] text-black">420 firms</span>
                   <span className="bg-[#FF7F4D]/10 text-[#FF7F4D] font-extrabold px-2 py-0.5 rounded-md text-xs border border-[#FF7F4D]/20">
                     27%
                   </span>
@@ -658,7 +658,7 @@ export default function Dashboard() {
               {/* Advanced Plan Enterprise (20%) */}
               <div
                 className={`flex items-center justify-between p-1.5 rounded-xl cursor-pointer transition-all ${
-                  hoveredDonutSegment === 'advanced' ? 'bg-purple-50/80 font-bold text-slate-900' : 'hover:bg-slate-50'
+                  hoveredDonutSegment === 'advanced' ? 'bg-purple-50/80 font-bold text-black' : 'hover:bg-slate-50'
                 }`}
                 onMouseEnter={() => setHoveredDonutSegment('advanced')}
                 onMouseLeave={() => setHoveredDonutSegment(null)}
@@ -668,7 +668,7 @@ export default function Dashboard() {
                   <span className="font-semibold">Advanced Plan (Enterprise)</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] text-slate-400">310 firms</span>
+                  <span className="text-[11px] text-black">310 firms</span>
                   <span className="bg-[#5E1B89]/10 text-[#5E1B89] font-extrabold px-2 py-0.5 rounded-md text-xs border border-[#5E1B89]/20">
                     20%
                   </span>
@@ -707,10 +707,10 @@ export default function Dashboard() {
                 VA
               </div>
               <div>
-                <h4 className="font-bold text-slate-900 text-sm leading-snug">
+                <h4 className="font-bold text-black text-sm leading-snug">
                   Valderrama & Associates
                 </h4>
-                <p className="text-xs text-slate-400 font-sans">
+                <p className="text-xs text-black font-sans">
                   Atty. Marlon Valderrama • valderramalaw.ph
                 </p>
               </div>
@@ -718,7 +718,7 @@ export default function Dashboard() {
 
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                <span className="text-[10px] font-bold text-black uppercase tracking-wider block">
                   MONTHLY VISITS
                 </span>
                 <span className="text-sm font-extrabold text-[#F4512C] mt-0.5 block">
@@ -726,7 +726,7 @@ export default function Dashboard() {
                 </span>
               </div>
               <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                <span className="text-[10px] font-bold text-black uppercase tracking-wider block">
                   ACTIVE CLIENTS
                 </span>
                 <span className="text-sm font-extrabold text-[#5E1B89] mt-0.5 block">
@@ -736,11 +736,11 @@ export default function Dashboard() {
             </div>
 
             <div className="bg-slate-50/80 p-3 rounded-xl border border-slate-200/60 text-xs space-y-0.5">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+              <span className="text-[10px] font-bold text-black uppercase tracking-wider block">
                 TOP BOOKING CLIENTS
               </span>
-              <div className="font-bold text-slate-900">Client: Juan De La Cruz</div>
-              <div className="text-slate-500 text-[11px]">
+              <div className="font-bold text-black">Client: Juan De La Cruz</div>
+              <div className="text-black text-[11px]">
                 12 Consultations Booked • ₱60,000 Volume
               </div>
             </div>
@@ -770,10 +770,10 @@ export default function Dashboard() {
                 CP
               </div>
               <div>
-                <h4 className="font-bold text-slate-900 text-sm leading-snug">
+                <h4 className="font-bold text-black text-sm leading-snug">
                   Cruz & Partners Law Firm
                 </h4>
-                <p className="text-xs text-slate-400 font-sans">
+                <p className="text-xs text-black font-sans">
                   Atty. Teressa Cruz • cruzlaw.com
                 </p>
               </div>
@@ -781,7 +781,7 @@ export default function Dashboard() {
 
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                <span className="text-[10px] font-bold text-black uppercase tracking-wider block">
                   TOTAL SALES PROCESSED
                 </span>
                 <span className="text-sm font-extrabold text-[#F4512C] mt-0.5 block">
@@ -789,7 +789,7 @@ export default function Dashboard() {
                 </span>
               </div>
               <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                <span className="text-[10px] font-bold text-black uppercase tracking-wider block">
                   NET PLATFORM COMMISSION
                 </span>
                 <span className="text-sm font-extrabold text-[#5E1B89] mt-0.5 block">
@@ -799,11 +799,11 @@ export default function Dashboard() {
             </div>
 
             <div className="bg-slate-50/80 p-3 rounded-xl border border-slate-200/60 text-xs space-y-0.5">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+              <span className="text-[10px] font-bold text-black uppercase tracking-wider block">
                 ACTIVE SUBSCRIPTION TIER
               </span>
-              <div className="font-bold text-slate-900">Advanced Plan (Enterprise Lex)</div>
-              <div className="text-slate-500 text-[11px]">
+              <div className="font-bold text-black">Advanced Plan (Enterprise Lex)</div>
+              <div className="text-black text-[11px]">
                 98 Consultations Completed • 100% Payout Verified
               </div>
             </div>
@@ -833,10 +833,10 @@ export default function Dashboard() {
                 SY
               </div>
               <div>
-                <h4 className="font-bold text-slate-900 text-sm leading-snug">
+                <h4 className="font-bold text-black text-sm leading-snug">
                   SyCip Salazar Hernandez & Gatmaitan
                 </h4>
-                <p className="text-xs text-slate-400 font-sans">
+                <p className="text-xs text-black font-sans">
                   Atty. Hector SyCip • syciplaw.com
                 </p>
               </div>
@@ -844,7 +844,7 @@ export default function Dashboard() {
 
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                <span className="text-[10px] font-bold text-black uppercase tracking-wider block">
                   TOTAL AMOUNT SPENT
                 </span>
                 <span className="text-sm font-extrabold text-[#F4512C] mt-0.5 block">
@@ -852,7 +852,7 @@ export default function Dashboard() {
                 </span>
               </div>
               <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                <span className="text-[10px] font-bold text-black uppercase tracking-wider block">
                   TOTAL PRODUCTS BOUGHT
                 </span>
                 <span className="text-sm font-extrabold text-[#5E1B89] mt-0.5 block">
@@ -862,11 +862,11 @@ export default function Dashboard() {
             </div>
 
             <div className="bg-slate-50/80 p-3 rounded-xl border border-slate-200/60 text-xs space-y-0.5">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+              <span className="text-[10px] font-bold text-black uppercase tracking-wider block">
                 TOP SALEABLE PRODUCT PURCHASED
               </span>
-              <div className="font-bold text-slate-900">LexWeb Enterprise Suite & Integration</div>
-              <div className="text-slate-500 text-[11px]">
+              <div className="font-bold text-black">LexWeb Enterprise Suite & Integration</div>
+              <div className="text-black text-[11px]">
                 14 Licenses Acquired • ₱350,000 Volume
               </div>
             </div>

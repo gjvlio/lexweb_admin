@@ -54,7 +54,7 @@ export default function ProductsMainPage() {
           <h1 className="font-heading text-4xl font-bold tracking-tight text-brand-purple">
             Products
           </h1>
-          <p className="text-xs text-slate-500 leading-normal mt-1.5">
+          <p className="text-xs text-black leading-normal mt-1.5">
             Manage subscriptions, templates, and premium add-on assets.
           </p>
         </div>
@@ -69,7 +69,7 @@ export default function ProductsMainPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               aria-label="Search products"
-              className="w-56 md:w-72 border border-brand-purple-soft/50 rounded-xl pl-9 pr-4 py-2 text-sm font-sans text-slate-800 placeholder-slate-400 bg-white focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all"
+              className="w-56 md:w-72 border border-brand-purple-soft/50 rounded-xl pl-9 pr-4 py-2 text-sm font-sans text-black placeholder-slate-400 bg-white focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all"
             />
           </div>
 
@@ -95,7 +95,7 @@ export default function ProductsMainPage() {
               {product.title}
             </h2>
 
-            <p className="text-sm text-slate-500 leading-relaxed mb-6 max-w-[230px]">
+            <p className="text-sm text-black leading-relaxed mb-6 max-w-[230px]">
               {product.description}
             </p>
 
@@ -109,7 +109,7 @@ export default function ProductsMainPage() {
         ))}
 
         {visibleCards.length === 0 && (
-          <Card className="col-span-full py-12 text-center text-slate-500">
+          <Card className="col-span-full py-12 text-center text-black">
             <p className="text-sm font-sans">No products match "{searchQuery}".</p>
           </Card>
         )}

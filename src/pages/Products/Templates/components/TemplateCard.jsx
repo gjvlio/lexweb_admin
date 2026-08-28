@@ -6,14 +6,14 @@ export default function TemplateCard({ template, onView }) {
       <div className="mb-3 flex items-baseline justify-between gap-3">
         <span className="text-[13px] font-semibold text-brand-purple">Template Name:</span>
       </div>
-      <div className="mb-3 rounded-lg border border-[#CAC8C9] bg-[#E6E4E6] px-3.5 py-2 text-sm text-slate-700">
+      <div className="mb-3 rounded-lg border border-[#CAC8C9] bg-[#E6E4E6] px-3.5 py-2 text-sm text-black">
         {template.name}
       </div>
 
       <div className="mb-3 flex items-baseline justify-between gap-3">
         <span className="text-[13px] font-semibold text-brand-purple">Price</span>
       </div>
-      <div className="mb-4 rounded-lg border border-[#CAC8C9] bg-[#E6E4E6] px-3.5 py-2 text-sm text-slate-700">
+      <div className="mb-4 rounded-lg border border-[#CAC8C9] bg-[#E6E4E6] px-3.5 py-2 text-sm text-black">
         ₱{Number(String(template.price).replace(/,/g, '')).toLocaleString()}
       </div>
 
