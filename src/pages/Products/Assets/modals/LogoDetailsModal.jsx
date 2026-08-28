@@ -5,7 +5,7 @@ import LogoFormFields from './LogoFormFields'
 
 const toFormValues = (logo) => ({
   productType: logo?.productType || 'Logo',
-  category: logo?.category || 'Scale',
+  category: logo?.category || 'Main Banner',
   price: logo?.price ?? '',
   title: logo?.title || '',
   width: logo?.width ?? '',

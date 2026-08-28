@@ -5,7 +5,7 @@ import AssetFormFields from './AssetFormFields'
 
 const toFormValues = (asset) => ({
   productType: asset?.productType || 'Copywrite',
-  slot: asset?.slot || 'Main Banner',
+  category: asset?.category || 'Main Banner',
   price: asset?.price ?? '',
   title: asset?.title || '',
   subtitle: asset?.subtitle || '',
