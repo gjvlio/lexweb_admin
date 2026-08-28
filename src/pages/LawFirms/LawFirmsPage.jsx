@@ -78,6 +78,185 @@ function ViewButton({ onClick, label = "VIEW" }) {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* Modals                                                              */
+/* ------------------------------------------------------------------ */
+
+function Modal({ title, onClose, children, footer }) {
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-lg rounded-[5px] bg-white shadow-xl"
+        style={{ fontFamily }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div
+          className="flex items-center justify-between rounded-t-[5px] px-5 py-3"
+          style={{ backgroundColor: tokens.purple }}
+        >
+          <h3 className="text-base font-normal text-[#F8FFFE]">{title}</h3>
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-lg leading-none text-[#F8FFFE] cursor-pointer"
+            aria-label="Close"
+          >
+            &times;
+          </button>
+        </div>
+        <div className={`max-h-[70vh] overflow-y-auto p-5 ${customScrollbar}`}>{children}</div>
+        {footer && (
+          <div
+            className="flex justify-end gap-2 border-t px-5 py-3"
+            style={{ borderColor: tokens.border }}
+          >
+            {footer}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ViewDataModal({ title, fields, onClose }) {
+  return (
+    <Modal title={title} onClose={onClose}>
+      <div className="flex flex-col gap-3">
+        {fields.map((f) => (
+          <div key={f.key} className="flex flex-col gap-1">
+            <span className="text-[11px] font-bold" style={{ color: tokens.orange }}>
+              {f.label}
+            </span>
+            <span className="whitespace-pre-wrap text-xs" style={{ color: tokens.textBody }}>
+              {f.value === "" || f.value === null || f.value === undefined ? "—" : String(f.value)}
+            </span>
+          </div>
+        ))}
+        {fields.length === 0 && (
+          <p className="text-xs" style={{ color: tokens.textDesc }}>
+            Nothing to show here yet.
+          </p>
+        )}
+      </div>
+    </Modal>
+  );
+}
+
+function EditDataModal({ title, fields, onSave, onClose }) {
+  const [values, setValues] = useState(() =>
+    Object.fromEntries(fields.map((f) => [f.key, f.value ?? ""]))
+  );
+
+  const handleChange = (key, val) => setValues((prev) => ({ ...prev, [key]: val }));
+
+  const handleSave = () => {
+    onSave(values);
+    onClose();
+  };
+
+  return (
+    <Modal
+      title={title}
+      onClose={onClose}
+      footer={
+        <>
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-[5px] border px-4 py-1.5 text-xs cursor-pointer"
+            style={{ borderColor: tokens.purple, color: tokens.purple, backgroundColor: "#FFFFFF" }}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={handleSave}
+            className="rounded-[5px] px-4 py-1.5 text-xs text-white cursor-pointer"
+            style={{ backgroundColor: tokens.purple }}
+          >
+            Save
+          </button>
+        </>
+      }
+    >
+      <div className="flex flex-col gap-4">
+        {fields.map((f) => (
+          <div key={f.key} className="flex flex-col gap-1">
+            <label className="text-[11px] font-bold" style={{ color: tokens.orange }}>
+              {f.label}
+            </label>
+            {f.multiline ? (
+              <textarea
+                rows={4}
+                value={values[f.key]}
+                onChange={(e) => handleChange(f.key, e.target.value)}
+                className="w-full resize-y rounded-[5px] border px-2 py-1.5 text-xs outline-none"
+                style={{ borderColor: tokens.border, color: tokens.textBody }}
+              />
+            ) : (
+              <input
+                type="text"
+                value={values[f.key]}
+                onChange={(e) => handleChange(f.key, e.target.value)}
+                className="w-full rounded-[5px] border px-2 py-1.5 text-xs outline-none"
+                style={{ borderColor: tokens.border, color: tokens.textBody }}
+              />
+            )}
+          </div>
+        ))}
+        {fields.length === 0 && (
+          <p className="text-xs" style={{ color: tokens.textDesc }}>
+            Nothing to edit here yet.
+          </p>
+        )}
+      </div>
+    </Modal>
+  );
+}
+
+function ConfirmDeleteModal({ title, message, onConfirm, onClose }) {
+  return (
+    <Modal
+      title={title}
+      onClose={onClose}
+      footer={
+        <>
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-[5px] border px-4 py-1.5 text-xs cursor-pointer"
+            style={{ borderColor: tokens.purple, color: tokens.purple, backgroundColor: "#FFFFFF" }}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              onConfirm();
+              onClose();
+            }}
+            className="rounded-[5px] px-4 py-1.5 text-xs text-white cursor-pointer"
+            style={{ backgroundColor: tokens.orange }}
+          >
+            Delete
+          </button>
+        </>
+      }
+    >
+      <p className="text-xs" style={{ color: tokens.textBody }}>
+        {message}
+      </p>
+    </Modal>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Lawyers / Assets / Ratings tables                                   */
+/* ------------------------------------------------------------------ */
+
 function LawyersTable({ lawyers, query, onQueryChange, onRowClick, onSearchSettings }) {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -293,7 +472,7 @@ function RatingsTable({ ratings, query, onQueryChange, onSearchSettings }) {
   );
 }
 
-function LawFirmDetailColumn({ className = "", onSelectLawyer }) {
+function LawFirmDetailColumn({ className = "", onSelectLawyer, onViewAsset }) {
   const [activeTab, setActiveTab] = useState("Lawyers");
   const [query, setQuery] = useState("");
 
@@ -320,7 +499,7 @@ function LawFirmDetailColumn({ className = "", onSelectLawyer }) {
           assets={demoAssets}
           query={query}
           onQueryChange={setQuery}
-          onViewAsset={(asset) => console.log("view asset", asset)}
+          onViewAsset={onViewAsset}
           onSearchSettings={() => handleSearchSettings("Assets")}
         />
       )}
@@ -338,16 +517,31 @@ function LawFirmDetailColumn({ className = "", onSelectLawyer }) {
 
 function ActionButtons({ onView, onEdit, onDelete }) {
   const base =
-    "rounded-[5px] px-3 py-1 text-[11px] font-normal leading-[14px] text-white transition-opacity hover:opacity-90 active:opacity-80 cursor-pointer";
+    "rounded-[5px] px-3 py-1 text-[11px] font-normal leading-[14px] transition-opacity hover:opacity-90 active:opacity-80 cursor-pointer";
   return (
     <div className="flex shrink-0 items-center gap-1.5">
-      <button type="button" onClick={onView} className={base} style={{ backgroundColor: tokens.purpleSoft }}>
+      <button
+        type="button"
+        onClick={onView}
+        className={`${base} text-white`}
+        style={{ backgroundColor: tokens.purpleSoft }}
+      >
         View
       </button>
-      <button type="button" onClick={onEdit} className={base} style={{ backgroundColor: tokens.purpleSoft }}>
+      <button
+        type="button"
+        onClick={onEdit}
+        className={`${base} border`}
+        style={{ backgroundColor: "#FFFFFF", color: tokens.purple, borderColor: tokens.purple }}
+      >
         Edit
       </button>
-      <button type="button" onClick={onDelete} className={base} style={{ backgroundColor: tokens.orange }}>
+      <button
+        type="button"
+        onClick={onDelete}
+        className={`${base} text-white`}
+        style={{ backgroundColor: tokens.orange }}
+      >
         Delete
       </button>
     </div>
@@ -423,7 +617,7 @@ function TableSection({ title, columns, rows, renderCell, maxHeight = "max-h-36"
   );
 }
 
-function LawFirmDetailsPanel({ onLiveView, onEditSection, onDeleteSection, onViewPracticeArea }) {
+function LawFirmDetailsPanel({ content, onLiveView, onView, onEdit, onDelete, onViewRow }) {
   const noop = () => {};
 
   return (
@@ -443,32 +637,32 @@ function LawFirmDetailsPanel({ onLiveView, onEditSection, onDeleteSection, onVie
         <section className="flex flex-col gap-2">
           <SectionHeading
             title="About Us"
-            actions={<ActionButtons onView={() => onEditSection?.("about", "view")} onEdit={() => onEditSection?.("about", "edit")} onDelete={() => onDeleteSection?.("about")} />}
+            actions={<ActionButtons onView={() => onView?.("about")} onEdit={() => onEdit?.("about")} onDelete={() => onDelete?.("about")} />}
           />
-          <ContentCard>{websiteContent.aboutUs}</ContentCard>
+          <ContentCard>{content.aboutUs}</ContentCard>
         </section>
 
         <div className="flex flex-col gap-6 sm:flex-row sm:gap-4">
           <section className="flex flex-1 flex-col gap-2">
             <SectionHeading
               title="Mission"
-              actions={<ActionButtons onView={() => onEditSection?.("mission", "view")} onEdit={() => onEditSection?.("mission", "edit")} onDelete={() => onDeleteSection?.("mission")} />}
+              actions={<ActionButtons onView={() => onView?.("mission")} onEdit={() => onEdit?.("mission")} onDelete={() => onDelete?.("mission")} />}
             />
-            <ContentCard className="h-full">{websiteContent.mission}</ContentCard>
+            <ContentCard className="h-full">{content.mission}</ContentCard>
           </section>
 
           <section className="flex flex-1 flex-col gap-2">
             <SectionHeading
               title="Vision"
-              actions={<ActionButtons onView={() => onEditSection?.("vision", "view")} onEdit={() => onEditSection?.("vision", "edit")} onDelete={() => onDeleteSection?.("vision")} />}
+              actions={<ActionButtons onView={() => onView?.("vision")} onEdit={() => onEdit?.("vision")} onDelete={() => onDelete?.("vision")} />}
             />
-            <ContentCard className="h-full">{websiteContent.vision}</ContentCard>
+            <ContentCard className="h-full">{content.vision}</ContentCard>
           </section>
         </div>
 
         <TableSection
           title="Values We Live By"
-          actions={<ActionButtons onView={() => onEditSection?.("values", "view")} onEdit={() => onEditSection?.("values", "edit")} onDelete={() => onDeleteSection?.("values")} />}
+          actions={<ActionButtons onView={() => onView?.("values")} onEdit={() => onEdit?.("values")} onDelete={() => onDelete?.("values")} />}
           maxHeight="max-h-56"
           columns={[
             { key: "id", label: "#", width: "w-8 flex-none" },
@@ -476,76 +670,227 @@ function LawFirmDetailsPanel({ onLiveView, onEditSection, onDeleteSection, onVie
             { key: "description", label: "Description", width: "flex-1", muted: true },
             { key: "action", label: "Icon/Image", width: "w-20 flex-none", align: "right" },
           ]}
-          rows={websiteContent.values}
-          renderCell={(row, col) => (col.key === "action" ? <ViewButton onClick={() => onViewPracticeArea?.(row)} /> : row[col.key])}
+          rows={content.values}
+          renderCell={(row, col) => (col.key === "action" ? <ViewButton onClick={() => onViewRow?.(row)} /> : row[col.key])}
         />
 
         <section className="flex flex-col gap-2">
           <SectionHeading
             title="Our Promise"
-            actions={<ActionButtons onView={() => onEditSection?.("promise", "view")} onEdit={() => onEditSection?.("promise", "edit")} onDelete={() => onDeleteSection?.("promise")} />}
+            actions={<ActionButtons onView={() => onView?.("promise")} onEdit={() => onEdit?.("promise")} onDelete={() => onDelete?.("promise")} />}
           />
-          <ContentCard>{websiteContent.promise}</ContentCard>
+          <ContentCard>{content.promise}</ContentCard>
         </section>
 
         <hr style={{ borderColor: tokens.borderStrong }} />
 
         <TableSection
           title="Practice Area"
-          actions={<ActionButtons onView={() => onEditSection?.("practiceArea", "view")} onEdit={() => onEditSection?.("practiceArea", "edit")} onDelete={() => onDeleteSection?.("practiceArea")} />}
+          actions={<ActionButtons onView={() => onView?.("practiceArea")} onEdit={() => onEdit?.("practiceArea")} onDelete={() => onDelete?.("practiceArea")} />}
           columns={[
             { key: "id", label: "#", width: "w-8 flex-none" },
             { key: "name", label: "Name", width: "w-1/4" },
             { key: "description", label: "Description", width: "flex-1", muted: true },
             { key: "action", label: "Icon/Image", width: "w-20 flex-none", align: "right" },
           ]}
-          rows={websiteContent.practiceAreas}
-          renderCell={(row, col) => (col.key === "action" ? <ViewButton onClick={() => onViewPracticeArea?.(row)} /> : row[col.key])}
+          rows={content.practiceAreas}
+          renderCell={(row, col) => (col.key === "action" ? <ViewButton onClick={() => onViewRow?.(row)} /> : row[col.key])}
         />
 
         <TableSection
           title="Cases Handled"
-          actions={<ActionButtons onView={() => onEditSection?.("cases", "view")} onEdit={() => onEditSection?.("cases", "edit")} onDelete={() => onDeleteSection?.("cases")} />}
+          actions={<ActionButtons onView={() => onView?.("cases")} onEdit={() => onEdit?.("cases")} onDelete={() => onDelete?.("cases")} />}
           columns={[
             { key: "id", label: "#", width: "w-8 flex-none" },
             { key: "case", label: "Case", width: "flex-1" },
           ]}
-          rows={websiteContent.cases}
+          rows={content.cases}
         />
 
         <TableSection
           title="Location of Practice"
-          actions={<ActionButtons onView={() => onEditSection?.("locations", "view")} onEdit={() => onEditSection?.("locations", "edit")} onDelete={() => onDeleteSection?.("locations")} />}
+          actions={<ActionButtons onView={() => onView?.("locations")} onEdit={() => onEdit?.("locations")} onDelete={() => onDelete?.("locations")} />}
           columns={[
             { key: "id", label: "#", width: "w-8 flex-none" },
             { key: "location", label: "Location", width: "flex-1" },
           ]}
-          rows={websiteContent.locations}
+          rows={content.locations}
         />
 
         <TableSection
           title="Awards and Citations"
-          actions={<ActionButtons onView={() => onEditSection?.("awards", "view")} onEdit={() => onEditSection?.("awards", "edit")} onDelete={() => onDeleteSection?.("awards")} />}
+          actions={<ActionButtons onView={() => onView?.("awards")} onEdit={() => onEdit?.("awards")} onDelete={() => onDelete?.("awards")} />}
           columns={[
             { key: "id", label: "#", width: "w-8 flex-none" },
             { key: "category", label: "Category", width: "w-1/4" },
             { key: "title", label: "Title", width: "flex-1", muted: true },
             { key: "year", label: "Year", width: "w-14 flex-none", align: "right" },
           ]}
-          rows={websiteContent.awards}
+          rows={content.awards}
         />
       </div>
     </div>
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* Section config for generic view/edit/delete modals                 */
+/* ------------------------------------------------------------------ */
+
+const sectionConfig = {
+  about: { title: "About Us", type: "text", key: "aboutUs" },
+  mission: { title: "Mission", type: "text", key: "mission" },
+  vision: { title: "Vision", type: "text", key: "vision" },
+  promise: { title: "Our Promise", type: "text", key: "promise" },
+  values: {
+    title: "Values We Live By",
+    type: "table",
+    key: "values",
+    columns: [
+      { key: "name", label: "Title" },
+      { key: "description", label: "Description", multiline: true },
+    ],
+  },
+  practiceArea: {
+    title: "Practice Area",
+    type: "table",
+    key: "practiceAreas",
+    columns: [
+      { key: "name", label: "Name" },
+      { key: "description", label: "Description", multiline: true },
+    ],
+  },
+  cases: {
+    title: "Cases Handled",
+    type: "table",
+    key: "cases",
+    columns: [{ key: "case", label: "Case", multiline: true }],
+  },
+  locations: {
+    title: "Location of Practice",
+    type: "table",
+    key: "locations",
+    columns: [{ key: "location", label: "Location" }],
+  },
+  awards: {
+    title: "Awards and Citations",
+    type: "table",
+    key: "awards",
+    columns: [
+      { key: "category", label: "Category" },
+      { key: "title", label: "Title" },
+      { key: "year", label: "Year" },
+    ],
+  },
+};
+
+function flattenTableFields(rows, columns) {
+  const fields = [];
+  rows.forEach((row) => {
+    columns.forEach((col) => {
+      fields.push({
+        key: `${row.id}__${col.key}`,
+        label: `${col.label} (#${row.id})`,
+        value: row[col.key],
+        multiline: col.multiline,
+      });
+    });
+  });
+  return fields;
+}
+
+function applyTableFields(values, rows, columns) {
+  return rows.map((row) => {
+    const updated = { ...row };
+    columns.forEach((col) => {
+      const k = `${row.id}__${col.key}`;
+      if (k in values) updated[col.key] = values[k];
+    });
+    return updated;
+  });
+}
+
+function objectToFields(obj, excludeKeys = []) {
+  return Object.entries(obj)
+    .filter(([k]) => !excludeKeys.includes(k))
+    .map(([k, v]) => ({
+      key: k,
+      label: k.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase()),
+      value: v,
+    }));
+}
+
+/* ------------------------------------------------------------------ */
+/* Page                                                                 */
+/* ------------------------------------------------------------------ */
+
 export default function LawFirmsPage() {
   const [selectedLawyer, setSelectedLawyer] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [content, setContent] = useState(() => JSON.parse(JSON.stringify(websiteContent)));
+  const [modalState, setModalState] = useState(null);
+
   const handleOpenLawyerModal = (lawyer) => {
     setSelectedLawyer(lawyer);
     setIsModalOpen(true);
+  };
+
+  const closeDataModal = () => setModalState(null);
+
+  const openView = (title, fields) => setModalState({ mode: "view", title, fields });
+  const openEdit = (title, fields, onSave) => setModalState({ mode: "edit", title, fields, onSave });
+  const openDelete = (title, message, onConfirm) => setModalState({ mode: "delete", title, message, onConfirm });
+
+  const handleSectionView = (sectionKey) => {
+    const cfg = sectionConfig[sectionKey];
+    if (!cfg) return;
+    if (cfg.type === "text") {
+      openView(cfg.title, [{ key: "text", label: cfg.title, value: content[cfg.key] }]);
+    } else {
+      openView(cfg.title, flattenTableFields(content[cfg.key], cfg.columns));
+    }
+  };
+
+  const handleSectionEdit = (sectionKey) => {
+    const cfg = sectionConfig[sectionKey];
+    if (!cfg) return;
+    if (cfg.type === "text") {
+      openEdit(
+        `Edit ${cfg.title}`,
+        [{ key: "text", label: cfg.title, value: content[cfg.key], multiline: true }],
+        (values) => setContent((prev) => ({ ...prev, [cfg.key]: values.text }))
+      );
+    } else {
+      openEdit(
+        `Edit ${cfg.title}`,
+        flattenTableFields(content[cfg.key], cfg.columns),
+        (values) =>
+          setContent((prev) => ({
+            ...prev,
+            [cfg.key]: applyTableFields(values, prev[cfg.key], cfg.columns),
+          }))
+      );
+    }
+  };
+
+  const handleSectionDelete = (sectionKey) => {
+    const cfg = sectionConfig[sectionKey];
+    if (!cfg) return;
+    openDelete(
+      `Delete ${cfg.title}`,
+      `Are you sure you want to delete "${cfg.title}"? This action cannot be undone.`,
+      () => setContent((prev) => ({ ...prev, [cfg.key]: cfg.type === "text" ? "" : [] }))
+    );
+  };
+
+  const handleViewRow = (row) => {
+    const label = row.name || row.category || row.case || row.location || `Item #${row.id}`;
+    openView(label, objectToFields(row, ["id"]));
+  };
+
+  const handleViewAsset = (asset) => {
+    openView(`Asset #${asset.id}`, objectToFields(asset, ["id"]));
   };
 
   return (
@@ -554,7 +899,7 @@ export default function LawFirmsPage() {
       <div className="mb-4 flex flex-col gap-1.5">
         <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs font-sans">
           <Link to="/lawfirms" className="text-brand-orange hover:underline">
-            Lawfirms
+            Law Firms
           </Link>
           <span className="text-slate-400">&rsaquo;</span>
           <Link to="" className="text-brand-purple hover:underline">
@@ -571,13 +916,21 @@ export default function LawFirmsPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
-        <LawFirmDetailColumn 
-          className={`h-[600px] ${PANEL_HEIGHT}`} 
+        <LawFirmDetailColumn
+          className={`h-[600px] ${PANEL_HEIGHT}`}
           onSelectLawyer={handleOpenLawyerModal}
+          onViewAsset={handleViewAsset}
         />
 
         <div className={`h-[600px] w-full lg:sticky lg:top-6 ${PANEL_HEIGHT}`}>
-          <LawFirmDetailsPanel onLiveView={() => console.log("live view")} />
+          <LawFirmDetailsPanel
+            content={content}
+            onLiveView={() => console.log("live view")}
+            onView={handleSectionView}
+            onEdit={handleSectionEdit}
+            onDelete={handleSectionDelete}
+            onViewRow={handleViewRow}
+          />
         </div>
       </div>
 
@@ -587,6 +940,27 @@ export default function LawFirmsPage() {
         lawyer={selectedLawyer}
         onClose={() => setIsModalOpen(false)}
       />
+
+      {/* Generic View / Edit / Delete modals */}
+      {modalState?.mode === "view" && (
+        <ViewDataModal title={modalState.title} fields={modalState.fields} onClose={closeDataModal} />
+      )}
+      {modalState?.mode === "edit" && (
+        <EditDataModal
+          title={modalState.title}
+          fields={modalState.fields}
+          onSave={modalState.onSave}
+          onClose={closeDataModal}
+        />
+      )}
+      {modalState?.mode === "delete" && (
+        <ConfirmDeleteModal
+          title={modalState.title}
+          message={modalState.message}
+          onConfirm={modalState.onConfirm}
+          onClose={closeDataModal}
+        />
+      )}
     </div>
   );
 }
