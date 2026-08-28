@@ -12,7 +12,7 @@ export default function TemplateFormFields({ values, onChange, idPrefix, preview
     <div className="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2">
       <div className="space-y-4">
         <div className="space-y-1.5">
-          <span className="block text-[13px] font-semibold text-slate-800">Template Preview</span>
+          <span className="block text-[13px] font-semibold text-black">Template Preview</span>
           <div className="flex aspect-[4/5] w-full items-center justify-center overflow-hidden rounded-lg bg-slate-900">
             {previewSrc ? (
               <img src={previewSrc} alt="Template preview" className="h-full w-full object-cover object-top" />

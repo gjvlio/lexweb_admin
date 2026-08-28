@@ -127,7 +127,7 @@ export default function CustomPhotoRequestDetailsModal({ open, request, onClose,
                 {request.orderOutputUrl ? (
                   <img src={request.orderOutputUrl} alt="Output" className="h-full w-full object-cover" />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-slate-400">
+                  <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-black">
                     Awaiting output
                   </div>
                 )}

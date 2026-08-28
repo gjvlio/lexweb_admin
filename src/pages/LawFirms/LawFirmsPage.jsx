@@ -901,7 +901,7 @@ export default function LawFirmsPage() {
           <Link to="/lawfirms" className="text-brand-orange hover:underline">
             Law Firms
           </Link>
-          <span className="text-slate-400">&rsaquo;</span>
+          <span className="text-black">&rsaquo;</span>
           <Link to="" className="text-brand-purple hover:underline">
             Bautista Lawfirm Office
           </Link>

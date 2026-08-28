@@ -130,7 +130,7 @@ export default function LogosTab({ tabsSlot }) {
                 setPage(1)
               }}
               aria-label="Filter by status"
-              className="appearance-none rounded-lg border border-slate-900 bg-white py-2 pl-4 pr-9 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-purple"
+              className="appearance-none rounded-lg border border-slate-900 bg-white py-2 pl-4 pr-9 text-sm font-semibold text-black focus:outline-none focus:ring-2 focus:ring-brand-purple"
             >
               {LOGO_STATUSES.map((option) => (
                 <option key={option} value={option}>
@@ -138,7 +138,7 @@ export default function LogosTab({ tabsSlot }) {
                 </option>
               ))}
             </select>
-            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-900" />
+            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black" />
           </div>
 
           <div className="relative w-64 lg:w-80">
@@ -152,7 +152,7 @@ export default function LogosTab({ tabsSlot }) {
               }}
               placeholder="Search"
               aria-label="Search logos"
-              className="w-full rounded-lg border border-brand-purple bg-white py-2 pl-9 pr-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-purple"
+              className="w-full rounded-lg border border-brand-purple bg-white py-2 pl-9 pr-3 text-sm text-black placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-purple"
             />
           </div>
 
@@ -183,7 +183,7 @@ export default function LogosTab({ tabsSlot }) {
                 className={`rounded-md px-7 py-1.5 text-sm font-semibold transition-colors ${
                   isActive
                     ? 'border border-brand-orange bg-white text-brand-orange'
-                    : 'border border-transparent text-slate-500 hover:text-slate-700'
+                    : 'border border-transparent text-black hover:text-black'
                 }`}
               >
                 {value === 'premade' ? 'Pre-made' : 'Custom'}
@@ -207,7 +207,7 @@ export default function LogosTab({ tabsSlot }) {
                 className={`border-b-2 pb-0.5 text-base transition-colors ${
                   isActive
                     ? 'border-brand-orange font-semibold text-brand-orange'
-                    : 'border-transparent text-slate-800 hover:text-brand-orange'
+                    : 'border-transparent text-black hover:text-brand-orange'
                 }`}
               >
                 {cat}
@@ -230,7 +230,7 @@ export default function LogosTab({ tabsSlot }) {
       </div>
 
       {filtered.length === 0 && (
-        <div className="py-12 text-center text-sm text-slate-500">
+        <div className="py-12 text-center text-sm text-black">
           No logos found matching your criteria.
         </div>
       )}

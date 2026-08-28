@@ -79,7 +79,7 @@ export default function PhotoFormFields({ values, onChange, idPrefix }) {
               onChange={set('width')}
               className="flex-1 space-y-0"
             />
-            <span className="text-sm font-semibold text-slate-500">x</span>
+            <span className="text-sm font-semibold text-black">x</span>
             <TextInput
               id={`${idPrefix}-height`}
               type="number"

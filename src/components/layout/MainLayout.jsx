@@ -7,7 +7,7 @@ export default function MainLayout() {
   const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(false)
 
   return (
-    <div className="min-h-screen w-full bg-brand-bg flex font-sans text-slate-900 antialiased">
+    <div className="min-h-screen w-full bg-brand-bg flex font-sans text-black antialiased">
       {/* Side Navigation Bar (230px) */}
       <Navbar
         isCollapsed={isNavbarCollapsed}

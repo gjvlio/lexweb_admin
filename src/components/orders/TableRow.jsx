@@ -10,7 +10,7 @@ function DateToString(date) {
 
 export default function TableRow({ isChecked = false, row, column }) {
   return (
-    <tr className="py-4 text-gray-500">
+    <tr className="py-4 text-black">
       <td className="align-middle text-center">
         <input
           checked={isChecked}
