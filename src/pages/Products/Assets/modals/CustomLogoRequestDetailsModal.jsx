@@ -127,7 +127,7 @@ export default function CustomLogoRequestDetailsModal({ open, request, onClose, 
                 {request.orderOutputUrl ? (
                   <img src={request.orderOutputUrl} alt="Output" className="h-full object-cover" />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-black">
+                  <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-slate-400">
                     Awaiting output
                   </div>
                 )}

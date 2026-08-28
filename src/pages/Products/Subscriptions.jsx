@@ -148,7 +148,7 @@ function EditPromoModal({ isOpen, onClose, onSave, promo }) {
           </h2>
           <button
             onClick={onClose}
-            className="p-1 text-black hover:text-black transition-colors focus:outline-none"
+            className="p-1 text-slate-600 hover:text-slate-900 transition-colors focus:outline-none"
             aria-label="Close modal"
           >
             <X className="w-5 h-5 stroke-[2.5]" />
@@ -157,43 +157,43 @@ function EditPromoModal({ isOpen, onClose, onSave, promo }) {
 
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-6 py-4 space-y-3.5">
           <div>
-            <label className="block text-xs font-semibold text-black mb-1">
+            <label className="block text-xs font-semibold text-slate-400 mb-1">
               Product Name:
             </label>
             <input
               type="text"
               value={formData.productName}
               onChange={(e) => setFormData({ ...formData, productName: e.target.value })}
-              className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
+              className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-black mb-1">
+            <label className="block text-xs font-semibold text-slate-400 mb-1">
               Original Price
             </label>
             <input
               type="text"
               value={formData.originalPrice}
               onChange={(e) => setFormData({ ...formData, originalPrice: e.target.value })}
-              className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
+              className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-black mb-1">
+            <label className="block text-xs font-semibold text-slate-400 mb-1">
               Promo Name:
             </label>
             <input
               type="text"
               value={formData.promoName}
               onChange={(e) => setFormData({ ...formData, promoName: e.target.value })}
-              className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
+              className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-black mb-1">
+            <label className="block text-xs font-semibold text-slate-400 mb-1">
               Price Discount(%):
             </label>
             <div className="relative">
@@ -201,16 +201,16 @@ function EditPromoModal({ isOpen, onClose, onSave, promo }) {
                 type="text"
                 value={formData.discount}
                 onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
-                className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple pr-8"
+                className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple pr-8"
               />
-              <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-sm text-black font-medium">
+              <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-sm text-slate-600 font-medium">
                 %
               </span>
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-black mb-1">
+            <label className="block text-xs font-semibold text-slate-400 mb-1">
               Start Date:
             </label>
             <div className="relative">
@@ -218,13 +218,13 @@ function EditPromoModal({ isOpen, onClose, onSave, promo }) {
                 type="date"
                 value={formData.startDate}
                 onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
+                className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-black mb-1">
+            <label className="block text-xs font-semibold text-slate-400 mb-1">
               End Date:
             </label>
             <div className="relative">
@@ -232,7 +232,7 @@ function EditPromoModal({ isOpen, onClose, onSave, promo }) {
                 type="date"
                 value={formData.endDate}
                 onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
+                className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
               />
             </div>
           </div>
@@ -275,7 +275,7 @@ function InclusionFormModal({ isOpen, onClose, onSave, feature = null }) {
           </h2>
           <button
             onClick={onClose}
-            className="p-1 text-black hover:text-black transition-colors focus:outline-none"
+            className="p-1 text-slate-600 hover:text-slate-900 transition-colors focus:outline-none"
             aria-label="Close modal"
           >
             <X className="w-5 h-5 stroke-[2.5]" />
@@ -284,14 +284,14 @@ function InclusionFormModal({ isOpen, onClose, onSave, feature = null }) {
 
         <form onSubmit={handleSubmit} className="px-6 py-4 space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-black mb-1.5">
+            <label className="block text-xs font-semibold text-slate-500 mb-1.5">
               Name:
             </label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
+              className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
             />
           </div>
 
@@ -355,7 +355,7 @@ function AddPlanPromoModal({ isOpen, onClose, onAdd }) {
           </h2>
           <button
             onClick={onClose}
-            className="p-1 text-black hover:text-black transition-colors focus:outline-none"
+            className="p-1 text-slate-600 hover:text-slate-900 transition-colors focus:outline-none"
             aria-label="Close modal"
           >
             <X className="w-5 h-5 stroke-[2.5]" />
@@ -364,43 +364,43 @@ function AddPlanPromoModal({ isOpen, onClose, onAdd }) {
 
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-7 py-4 space-y-3.5">
           <div>
-            <label className="block text-xs font-semibold text-black mb-1">
+            <label className="block text-xs font-semibold text-slate-500 mb-1">
               Name:
             </label>
             <input
               type="text"
               value={formData.planName}
               onChange={(e) => setFormData({ ...formData, planName: e.target.value })}
-              className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
+              className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-black mb-1">
+            <label className="block text-xs font-semibold text-slate-500 mb-1">
               Original Price
             </label>
             <input
               type="text"
               value={formData.originalPrice}
               onChange={(e) => setFormData({ ...formData, originalPrice: e.target.value })}
-              className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
+              className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-black mb-1">
+            <label className="block text-xs font-semibold text-slate-500 mb-1">
               Promo Name:
             </label>
             <input
               type="text"
               value={formData.promoName}
               onChange={(e) => setFormData({ ...formData, promoName: e.target.value })}
-              className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
+              className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-black mb-1">
+            <label className="block text-xs font-semibold text-slate-500 mb-1">
               Price Discount(%):
             </label>
             <div className="relative">
@@ -408,35 +408,35 @@ function AddPlanPromoModal({ isOpen, onClose, onAdd }) {
                 type="text"
                 value={formData.discount}
                 onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
-                className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple pr-8"
+                className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple pr-8"
               />
-              <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-sm text-black font-medium">
+              <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-sm text-slate-600 font-medium">
                 %
               </span>
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-black mb-1">
+            <label className="block text-xs font-semibold text-slate-500 mb-1">
               Start Date:
             </label>
             <input
               type="date"
               value={formData.startDate}
               onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-              className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
+              className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-black mb-1">
+            <label className="block text-xs font-semibold text-slate-500 mb-1">
               End Date:
             </label>
             <input
               type="date"
               value={formData.endDate}
               onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-              className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
+              className="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
             />
           </div>
 
@@ -482,7 +482,7 @@ function AllInclusionsModal({
           </h2>
           <button
             onClick={onClose}
-            className="p-1 text-black hover:text-black transition-colors focus:outline-none"
+            className="p-1 text-slate-600 hover:text-slate-900 transition-colors focus:outline-none"
             aria-label="Close modal"
           >
             <X className="w-6 h-6 stroke-[2.5]" />
@@ -492,7 +492,7 @@ function AllInclusionsModal({
         <div className="flex-1 overflow-y-auto px-8 py-2">
           <table className="w-full text-left text-sm border-collapse">
             <thead>
-              <tr className="border-b border-slate-300 text-black font-semibold">
+              <tr className="border-b border-slate-300 text-slate-700 font-semibold">
                 <th className="py-3 px-2 w-16">ID</th>
                 <th className="py-3 px-2">Feature</th>
                 <th className="py-3 px-2 text-right w-24">Actions</th>
@@ -501,8 +501,8 @@ function AllInclusionsModal({
             <tbody className="divide-y divide-slate-100">
               {features.map((feature) => (
                 <tr key={feature.id} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="py-3.5 px-2 text-black font-medium">{feature.id}</td>
-                  <td className="py-3.5 px-2 text-black font-medium">{feature.label}</td>
+                  <td className="py-3.5 px-2 text-slate-600 font-medium">{feature.id}</td>
+                  <td className="py-3.5 px-2 text-slate-800 font-medium">{feature.label}</td>
                   <td className="py-3.5 px-2 text-right">
                     <div className="flex items-center justify-end gap-2.5">
                       <button
@@ -562,7 +562,7 @@ function PlanPromosModal({
           </h2>
           <button
             onClick={onClose}
-            className="p-1 text-black hover:text-black transition-colors focus:outline-none"
+            className="p-1 text-slate-600 hover:text-slate-900 transition-colors focus:outline-none"
             aria-label="Close modal"
           >
             <X className="w-6 h-6 stroke-[2.5]" />
@@ -572,7 +572,7 @@ function PlanPromosModal({
         <div className="flex-1 overflow-y-auto px-8 py-2">
           <table className="w-full text-left text-sm border-collapse">
             <thead>
-              <tr className="border-b border-slate-300 text-black font-semibold">
+              <tr className="border-b border-slate-300 text-slate-700 font-semibold">
                 <th className="py-3 px-2 w-16">ID</th>
                 <th className="py-3 px-2">Promo Name</th>
                 <th className="py-3 px-2">Status</th>
@@ -583,10 +583,10 @@ function PlanPromosModal({
             <tbody className="divide-y divide-slate-100">
               {promos.map((promo) => (
                 <tr key={promo.id} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="py-3.5 px-2 text-black font-medium">{promo.id}</td>
-                  <td className="py-3.5 px-2 text-black font-medium">{promo.promoName || promo.name}</td>
-                  <td className="py-3.5 px-2 text-black font-medium">{promo.status}</td>
-                  <td className="py-3.5 px-2 text-black font-medium">{promo.endDate}</td>
+                  <td className="py-3.5 px-2 text-slate-600 font-medium">{promo.id}</td>
+                  <td className="py-3.5 px-2 text-slate-800 font-medium">{promo.promoName || promo.name}</td>
+                  <td className="py-3.5 px-2 text-slate-700 font-medium">{promo.status}</td>
+                  <td className="py-3.5 px-2 text-slate-700 font-medium">{promo.endDate}</td>
                   <td className="py-3.5 px-2 text-right">
                     <div className="flex items-center justify-end gap-2.5">
                       <button
@@ -686,7 +686,7 @@ function AddPlanModal({ isOpen, onClose, onAdd, features, promos }) {
           </h2>
           <button
             onClick={onClose}
-            className="p-1 text-black hover:text-black transition-colors focus:outline-none"
+            className="p-1 text-slate-600 hover:text-slate-900 transition-colors focus:outline-none"
             aria-label="Close modal"
           >
             <X className="w-6 h-6 stroke-[2.5]" />
@@ -699,45 +699,45 @@ function AddPlanModal({ isOpen, onClose, onAdd, features, promos }) {
           <div className="grid grid-cols-2 gap-x-8 gap-y-4">
             <div className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-black mb-1">
+                <label className="block text-xs font-semibold text-slate-500 mb-1">
                   Name:
                 </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
+                  className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-black mb-1">
+                <label className="block text-xs font-semibold text-slate-500 mb-1">
                   Price:
                 </label>
                 <input
                   type="text"
                   value={formData.price}
                   onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                  className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
+                  className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-black mb-1">
+                <label className="block text-xs font-semibold text-slate-500 mb-1">
                   Price Discount(%):
                 </label>
                 <input
                   type="text"
                   value={formData.discount}
                   onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
-                  className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
+                  className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
                 />
               </div>
             </div>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-black mb-1">
+                <label className="block text-xs font-semibold text-slate-500 mb-1">
                   Start Date:
                 </label>
                 <div className="relative">
@@ -745,13 +745,13 @@ function AddPlanModal({ isOpen, onClose, onAdd, features, promos }) {
                     type="date"
                     value={formData.startDate}
                     onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                    className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
+                    className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-black mb-1">
+                <label className="block text-xs font-semibold text-slate-500 mb-1">
                   End Date:
                 </label>
                 <div className="relative">
@@ -760,7 +760,7 @@ function AddPlanModal({ isOpen, onClose, onAdd, features, promos }) {
                     disabled={formData.interminable}
                     value={formData.endDate}
                     onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                    className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple disabled:bg-slate-100 disabled:text-slate-400"
+                    className="w-full px-3.5 py-2 border border-slate-300 rounded-lg text-sm text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple disabled:bg-slate-100 disabled:text-slate-400"
                   />
                 </div>
               </div>
@@ -773,7 +773,7 @@ function AddPlanModal({ isOpen, onClose, onAdd, features, promos }) {
                   onChange={(e) => setFormData({ ...formData, interminable: e.target.checked })}
                   className="w-4 h-4 rounded border-slate-300 text-brand-purple focus:ring-brand-purple cursor-pointer"
                 />
-                <label htmlFor="interminable" className="text-xs font-semibold text-black cursor-pointer">
+                <label htmlFor="interminable" className="text-xs font-semibold text-slate-600 cursor-pointer">
                   Interminable
                 </label>
               </div>
@@ -791,7 +791,7 @@ function AddPlanModal({ isOpen, onClose, onAdd, features, promos }) {
                     <div
                       key={promo.id}
                       onClick={() => togglePromo(promoLabel)}
-                      className="flex items-center justify-between text-xs text-black cursor-pointer hover:text-brand-purple"
+                      className="flex items-center justify-between text-xs text-slate-700 cursor-pointer hover:text-brand-purple"
                     >
                       <span>{promoLabel}</span>
                       <Plus className={`w-3.5 h-3.5 transition-transform ${isSelected ? 'rotate-45 text-red-500' : 'text-orange-500'}`} />
@@ -810,7 +810,7 @@ function AddPlanModal({ isOpen, onClose, onAdd, features, promos }) {
                     <div
                       key={feature.id}
                       onClick={() => toggleFeature(feature.id)}
-                      className="flex items-center justify-between text-xs text-black cursor-pointer hover:text-brand-purple"
+                      className="flex items-center justify-between text-xs text-slate-700 cursor-pointer hover:text-brand-purple"
                     >
                       <span className="truncate pr-2">{feature.label}</span>
                       <Plus className={`w-3.5 h-3.5 shrink-0 transition-transform ${isSelected ? 'rotate-45 text-red-500' : 'text-orange-500'}`} />
@@ -889,7 +889,7 @@ function EditPlanModal({ plan, isOpen, onClose, onSave, onDelete, features }) {
           </div>
           <button
             onClick={onClose}
-            className="p-1 text-black hover:text-black rounded-lg transition-colors focus:outline-none"
+            className="p-1 text-slate-400 hover:text-slate-600 rounded-lg transition-colors focus:outline-none"
             aria-label="Close modal"
           >
             <X className="w-6 h-6" />
@@ -898,37 +898,37 @@ function EditPlanModal({ plan, isOpen, onClose, onSave, onDelete, features }) {
 
         <div className="flex-1 overflow-y-auto px-8 py-2 space-y-6">
           <div className="space-y-2">
-            <label className="block text-xs font-bold font-sans tracking-wider text-black uppercase">
+            <label className="block text-xs font-bold font-sans tracking-wider text-slate-400 uppercase">
               PLAN NAME
             </label>
             <input
               type="text"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-4 py-3 border border-slate-200 rounded-xl font-sans text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all"
+              className="w-full px-4 py-3 border border-slate-200 rounded-xl font-sans text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="block text-xs font-bold font-sans tracking-wider text-black uppercase">
+              <label className="block text-xs font-bold font-sans tracking-wider text-slate-400 uppercase">
                 BILLING CYCLE
               </label>
               <div className="relative">
                 <select
                   value={formData.billingCycle}
                   onChange={(e) => setFormData({ ...formData, billingCycle: e.target.value })}
-                  className="w-full appearance-none px-4 py-3 bg-white border border-slate-200 rounded-xl font-sans text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all pr-10 cursor-pointer"
+                  className="w-full appearance-none px-4 py-3 bg-white border border-slate-200 rounded-xl font-sans text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all pr-10 cursor-pointer"
                 >
                   <option value="Monthly">Monthly</option>
                   <option value="Yearly">Yearly</option>
                 </select>
-                <ChevronDown className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-black pointer-events-none" />
+                <ChevronDown className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="block text-xs font-bold font-sans tracking-wider text-black uppercase">
+              <label className="block text-xs font-bold font-sans tracking-wider text-slate-400 uppercase">
                 PRICE
               </label>
               <div className="relative flex items-center">
@@ -937,9 +937,9 @@ function EditPlanModal({ plan, isOpen, onClose, onSave, onDelete, features }) {
                   value={formData.price}
                   onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                   placeholder="Free"
-                  className="w-full px-4 py-3 border border-slate-200 rounded-xl font-sans text-black font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all pr-20"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl font-sans text-slate-700 font-medium focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all pr-20"
                 />
-                <span className="absolute right-4 text-sm font-sans text-black pointer-events-none">
+                <span className="absolute right-4 text-sm font-sans text-slate-400 pointer-events-none">
                   /month
                 </span>
               </div>
@@ -969,7 +969,7 @@ function EditPlanModal({ plan, isOpen, onClose, onSave, onDelete, features }) {
                     >
                       {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                     </div>
-                    <span className="text-sm font-sans text-black font-medium">
+                    <span className="text-sm font-sans text-slate-600 font-medium">
                       {feature.label}
                     </span>
                   </label>
@@ -1116,7 +1116,7 @@ export default function Subscriptions() {
           <h1 className="font-heading text-4xl font-bold tracking-tight text-brand-purple">
             Subscriptions
           </h1>
-          <p className="text-xs text-black leading-normal mt-1.5">
+          <p className="text-xs text-slate-500 leading-normal mt-1.5">
             Configure pricing plans, details, and active billing tiers.
           </p>
         </div>
@@ -1131,7 +1131,7 @@ export default function Subscriptions() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               aria-label="Search subscription plans"
-              className="w-56 md:w-72 border border-brand-purple rounded-lg pl-9 pr-4 py-2 text-sm font-sans text-black placeholder-slate-400 bg-white focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all"
+              className="w-56 md:w-72 border border-brand-purple rounded-lg pl-9 pr-4 py-2 text-sm font-sans text-slate-800 placeholder-slate-400 bg-white focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all"
             />
           </div>
 
@@ -1193,7 +1193,7 @@ export default function Subscriptions() {
                   </div>
                 ))
               ) : (
-                <div className="flex-1 flex items-center justify-center py-16 text-sm font-sans text-black">
+                <div className="flex-1 flex items-center justify-center py-16 text-sm font-sans text-slate-400">
                   No plans match &ldquo;{searchQuery}&rdquo;
                 </div>
               )}

@@ -2,7 +2,7 @@ import React from 'react'
 
 const tokens = {
   purple: '#5E1B89',
-  ink: '#000000',
+  ink: '#1E293B',
 }
 
 export default function TransactionsTab({ name, isActive, isFirst = false, onClick }) {

@@ -14,7 +14,7 @@ export default function StatusSelect({ value, onChange, options = STATUS_OPTIONS
         className="cursor-pointer appearance-none bg-transparent py-1.5 pl-4 pr-9 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-white/60 rounded-lg"
       >
         {options.map((option) => (
-          <option key={option} value={option} className="text-black">
+          <option key={option} value={option} className="text-slate-900">
             {option}
           </option>
         ))}

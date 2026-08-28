@@ -49,7 +49,7 @@ export default function AddTemplateModal({ open, onClose, onSubmit }) {
           onChange={handleChange}
           idPrefix="add-template"
           previewSrc={previewSrc}
-          previewFallback={<span className="font-heading text-3xl italic text-black">preview</span>}
+          previewFallback={<span className="font-heading text-3xl italic text-slate-400">preview</span>}
         />
       </form>
     </Modal>

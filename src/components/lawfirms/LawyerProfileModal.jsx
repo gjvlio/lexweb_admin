@@ -155,28 +155,28 @@ const RatingsAndFeedbackView = ({ feedbackList = [] }) => {
                   </div>
                 </div>
               </div>
-              <div className="text-[11px] leading-tight text-black font-sans">
+              <div className="text-[11px] leading-tight text-slate-800 font-sans">
                 <p className="font-bold">{item.serviceType}</p>
-                <p className="text-black">{item.timestamp}</p>
+                <p className="text-slate-500">{item.timestamp}</p>
               </div>
             </div>
 
             <div className="flex-1 flex flex-col gap-2">
-              <div className="bg-[#F6F5F7] rounded-[5px] p-3 text-xs leading-relaxed text-black relative">
+              <div className="bg-[#F6F5F7] rounded-[5px] p-3 text-xs leading-relaxed text-slate-800 relative">
                 &ldquo;{item.comment}&rdquo;
               </div>
               <div className="flex justify-end items-center gap-6 px-2">
                 <button type="button" className="flex flex-col items-center gap-0.5 hover:opacity-80 transition-opacity cursor-pointer group">
                   <img src={heartIcon} alt="Praise" className="w-4 h-4 object-contain" />
-                  <span className="text-[10px] text-black group-hover:text-black">Praise</span>
+                  <span className="text-[10px] text-slate-600 group-hover:text-slate-900">Praise</span>
                 </button>
                 <button type="button" className="flex flex-col items-center gap-0.5 hover:opacity-80 transition-opacity cursor-pointer group">
                   <img src={giftIcon} alt="Gift" className="w-4 h-4 object-contain" />
-                  <span className="text-[10px] text-black group-hover:text-black">Gift</span>
+                  <span className="text-[10px] text-slate-600 group-hover:text-slate-900">Gift</span>
                 </button>
                 <button type="button" className="flex flex-col items-center gap-0.5 hover:opacity-80 transition-opacity cursor-pointer group">
                   <img src={share2Icon} alt="Share" className="w-4 h-4 object-contain" />
-                  <span className="text-[10px] text-black group-hover:text-black">Share</span>
+                  <span className="text-[10px] text-slate-600 group-hover:text-slate-900">Share</span>
                 </button>
               </div>
             </div>
@@ -216,7 +216,7 @@ const AccessAndPermissionView = () => {
 
       <div className="grid grid-cols-2 gap-y-6 gap-x-12">
         {/* Left Column */}
-        <div className="flex flex-col gap-4 text-[13px] text-black">
+        <div className="flex flex-col gap-4 text-[13px] text-slate-900">
           <h3 className="font-bold text-base mb-1" style={{ color: tokens.orange }}>Access and Permission</h3>
           
           <div className="flex flex-col gap-1.5">
@@ -278,7 +278,7 @@ const AccessAndPermissionView = () => {
         </div>
 
         {/* Right Column */}
-        <div className="flex flex-col gap-4 text-[13px] text-black">
+        <div className="flex flex-col gap-4 text-[13px] text-slate-900">
           <h3 className="font-bold text-base mb-1" style={{ color: tokens.orange }}>Revenue Sharing</h3>
           
           <div className="flex flex-col gap-1.5">
@@ -459,7 +459,7 @@ export default function LawyerProfileModal({ isOpen, onClose, lawyer }) {
           <button
             onClick={onClose}
             type="button"
-            className="text-black hover:text-black text-2xl font-bold cursor-pointer transition-colors"
+            className="text-gray-500 hover:text-black text-2xl font-bold cursor-pointer transition-colors"
           >
             &#x2715;
           </button>
@@ -471,7 +471,7 @@ export default function LawyerProfileModal({ isOpen, onClose, lawyer }) {
           style={{ backgroundColor: tokens.purple }}
         >
           <div className="flex items-center gap-5">
-            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-black">
+            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-gray-500">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />

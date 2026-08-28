@@ -1,9 +1,9 @@
 export const tokens = {
   purple: '#5E1B89',
   orange: '#F4512C',
-  ink: '#000000',
-  muted: '#000000',
-  faint: '#000000',
+  ink: '#1E293B',
+  muted: '#64748B',
+  faint: '#94A3B8',
   line: '#E6EAF0',
   rule: '#94A3B8',
   bg: '#F8FFFE',

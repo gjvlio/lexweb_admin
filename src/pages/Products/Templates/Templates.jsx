@@ -88,7 +88,7 @@ export default function Templates() {
           <h1 className="font-heading text-4xl font-bold tracking-tight text-brand-purple">
             Templates
           </h1>
-          <p className="text-xs text-black leading-normal mt-1.5">
+          <p className="text-xs text-slate-500 leading-normal mt-1.5">
             Manage layout templates, styles, and configurations.
           </p>
         </div>
@@ -102,7 +102,7 @@ export default function Templates() {
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search"
               aria-label="Search templates"
-              className="w-full rounded-lg border border-brand-purple bg-white py-2 pl-9 pr-3 text-sm text-black placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-purple"
+              className="w-full rounded-lg border border-brand-purple bg-white py-2 pl-9 pr-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-purple"
             />
           </div>
 
@@ -118,7 +118,7 @@ export default function Templates() {
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
-        <span className="text-sm font-semibold text-black">Filter:</span>
+        <span className="text-sm font-semibold text-slate-800">Filter:</span>
 
         <div className="relative">
           <select
@@ -160,7 +160,7 @@ export default function Templates() {
           ))}
         </div>
       ) : (
-        <div className="rounded-2xl bg-white py-20 text-center text-sm text-black ring-1 ring-slate-200/70">
+        <div className="rounded-2xl bg-white py-20 text-center text-sm text-slate-500 ring-1 ring-slate-200/70">
           No templates match &ldquo;{query}&rdquo;
         </div>
       )}

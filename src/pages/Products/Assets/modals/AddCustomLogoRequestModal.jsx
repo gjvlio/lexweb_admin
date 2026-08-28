@@ -128,7 +128,7 @@ export default function AddCustomLogoRequestModal({ open, onClose, onSubmit }) {
                   {values.orderOutputUrl ? (
                     <img src={values.orderOutputUrl} alt="Output" className="h-full w-full object-cover" />
                   ) : (
-                    <span className="text-sm font-semibold text-black">logo</span>
+                    <span className="text-sm font-semibold text-slate-400">logo</span>
                   )}
                 </div>
                 <div className="flex-1 space-y-2">
@@ -150,10 +150,10 @@ export default function AddCustomLogoRequestModal({ open, onClose, onSubmit }) {
                       }}
                     />
                     <div className="flex items-center">
-                      <div className="rounded-l-lg border-r border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-black">
+                      <div className="rounded-l-lg border-r border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700">
                         Choose File
                       </div>
-                      <div className="flex-1 px-3 py-1.5 text-sm text-black truncate">
+                      <div className="flex-1 px-3 py-1.5 text-sm text-slate-500 truncate">
                         {values.fileName ? values.fileName : 'No file chosen'}
                       </div>
                     </div>
