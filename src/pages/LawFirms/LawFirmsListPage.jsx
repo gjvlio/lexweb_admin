@@ -271,7 +271,7 @@ export default function LawFirmsListPage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="shrink-0 text-xs text-black">Sort</span>
+            <span className="shrink-0 text-xs text-slate-500">Sort</span>
             <div className="relative shrink-0">
               <select
                 value={sortBy}
@@ -286,14 +286,14 @@ export default function LawFirmsListPage() {
                   <option key={o} value={o}>{o}</option>
                 ))}
               </select>
-              <ChevronDown className="w-4 h-4 absolute right-[10px] top-1/2 -translate-y-1/2 pointer-events-none text-black" />
+              <ChevronDown className="w-4 h-4 absolute right-[10px] top-1/2 -translate-y-1/2 pointer-events-none text-slate-400" />
             </div>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="relative w-48 sm:w-56">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-black" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
               placeholder="Search"
@@ -302,11 +302,11 @@ export default function LawFirmsListPage() {
                 setSearchQuery(e.target.value);
                 setPage(1);
               }}
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-1.5 text-xs text-black focus:outline-none focus:border-brand-purple"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-purple"
             />
           </div>
 
-          <span className="shrink-0 text-xs text-black">
+          <span className="shrink-0 text-xs text-slate-500">
             Showing <strong style={{ color: tokens.ink }}>{pageRows.length}</strong> of {filtered.length}
           </span>
         </div>
@@ -362,15 +362,15 @@ export default function LawFirmsListPage() {
                     label={`Select ${row.name}`}
                   />
                 </td>
-                <td className="align-middle text-xs text-black">{row.id}</td>
-                <td className="align-middle text-xs font-bold text-black truncate pr-4">{row.name}</td>
-                <td className="align-middle text-xs text-black truncate pr-4">{row.owner}</td>
-                <td className="align-middle text-xs text-black text-center">{row.visits.toLocaleString()}</td>
+                <td className="align-middle text-xs text-slate-500">{row.id}</td>
+                <td className="align-middle text-xs font-bold text-slate-900 truncate pr-4">{row.name}</td>
+                <td className="align-middle text-xs text-slate-700 truncate pr-4">{row.owner}</td>
+                <td className="align-middle text-xs text-slate-700 text-center">{row.visits.toLocaleString()}</td>
                 <td className="align-middle text-xs text-center" style={{ color: tokens.orange }}>
                   {row.signups.toLocaleString()}
                 </td>
-                <td className="align-middle text-xs text-black text-center">{row.revenue}</td>
-                <td className="align-middle text-xs text-black text-center">{row.transactions}</td>
+                <td className="align-middle text-xs text-slate-700 text-center">{row.revenue}</td>
+                <td className="align-middle text-xs text-slate-700 text-center">{row.transactions}</td>
                 <td className="align-middle text-center whitespace-nowrap">
                   <StatusPill status={row.status} />
                 </td>
@@ -398,7 +398,7 @@ export default function LawFirmsListPage() {
         className="px-4 sm:px-8 h-[68px] flex items-center justify-between"
         style={{ borderTop: `1px solid ${tokens.rule}`, marginTop: -1 }}
       >
-        <span className="text-xs text-black">Page {safePage} of {totalPages}</span>
+        <span className="text-xs text-slate-500">Page {safePage} of {totalPages}</span>
         <div className="flex rounded-[6px] overflow-hidden border border-slate-300">
           <button
             type="button"
@@ -425,11 +425,11 @@ export default function LawFirmsListPage() {
           <div className="w-full max-w-[420px] bg-white rounded-[10px] overflow-hidden shadow-2xl p-6 space-y-4">
             <div className="flex justify-between items-center border-b pb-3">
               <h3 className="font-bold text-base" style={{ color: tokens.purple }}>Register New Law Firm</h3>
-              <button onClick={() => setShowNew(false)}><X className="w-4 h-4 text-black cursor-pointer" /></button>
+              <button onClick={() => setShowNew(false)}><X className="w-4 h-4 text-slate-400 cursor-pointer" /></button>
             </div>
             <div className="space-y-3 text-xs">
               <label className="block">
-                <span className="text-black uppercase block mb-1">Law Firm Name</span>
+                <span className="text-slate-500 uppercase block mb-1">Law Firm Name</span>
                 <input
                   value={draft.name}
                   onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
@@ -438,7 +438,7 @@ export default function LawFirmsListPage() {
                 />
               </label>
               <label className="block">
-                <span className="text-black uppercase block mb-1">Acronym</span>
+                <span className="text-slate-500 uppercase block mb-1">Acronym</span>
                 <input
                   value={draft.acronym}
                   onChange={(e) => setDraft((d) => ({ ...d, acronym: e.target.value }))}
@@ -447,7 +447,7 @@ export default function LawFirmsListPage() {
                 />
               </label>
               <label className="block">
-                <span className="text-black uppercase block mb-1">Owner / Representative</span>
+                <span className="text-slate-500 uppercase block mb-1">Owner / Representative</span>
                 <input
                   value={draft.owner}
                   onChange={(e) => setDraft((d) => ({ ...d, owner: e.target.value }))}

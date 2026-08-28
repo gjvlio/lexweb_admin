@@ -50,7 +50,7 @@ export default function InclusionsTable({
                 className={`sticky left-0 z-20 flex items-center px-5 py-3.5 shrink-0 overflow-hidden border-r border-slate-100 ${rowBgClass}`}
                 style={{ minWidth: labelWidth, width: labelWidth }}
               >
-                <span className="text-sm font-sans text-black leading-snug line-clamp-2">
+                <span className="text-sm font-sans text-slate-700 leading-snug line-clamp-2">
                   {feature.label}
                 </span>
               </div>

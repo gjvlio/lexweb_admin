@@ -58,7 +58,7 @@ export default function TransactionRow({ row, columns, checked, onToggle }) {
             key={col.key}
             className={`align-middle text-xs ${
               isCenter ? 'text-center' : 'text-left'
-            } ${col.key === 'client' ? 'font-bold text-black pr-4' : 'text-black'}`}
+            } ${col.key === 'client' ? 'font-bold text-slate-900 pr-4' : 'text-slate-700'}`}
           >
             {col.key === 'status' ? (
               <StatusPill status={value} />

@@ -152,7 +152,7 @@ export default function CopywritesTab({ tabsSlot }) {
               value={status}
               onChange={(e) => applyFilter(setStatus)(e.target.value)}
               aria-label="Filter by status"
-              className="appearance-none rounded-lg border border-slate-900 bg-white py-2 pl-4 pr-9 text-sm font-semibold text-black focus:outline-none focus:ring-2 focus:ring-brand-purple"
+              className="appearance-none rounded-lg border border-slate-900 bg-white py-2 pl-4 pr-9 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-purple"
             >
               {COPYWRITE_STATUSES.map((option) => (
                 <option key={option} value={option}>
@@ -160,7 +160,7 @@ export default function CopywritesTab({ tabsSlot }) {
                 </option>
               ))}
             </select>
-            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black" />
+            <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-900" />
           </div>
 
           <div className="relative w-64 lg:w-80">
@@ -171,7 +171,7 @@ export default function CopywritesTab({ tabsSlot }) {
               onChange={(e) => applyFilter(setQuery)(e.target.value)}
               placeholder="Search"
               aria-label="Search copywrites"
-              className="w-full rounded-lg border border-brand-purple bg-white py-2 pl-9 pr-3 text-sm text-black placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-purple"
+              className="w-full rounded-lg border border-brand-purple bg-white py-2 pl-9 pr-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-purple"
             />
           </div>
 
@@ -202,7 +202,7 @@ export default function CopywritesTab({ tabsSlot }) {
                 className={`rounded-md px-7 py-1.5 text-sm font-semibold transition-colors ${
                   isActive
                     ? 'border border-brand-orange bg-white text-brand-orange'
-                    : 'border border-transparent text-black hover:text-black'
+                    : 'border border-transparent text-slate-500 hover:text-slate-700'
                 }`}
               >
                 {value === 'premade' ? 'Pre-made' : 'Custom'}
@@ -223,7 +223,7 @@ export default function CopywritesTab({ tabsSlot }) {
                 className={`border-b-2 pb-0.5 text-base transition-colors ${
                   isActive
                     ? 'border-brand-orange font-semibold text-brand-orange'
-                    : 'border-transparent text-black hover:text-brand-orange'
+                    : 'border-transparent text-slate-800 hover:text-brand-orange'
                 }`}
               >
                 {option}
@@ -246,7 +246,7 @@ export default function CopywritesTab({ tabsSlot }) {
           ))}
         </div>
       ) : (
-        <div className="rounded-2xl bg-white py-20 text-center text-sm text-black ring-1 ring-slate-200/70">
+        <div className="rounded-2xl bg-white py-20 text-center text-sm text-slate-500 ring-1 ring-slate-200/70">
           No copywrites match the current filters.
         </div>
       )}

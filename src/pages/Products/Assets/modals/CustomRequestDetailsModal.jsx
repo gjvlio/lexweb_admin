@@ -121,7 +121,7 @@ export default function CustomRequestDetailsModal({ open, request, onClose, onDe
         <div className="space-y-4">
           <Field label="Order Output:">
             <div className="min-h-[280px] rounded-lg border border-slate-300 bg-white p-5">
-              <p className="font-heading text-2xl leading-snug text-black">
+              <p className="font-heading text-2xl leading-snug text-slate-800">
                 {request.orderOutput}
               </p>
             </div>

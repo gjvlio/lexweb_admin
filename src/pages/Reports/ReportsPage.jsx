@@ -13,9 +13,9 @@ import {
 
 const PURPLE = '#5E1B89'
 const ORANGE = '#F4512C'
-const INK = '#000000'
-const MUTED = '#000000'
-const FAINT = '#000000'
+const INK = '#1E293B'
+const MUTED = '#64748B'
+const FAINT = '#94A3B8'
 const LINE = '#E6EAF0'
 const GRID = '#E2E8F0'
 
@@ -268,7 +268,7 @@ function RevenueGraph({ data }) {
         {/* free-floating cursor tooltip — every series for the hovered timeframe, together */}
         {tooltip.visible && (
           <div
-            className="absolute bg-white text-black px-4 py-3 rounded-xl shadow-lg border border-slate-200 pointer-events-none -translate-y-[calc(100%+14px)] transition-all duration-75 ease-out z-30 animate-fade-in min-w-[150px]"
+            className="absolute bg-white text-slate-900 px-4 py-3 rounded-xl shadow-lg border border-slate-200 pointer-events-none -translate-y-[calc(100%+14px)] transition-all duration-75 ease-out z-30 animate-fade-in min-w-[150px]"
             style={{ 
               left: `clamp(75px, ${tooltip.x}px, calc(100% - 75px))`, 
               top: `${tooltip.y}px`,
@@ -298,7 +298,7 @@ function RevenueGraph({ data }) {
       </div>
 
       {/* softened hover-spotlight legend, below the chart */}
-      <div className="flex flex-wrap items-center justify-center gap-6 pt-5 border-t border-slate-100 text-xs font-semibold text-black mt-2">
+      <div className="flex flex-wrap items-center justify-center gap-6 pt-5 border-t border-slate-100 text-xs font-semibold text-slate-700 mt-2">
         {series.map((s) => (
           <div
             key={s.key}
@@ -306,7 +306,7 @@ function RevenueGraph({ data }) {
             onMouseLeave={() => setHoveredSeries(null)}
             className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all border cursor-pointer ${
               hoveredSeries === s.key
-                ? 'bg-slate-50 border-slate-300 text-black shadow-2xs font-bold scale-105'
+                ? 'bg-slate-50 border-slate-300 text-slate-900 shadow-2xs font-bold scale-105'
                 : hoveredSeries !== null
                 ? 'opacity-35 border-transparent'
                 : 'bg-slate-50/60 border-slate-100 hover:border-slate-200'
@@ -402,7 +402,7 @@ export default function ReportsPage() {
               <h1 className="text-4xl font-heading font-bold text-brand-purple tracking-tight">
                 Reports
               </h1>
-              <p className="text-xs text-black leading-normal mt-1.5">
+              <p className="text-xs text-slate-500 leading-normal mt-1.5">
                 Revenue, transactions and subscription health across the platform.
               </p>
             </div>

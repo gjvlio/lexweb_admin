@@ -24,7 +24,7 @@ export default function Assets() {
             onClick={() => setActiveTab(tab)}
             className={`rounded-lg px-6 py-2 text-base transition-colors ${isActive
                 ? 'bg-brand-orange font-bold text-white shadow-sm'
-                : 'font-semibold text-black hover:text-brand-orange'
+                : 'font-semibold text-slate-900 hover:text-brand-orange'
               }`}
           >
             {tab}
@@ -54,7 +54,7 @@ export default function Assets() {
           <h1 className="font-heading text-4xl font-bold tracking-tight text-brand-purple">
             Assets
           </h1>
-          <p className="text-xs text-black leading-normal mt-1.5">
+          <p className="text-xs text-slate-500 leading-normal mt-1.5">
             Manage brand logos, copywrites, and stock photography.
           </p>
         </div>
@@ -71,7 +71,7 @@ export default function Assets() {
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-300 pb-4">
             {tabsSlot}
           </div>
-          <div className="rounded-2xl bg-white py-24 text-center text-sm text-black ring-1 ring-slate-200/70">
+          <div className="rounded-2xl bg-white py-24 text-center text-sm text-slate-500 ring-1 ring-slate-200/70">
             The <strong>{activeTab}</strong> tab is owned by another feature branch.
           </div>
         </div>

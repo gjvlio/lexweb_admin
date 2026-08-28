@@ -17,9 +17,9 @@ import {
 const tokens = {
   purple: '#5E1B89',
   orange: '#F4512C',
-  ink: '#000000',
-  muted: '#000000',
-  faint: '#000000',
+  ink: '#1E293B',
+  muted: '#64748B',
+  faint: '#94A3B8',
   line: '#E6EAF0',
   rule: '#94A3B8',
   bg: '#F8FFFE',
@@ -144,7 +144,7 @@ export default function Transactions() {
             <h1 className="text-4xl font-heading font-bold text-brand-purple tracking-tight">
               Transactions
             </h1>
-            <p className="text-xs text-black leading-normal mt-1.5">
+            <p className="text-xs text-slate-500 leading-normal mt-1.5">
               Monitor client payments, subscriptions, and financial records.
             </p>
           </div>
@@ -187,7 +187,7 @@ export default function Transactions() {
         ) : (
           <div className="flex items-center gap-3">
             <div className="relative w-48 sm:w-56">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-black" />
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type="text"
                 placeholder="Search"
@@ -196,11 +196,11 @@ export default function Transactions() {
                   setQuery(e.target.value)
                   resetPage()
                 }}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-1.5 text-xs text-black focus:outline-none focus:border-brand-purple"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-purple"
               />
             </div>
 
-            <span className="shrink-0 text-xs text-black">
+            <span className="shrink-0 text-xs text-slate-500">
               Showing <strong style={{ color: tokens.ink }}>{visibleRows.length}</strong> of {filteredRows.length}
             </span>
           </div>
@@ -263,7 +263,7 @@ export default function Transactions() {
               ))
             ) : (
               <tr>
-                <td colSpan={activeTable.columns.length + 1} className="px-4 py-16 text-center text-xs text-black">
+                <td colSpan={activeTable.columns.length + 1} className="px-4 py-16 text-center text-xs text-slate-500">
                   No transactions match &ldquo;{query}&rdquo;
                 </td>
               </tr>
@@ -278,7 +278,7 @@ export default function Transactions() {
           className="px-4 sm:px-8 h-[68px] flex items-center justify-between"
           style={{ borderTop: `1px solid ${tokens.rule}`, marginTop: -1 }}
         >
-          <span className="text-xs text-black">Page {currentPage} of {totalPages}</span>
+          <span className="text-xs text-slate-500">Page {currentPage} of {totalPages}</span>
           <div className="flex rounded-[6px] overflow-hidden border border-slate-300">
             <button
               type="button"

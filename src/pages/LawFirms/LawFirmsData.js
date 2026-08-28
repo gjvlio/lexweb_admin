@@ -6,10 +6,10 @@ export const tokens = {
   headerBg: "#F5F5F5",
   border: "#BABABA",
   borderStrong: "#A6A5A5",
-  textBody: "#000000",
-  textDesc: "#000000",
-  ink: "#000000",
-  muted: "#000000",
+  textBody: "#5C5359",
+  textDesc: "#464646",
+  ink: "#201E1D",
+  muted: "#7D7979",
   pageBg: "#F8FFFE",
 };
 

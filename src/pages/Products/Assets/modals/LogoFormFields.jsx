@@ -32,7 +32,7 @@ export default function LogoFormFields({ values, onChange, idPrefix }) {
               {values.imageUrl ? (
                 <img src={values.imageUrl} alt="Preview" className="h-full w-full object-cover" />
               ) : (
-                <span className="text-xs font-semibold tracking-widest text-black">logo</span>
+                <span className="text-xs font-semibold tracking-widest text-slate-400">logo</span>
               )}
             </div>
             <div className="flex-1 text-[11px] leading-tight text-brand-purple text-justify">
@@ -79,7 +79,7 @@ export default function LogoFormFields({ values, onChange, idPrefix }) {
               onChange={set('width')}
               className="flex-1 space-y-0"
             />
-            <span className="text-sm font-semibold text-black">x</span>
+            <span className="text-sm font-semibold text-slate-500">x</span>
             <TextInput
               id={`${idPrefix}-height`}
               type="number"
