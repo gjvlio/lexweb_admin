@@ -15,7 +15,7 @@ export const tokens = {
 
 export const demoFirm = {
   id: "123",
-  name: "Bautista Lawfirm Office",
+  name: "Bautista Law firm Office",
   acronym: "BLO",
   address: "123 Street 456 Baranggay 789 City, Philippines",
   owner: "Eddielyn Joy Bautista",
