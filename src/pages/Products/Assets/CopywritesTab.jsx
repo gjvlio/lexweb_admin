@@ -95,7 +95,7 @@ export default function CopywritesTab({ tabsSlot }) {
       previewText: values.websiteText || values.title || 'Untitled copywrite',
       price: Number(values.price) || 0,
       numberOfWords: Number(values.numberOfWords) || 0,
-      category: 'Others',
+      category: values.category || 'Main Banner',
       date: formatCardDate(),
       availedBy: 0,
       status: 'Draft',
@@ -186,7 +186,7 @@ export default function CopywritesTab({ tabsSlot }) {
       </div>
 
       {/* Toolbar row 2: pre-made / custom switch + category filters */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-300 pb-4">
+      <div className="flex flex-col items-start gap-4 border-b border-slate-300 pb-4">
         <div className="inline-flex rounded-lg bg-slate-200/70 p-1">
           {SOURCES.map((value) => {
             const isActive = source === value

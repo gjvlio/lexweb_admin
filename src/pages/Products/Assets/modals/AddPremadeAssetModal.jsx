@@ -4,7 +4,7 @@ import AssetFormFields from './AssetFormFields'
 
 const EMPTY_ASSET = {
   productType: 'Copywrite',
-  slot: 'Main Banner',
+  category: 'Main Banner',
   price: '',
   title: '',
   subtitle: '',

@@ -2,11 +2,17 @@
 
 export const COPYWRITE_CATEGORIES = [
   'All',
-  'Court house',
-  'Scale',
-  'Gavel',
-  'Books',
-  'Pen',
+  'Main Banner',
+  'Tagline',
+  'Our Team',
+  'Our Office',
+  'Our Mission',
+  'Our Vision',
+  'Core Values',
+  'Our Promise',
+  'About Us (Law Firm)',
+  'About Me (Lawyer)',
+  'Law Blogs',
   'Others',
 ]
 

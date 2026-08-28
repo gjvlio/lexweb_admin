@@ -2,11 +2,12 @@
 
 export const PHOTO_CATEGORIES = [
   'All',
-  'Court house',
-  'Scale',
+  'Lawyers',
   'Gavel',
+  'Scale',
+  'Court',
   'Books',
-  'Pen',
+  'Office',
   'Others',
 ]
 

@@ -167,7 +167,7 @@ export default function LogosTab({ tabsSlot }) {
       </div>
 
       {/* Toolbar row 2: pre-made / custom switch + category filters */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-300 pb-4">
+      <div className="flex flex-col items-start gap-4 border-b border-slate-300 pb-4">
         <div className="inline-flex rounded-lg bg-slate-200/70 p-1">
           {['premade', 'custom'].map((value) => {
             const isActive = kind === value

@@ -1,6 +1,6 @@
 import React from 'react'
 import { SelectInput, TextArea, TextInput } from '../components/FormField'
-import { COPYWRITE_SLOTS } from '../data/copywrites'
+import { COPYWRITE_CATEGORIES } from '../data/copywrites'
 
 const PRODUCT_TYPES = ['Copywrite', 'Logo', 'Photo']
 
@@ -24,10 +24,10 @@ export default function AssetFormFields({ values, onChange, idPrefix }) {
         />
         <SelectInput
           label="Category"
-          id={`${idPrefix}-slot`}
-          options={COPYWRITE_SLOTS}
-          value={values.slot}
-          onChange={set('slot')}
+          id={`${idPrefix}-category`}
+          options={COPYWRITE_CATEGORIES.filter((c) => c !== 'All')}
+          value={values.category}
+          onChange={set('category')}
         />
         <TextInput
           label="Price"

@@ -4,7 +4,7 @@ import LogoFormFields from './LogoFormFields'
 
 const EMPTY_LOGO = {
   productType: 'Logo',
-  category: 'Scale',
+  category: 'Main Banner',
   price: '',
   title: '',
   width: '',
