@@ -17,17 +17,17 @@ export default function LogoCard({ item, onEdit, onDelete }) {
         </div>
       </div>
 
-      <h3 className="text-center text-sm font-bold text-slate-900">{item.title}</h3>
+      <h3 className="text-center text-sm font-bold text-slate-900 break-words">{item.title}</h3>
 
-      <p className="mt-1.5 text-[11px] leading-relaxed text-slate-400 line-clamp-2 text-center px-2">
+      <p className="mt-1.5 text-[11px] leading-relaxed text-slate-400 line-clamp-2 text-center px-2 break-all">
         {item.shortDescription}
       </p>
 
-      <div className="mt-2 flex items-baseline justify-between border-b border-slate-300 pb-1.5">
-        <span className="text-sm font-bold text-slate-900">
-          ₱{item.price.toLocaleString()}
+      <div className="mt-2 flex items-baseline justify-between gap-2 border-b border-slate-300 pb-1.5 min-w-0">
+        <span className="text-sm font-bold text-slate-900 truncate">
+          ₱{Number(String(item.price).replace(/,/g, '')).toLocaleString()}
         </span>
-        <span className="text-[11px] text-slate-400">{item.date}</span>
+        <span className="text-[11px] text-slate-400 shrink-0 whitespace-nowrap">{item.date}</span>
       </div>
 
       <div className="mt-2 flex items-center justify-between">

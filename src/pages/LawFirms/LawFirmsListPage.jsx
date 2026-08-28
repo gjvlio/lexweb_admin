@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Filter, ChevronDown, Plus, X } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Filter, ChevronDown, Plus, X, Eye, Search } from 'lucide-react';
 import {
   tokens,
   lawFirms,
@@ -11,6 +11,7 @@ import {
   PAGE_SIZE,
   CHECKBOX_COL_WIDTH,
 } from './LawFirmsListData';
+import StatusPill from '../../components/ui/StatusPill';
 
 const FIT = {
   label: { max: 11, min: 7 },
@@ -64,7 +65,7 @@ function SummaryCell({ label, value, note, accent }) {
         {label}
       </span>
       <span
-        className="font-sans font-bold leading-none mt-2 sm:mt-[15px]"
+        className="font-heading font-bold leading-none mt-2 sm:mt-[15px]"
         style={{ fontSize: 28, color: accent === 'orange' ? tokens.orange : tokens.ink }}
       >
         {value}
@@ -80,30 +81,7 @@ function SummaryCell({ label, value, note, accent }) {
   );
 }
 
-function StatusCell({ status }) {
-  if (status === 'Active') {
-    return (
-      <span className="font-sans uppercase text-[11px] tracking-[1.2px]" style={{ color: tokens.muted }}>
-        Active
-      </span>
-    );
-  }
-  if (status === 'Pending') {
-    return (
-      <span className="inline-block font-sans uppercase rounded-[3px] px-[10px] py-[4px] text-[10px] tracking-[1.2px] bg-slate-100 text-slate-700">
-        Pending
-      </span>
-    );
-  }
-  return (
-    <span
-      className="inline-block font-sans uppercase rounded-[3px] px-[10px] py-[4px] text-[10px] tracking-[1.2px] text-white"
-      style={{ background: tokens.purple }}
-    >
-      Suspended
-    </span>
-  );
-}
+
 
 function CheckBox({ checked, onChange, label }) {
   return (
@@ -138,9 +116,21 @@ export default function LawFirmsListPage() {
   const [selected, setSelected] = useState([]);
   const [showNew, setShowNew] = useState(false);
   const [draft, setDraft] = useState({ name: '', owner: '', acronym: '' });
+  const [searchQuery, setSearchQuery] = useState('');
 
   const filtered = useMemo(() => {
-    const list = activeFilter === 'All' ? [...rows] : rows.filter((r) => r.status === activeFilter);
+    let list = activeFilter === 'All' ? [...rows] : rows.filter((r) => r.status === activeFilter);
+
+    const needle = searchQuery.trim().toLowerCase();
+    if (needle) {
+      list = list.filter((r) =>
+        r.name.toLowerCase().includes(needle) ||
+        r.owner.toLowerCase().includes(needle) ||
+        String(r.id).includes(needle) ||
+        String(r.acronym).toLowerCase().includes(needle)
+      );
+    }
+
     switch (sortBy) {
       case 'Name — ascending':
         return list.sort((a, b) => a.name.localeCompare(b.name));
@@ -153,7 +143,7 @@ export default function LawFirmsListPage() {
       default:
         return list;
     }
-  }, [rows, activeFilter, sortBy]);
+  }, [rows, activeFilter, sortBy, searchQuery]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
@@ -199,17 +189,21 @@ export default function LawFirmsListPage() {
     <div className="-m-6 bg-white min-h-[calc(100vh-68px)] flex flex-col font-sans">
       {/* Header Band */}
       <section style={{ borderBottom: `1px solid ${tokens.line}` }}>
-        <div className="px-4 sm:px-8 pt-[18px] flex items-start justify-between gap-4">
+        <div className="px-6 pt-5 pb-2 flex items-start justify-between gap-4">
           <div className="flex items-center gap-1 text-xs" style={{ color: tokens.orange }}>
-            <span>&gt; Law Firms</span>
+            <Link to="/" className="hover:underline">
+              &gt; Dashboard
+            </Link>
+            <span>&gt;</span>
+            <span className="font-semibold">Law Firms</span>
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
             <button
               type="button"
               onClick={() => setShowNew(true)}
-              className="font-sans rounded-[6px] px-3.5 sm:px-[18px] h-[36px] inline-flex items-center gap-[7px] text-white transition-opacity hover:opacity-90 cursor-pointer"
-              style={{ fontSize: 13.5, background: tokens.orange }}
+              className="font-sans rounded-[6px] px-3.5 sm:px-[18px] h-[36px] inline-flex items-center gap-[7px] text-white transition-opacity hover:opacity-90 cursor-pointer text-xs font-semibold"
+              style={{ background: tokens.orange }}
             >
               <Plus className="w-[15px] h-[15px]" strokeWidth={2.4} />
               New Law Firm
@@ -217,12 +211,12 @@ export default function LawFirmsListPage() {
           </div>
         </div>
 
-        <div className="px-4 sm:px-8 pt-[15px] pb-[20px] flex flex-col lg:flex-row items-stretch gap-6">
+        <div className="px-6 pb-5 flex flex-col lg:flex-row items-stretch gap-6">
           <div className="w-full lg:w-[320px] shrink-0 pr-2">
             <p className="uppercase leading-none" style={{ fontSize: 12, letterSpacing: '2px', color: tokens.muted }}>
               Directory
             </p>
-            <h1 className="font-heading font-bold leading-none mt-[12px]" style={{ fontSize: 34, color: tokens.purple }}>
+            <h1 className="font-heading font-bold text-4xl tracking-tight mt-[12px]" style={{ color: tokens.purple }}>
               Law Firms
             </h1>
             <p className="mt-[12px] text-xs leading-[20px]" style={{ color: tokens.muted }}>
@@ -297,9 +291,25 @@ export default function LawFirmsListPage() {
           </div>
         </div>
 
-        <span className="shrink-0 text-xs text-slate-500">
-          Showing <strong style={{ color: tokens.ink }}>{pageRows.length}</strong> of {filtered.length}
-        </span>
+        <div className="flex items-center gap-3">
+          <div className="relative w-48 sm:w-56">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setPage(1);
+              }}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-purple"
+            />
+          </div>
+
+          <span className="shrink-0 text-xs text-slate-500">
+            Showing <strong style={{ color: tokens.ink }}>{pageRows.length}</strong> of {filtered.length}
+          </span>
+        </div>
       </section>
 
       {/* Law Firms Directory Table Container (Responsive Horizontal Scroll) */}
@@ -317,17 +327,20 @@ export default function LawFirmsListPage() {
               <th className="text-left align-middle h-[52px] pt-[4px]">
                 <CheckBox checked={allOnPageSelected} onChange={togglePage} label="Select all" />
               </th>
-              {lawFirmsColumns.map((c) => (
-                <th
-                  key={c.key}
-                  className={`align-middle h-[52px] font-sans uppercase text-[11px] tracking-[1.2px] whitespace-nowrap ${
-                    c.key === 'action' ? 'text-right' : 'text-left'
-                  }`}
-                  style={{ color: tokens.faint, fontWeight: 400 }}
-                >
-                  {c.label}
-                </th>
-              ))}
+              {lawFirmsColumns.map((c) => {
+                const isCenter = ['visits', 'signups', 'revenue', 'transactions', 'status', 'action'].includes(c.key);
+                return (
+                  <th
+                    key={c.key}
+                    className={`align-middle h-[52px] font-sans uppercase text-[11px] tracking-[1.2px] whitespace-nowrap ${
+                      isCenter ? 'text-center' : 'text-left'
+                    }`}
+                    style={{ color: tokens.faint, fontWeight: 400 }}
+                  >
+                    {c.label}
+                  </th>
+                )
+              })}
             </tr>
           </thead>
 
@@ -352,26 +365,26 @@ export default function LawFirmsListPage() {
                 <td className="align-middle text-xs text-slate-500">{row.id}</td>
                 <td className="align-middle text-xs font-bold text-slate-900 truncate pr-4">{row.name}</td>
                 <td className="align-middle text-xs text-slate-700 truncate pr-4">{row.owner}</td>
-                <td className="align-middle text-xs font-semibold text-slate-900">{row.visits.toLocaleString()}</td>
-                <td className="align-middle text-xs font-semibold" style={{ color: tokens.orange }}>
+                <td className="align-middle text-xs text-slate-700 text-center">{row.visits.toLocaleString()}</td>
+                <td className="align-middle text-xs text-center" style={{ color: tokens.orange }}>
                   {row.signups.toLocaleString()}
                 </td>
-                <td className="align-middle text-xs font-bold text-slate-900">{row.revenue}</td>
-                <td className="align-middle text-xs text-slate-700">{row.transactions}</td>
-                <td className="align-middle whitespace-nowrap">
-                  <StatusCell status={row.status} />
+                <td className="align-middle text-xs text-slate-700 text-center">{row.revenue}</td>
+                <td className="align-middle text-xs text-slate-700 text-center">{row.transactions}</td>
+                <td className="align-middle text-center whitespace-nowrap">
+                  <StatusPill status={row.status} />
                 </td>
-                <td className="align-middle text-right whitespace-nowrap">
+                <td className="align-middle text-center whitespace-nowrap">
                   <button
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleOpenFirmDetails(row);
                     }}
-                    className="underline text-xs font-semibold hover:opacity-75 transition-opacity cursor-pointer"
-                    style={{ color: tokens.purple }}
+                    className="hover:opacity-75 transition-opacity cursor-pointer inline-flex items-center justify-center"
+                    title="View Account"
                   >
-                    View Account
+                    <Eye style={{ color: tokens.orange }} size={18} strokeWidth={1.5} />
                   </button>
                 </td>
               </tr>

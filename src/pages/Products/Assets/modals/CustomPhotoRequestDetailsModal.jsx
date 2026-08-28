@@ -138,7 +138,7 @@ export default function CustomPhotoRequestDetailsModal({ open, request, onClose,
           <TextInput
             label="Price at Purchase:"
             id="custom-photo-price"
-            value={Number(request.priceAtPurchase).toLocaleString()}
+            value={Number(String(request.priceAtPurchase).replace(/,/g, '')).toLocaleString()}
             suffix="php"
             readOnly
           />

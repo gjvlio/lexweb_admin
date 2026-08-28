@@ -132,37 +132,21 @@ export default function Transactions() {
     <div className="-m-6 bg-white min-h-[calc(100vh-68px)] flex flex-col font-sans">
       {/* Header Band */}
       <section style={{ borderBottom: `1px solid ${tokens.line}` }}>
-        <div className="px-4 sm:px-8 pt-[18px] pb-[20px] flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <Link
-              to="/transactions"
-              className="hover:underline block"
-              style={{ fontSize: 12, color: tokens.orange }}
-            >
-              &gt; Transactions
-            </Link>
-            <h1
-              className="font-heading font-bold leading-none mt-[12px]"
-              style={{ fontSize: 34, color: tokens.purple }}
-            >
+        <div className="px-6 pt-6 pb-5 flex flex-wrap items-start justify-between gap-4">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-1 text-xs mb-2" style={{ color: tokens.orange }}>
+              <Link to="/" className="hover:underline">
+                &gt; Dashboard
+              </Link>
+              <span>&gt;</span>
+              <span className="font-semibold">Transactions</span>
+            </div>
+            <h1 className="text-4xl font-heading font-bold text-brand-purple tracking-tight">
               Transactions
             </h1>
-          </div>
-
-          <div className="relative w-full sm:w-64 lg:w-72">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" style={{ color: tokens.orange }} />
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value)
-                resetPage()
-              }}
-              placeholder="Search"
-              aria-label="Search transactions"
-              className="w-full rounded-[6px] h-[36px] border border-slate-300 bg-white pl-9 pr-3 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2"
-              style={{ '--tw-ring-color': tokens.purple }}
-            />
+            <p className="text-xs text-slate-500 leading-normal mt-1.5">
+              Monitor client payments, subscriptions, and financial records.
+            </p>
           </div>
         </div>
       </section>
@@ -201,18 +185,45 @@ export default function Transactions() {
             </button>
           </div>
         ) : (
-          <span className="shrink-0 text-xs text-slate-500">
-            Showing <strong style={{ color: tokens.ink }}>{visibleRows.length}</strong> of {filteredRows.length}
-          </span>
+          <div className="flex items-center gap-3">
+            <div className="relative w-48 sm:w-56">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value)
+                  resetPage()
+                }}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-brand-purple"
+              />
+            </div>
+
+            <span className="shrink-0 text-xs text-slate-500">
+              Showing <strong style={{ color: tokens.ink }}>{visibleRows.length}</strong> of {filteredRows.length}
+            </span>
+          </div>
         )}
       </section>
 
       {/* Transactions Table */}
       <section className="px-4 sm:px-8 flex-1 overflow-x-auto">
-        <table className="w-full border-collapse text-left">
+        <table className="w-full table-fixed border-collapse text-left">
+          <colgroup>
+            <col style={{ width: '3.5%' }} />
+            <col style={{ width: '8%' }} />
+            <col style={{ width: '12%' }} />
+            <col style={{ width: '22%' }} />
+            <col style={{ width: '16%' }} />
+            <col style={{ width: '12%' }} />
+            <col style={{ width: '14.5%' }} />
+            <col style={{ width: '12%' }} />
+          </colgroup>
+
           <thead>
             <tr style={{ borderBottom: `1px solid ${tokens.rule}` }}>
-              <th className="text-left align-middle h-[52px] pt-[4px] w-[44px]">
+              <th className="text-left align-middle h-[52px] pt-[4px]">
                 <CheckBox
                   checked={allVisibleSelected}
                   onChange={toggleSelectAllVisible}
@@ -222,15 +233,20 @@ export default function Transactions() {
                   <span className="sr-only">Some rows selected</span>
                 )}
               </th>
-              {activeTable.columns.map((col) => (
-                <th
-                  key={col.key}
-                  className="align-middle h-[52px] font-sans uppercase text-[11px] tracking-[1.2px] whitespace-nowrap text-left"
-                  style={{ color: tokens.faint, fontWeight: 400 }}
-                >
-                  {col.label}
-                </th>
-              ))}
+              {activeTable.columns.map((col) => {
+                const isCenter = ['id', 'orderId', 'transactionDate', 'amount', 'paymentMethod', 'status'].includes(col.key);
+                return (
+                  <th
+                    key={col.key}
+                    className={`align-middle h-[52px] font-sans uppercase text-[11px] tracking-[1.2px] whitespace-nowrap ${
+                      isCenter ? 'text-center' : 'text-left'
+                    }`}
+                    style={{ color: tokens.faint, fontWeight: 400 }}
+                  >
+                    {col.label}
+                  </th>
+                )
+              })}
             </tr>
           </thead>
 

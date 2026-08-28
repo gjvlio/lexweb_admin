@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import StatisticCard from "../../components/orders/StatisticCard";
 import Button from "../../components/ui/Button";
 import Card from "../../components/ui/Card";
@@ -222,39 +223,42 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="relative -left-8 w-[calc(100%+4rem)] -top-8 h-full bg-white text-gray-500">
-      <div className="px-10 pt-[18px] pb-4 flex items-start justify-between gap-6">
-        <span
-          className="font-sans hover:underline cursor-pointer"
-          style={{ fontSize: 12, color: "#F4512C" }}
-        >
-          &gt; Orders
-        </span>
+    <div className="-m-6 min-h-[calc(100vh-68px)] overflow-x-hidden bg-white text-gray-500">
+      <div className="px-6 pt-5 pb-2 flex items-start justify-between gap-4">
+        <div className="flex items-center gap-1 text-xs" style={{ color: "#F4512C" }}>
+          <Link to="/" className="hover:underline">
+            &gt; Dashboard
+          </Link>
+          <span>&gt;</span>
+          <span className="font-semibold">Orders</span>
+        </div>
       </div>
 
       {/* Header */}
-      <div className="w-full flex pb-6 border-b border-slate-200">
-        <div className="min-w-0 flex-1 flex flex-col justify-center px-10 py-4 text-gray-500 border-r border-slate-200">
+      <div className="w-full flex pb-5 border-b border-slate-200 px-6 flex-col lg:flex-row items-stretch gap-6">
+        <div className="w-full lg:w-[320px] shrink-0 pr-4 flex flex-col justify-center border-r border-slate-200">
           <p className="text-xs tracking-widest">MANAGEMENT</p>
-          <h1 className="font-heading font-bold text-[38px] text-brand-purple">
+          <h1 className="font-heading font-bold text-4xl tracking-tight text-brand-purple mt-[12px]">
             Orders
           </h1>
-          <p className="text-[13.5px]">Manage all orders made</p>
+          <p className="text-xs text-slate-500 mt-[12px] leading-normal">Manage all orders made</p>
         </div>
 
         {/* Stats */}
-        {activeStatistics.map((entry) => (
-          <div key={entry.name} className="min-w-0 flex-1">
-            <StatisticCard name={entry.name} statistic={entry.statistic} />
-          </div>
-        ))}
+        <div className="flex-1 flex flex-wrap items-center">
+          {activeStatistics.map((entry) => (
+            <div key={entry.name} className="min-w-0 flex-1">
+              <StatisticCard name={entry.name} statistic={entry.statistic} />
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Tabs & Search */}
-      <div className="flex items-center justify-between px-10 py-5 border-b border-slate-200">
+      <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200">
         <div className="flex gap-4">
           <div className="flex items-center gap-2">
-            <Table size={15} strokeWidth={1.8}/>
+            <Table size={15} strokeWidth={1.8} />
             <span className="text-xs tracking-wider">TABLE</span>
           </div>
           <div className="flex border rounded-xl overflow-hidden border-slate-200 text-sm">
@@ -310,8 +314,8 @@ export default function OrdersPage() {
           </colgroup>
 
           <thead>
-            <tr className="border-b border-slate-200 align-middle">
-              <th>
+            <tr className="border-b border-gray-500 align-middle">
+              <th className="py-4">
                 <input
                   checked={allChecked}
                   onChange={toggleAll}
@@ -320,17 +324,20 @@ export default function OrdersPage() {
                 />
               </th>
               {activeTable.rows.map((row) => (
-                <th key={row} className="px-4 py-3 text-left text-[11px] tracking-wide text-gray-400">
+                <th
+                  key={row}
+                  className={`py-4 text-left text-[11px] tracking-wide text-gray-400 ${row.key === 'status' ? "text-center" : ""}`}
+                >
                   {row.label.toUpperCase()}
                 </th>
               ))}
-              <th className="px-4 py-3 text-center text-[11px] tracking-wide text-gray-400">
-                  ACTION
-                </th>
+              <th className="py-4 text-center text-[11px] tracking-wide text-gray-400">
+                ACTION
+              </th>
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="text-xs">
             {paginatedOrders.map((order, index) => (
               <TableRow
                 key={index}
@@ -342,51 +349,49 @@ export default function OrdersPage() {
             ))}
           </tbody>
         </table>
-
-        
       </div>
       {/* Pagination */}
-        <div className="flex items-center justify-between px-10 py-4">
-          <p className="text-sm">
-            Page {currentPage} of {totalPages}
-          </p>
+      <div className="flex items-center text-xs justify-between px-6 py-4">
+        <p>
+          Page {currentPage} of {totalPages}
+        </p>
 
-          <div className="flex items-center text-sm border border-slate-200 rounded-xl">
-            <button
-              type="button"
-              onClick={prevPage}
-              disabled={!hasPrevPage}
-              className="px-3 py-2 border-r"
-            >
-              Previous
-            </button>
+        <div className="flex items-center border border-slate-200 rounded-xl">
+          <button
+            type="button"
+            onClick={prevPage}
+            disabled={!hasPrevPage}
+            className="px-3 py-2 border-r"
+          >
+            Previous
+          </button>
 
-            {Array.from({ length: totalPages }, (_, index) => {
-              const page = index + 1;
-              return (
-                <button
-                  key={page}
-                  type="button"
-                  onClick={() => goToPage(page)}
-                  className={`px-3 py-2 border-r last:border-none ${
-                    currentPage === page ? "bg-brand-purple text-white" : ""
-                  }`}
-                >
-                  {page}
-                </button>
-              );
-            })}
+          {Array.from({ length: totalPages }, (_, index) => {
+            const page = index + 1;
+            return (
+              <button
+                key={page}
+                type="button"
+                onClick={() => goToPage(page)}
+                className={`px-3 py-2 border-r last:border-none ${
+                  currentPage === page ? "bg-brand-purple text-white" : ""
+                }`}
+              >
+                {page}
+              </button>
+            );
+          })}
 
-            <button
-              type="button"
-              onClick={nextPage}
-              disabled={!hasNextPage}
-              className="px-3 py-2"
-            >
-              Next
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={nextPage}
+            disabled={!hasNextPage}
+            className="px-3 py-2"
+          >
+            Next
+          </button>
         </div>
+      </div>
 
       {/* 1. SUBSCRIPTION MODAL */}
       {isSubscriptionModalOpen && activeTab === "subscriptions" && (

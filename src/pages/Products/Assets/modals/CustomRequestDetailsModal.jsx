@@ -130,7 +130,7 @@ export default function CustomRequestDetailsModal({ open, request, onClose, onDe
           <TextInput
             label="Price at Purchase:"
             id="custom-price"
-            value={Number(request.priceAtPurchase).toLocaleString()}
+            value={Number(String(request.priceAtPurchase).replace(/,/g, '')).toLocaleString()}
             suffix="php"
             readOnly
           />

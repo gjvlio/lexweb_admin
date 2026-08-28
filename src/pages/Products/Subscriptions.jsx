@@ -1098,25 +1098,32 @@ export default function Subscriptions() {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="-m-6 bg-white min-h-[calc(100vh-68px)] flex flex-col font-sans px-6 pt-6 pb-12 w-full space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-1.5">
-          <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs font-sans">
-            <Link to="/products" className="text-brand-orange hover:underline font-medium">
+          <div className="flex items-center gap-1 text-xs mb-2" style={{ color: '#F4512C' }}>
+            <Link to="/" className="hover:underline">
+              &gt; Dashboard
+            </Link>
+            <span>&gt;</span>
+            <Link to="/products" className="hover:underline">
               Products
             </Link>
-            <span className="text-slate-400">&rsaquo;</span>
-            <span className="text-brand-purple font-semibold">Subscriptions</span>
-          </nav>
+            <span>&gt;</span>
+            <span className="font-semibold" style={{ color: '#5E1B89' }}>Subscriptions</span>
+          </div>
 
-          <h1 className="text-4xl font-heading font-bold text-brand-purple tracking-tight">
+          <h1 className="font-heading text-4xl font-bold tracking-tight text-brand-purple">
             Subscriptions
           </h1>
+          <p className="text-xs text-slate-500 leading-normal mt-1.5">
+            Configure pricing plans, details, and active billing tiers.
+          </p>
         </div>
 
         <div className="flex items-center gap-3 flex-wrap">
           <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-brand-orange pointer-events-none" />
             <input
               id="subscriptions-search"
               type="text"
@@ -1124,7 +1131,7 @@ export default function Subscriptions() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               aria-label="Search subscription plans"
-              className="w-56 md:w-72 border border-slate-300 rounded-xl pl-9 pr-4 py-2 text-sm font-sans text-slate-800 placeholder-slate-400 bg-white focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all"
+              className="w-56 md:w-72 border border-brand-purple rounded-lg pl-9 pr-4 py-2 text-sm font-sans text-slate-800 placeholder-slate-400 bg-white focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all"
             />
           </div>
 
